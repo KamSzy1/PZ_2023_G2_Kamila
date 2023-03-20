@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="647.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.system.Str_glowna">
+
+   <children>
+      <ImageView fx:id="tlo" fitHeight="485.0" fitWidth="664.0" layoutX="51.0" nodeOrientation="INHERIT" opacity="0.67" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@tlo.png" />
+         </image></ImageView>
+
+      <Label alignment="BOTTOM_CENTER" layoutX="11.0" layoutY="65.0" prefHeight="66.0" prefWidth="670.0" text="&quot;SysTrack&quot; - Zarządaj swoją firmą z łatwością" textAlignment="CENTER">
+         <font>
+            <Font name="Arial" size="29.0" />
+         </font></Label>
+      <Button layoutX="285.0" layoutY="279.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="123.0" style="-fx-background-color: #89CFF0;" text="Zaloguj">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button layoutX="285.0" layoutY="207.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="123.0" style="-fx-background-color: #89CFF0;" text="Zarejestruj">
+         <font>
+            <Font size="20.0" />
+         </font></Button>
+
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <cursor>
+      <Cursor fx:constant="DEFAULT" />
+   </cursor>
+
+</AnchorPane>

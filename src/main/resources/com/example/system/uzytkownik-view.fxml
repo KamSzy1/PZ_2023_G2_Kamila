@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<SplitPane dividerPositions="0.12600401606425704" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <Label alignment="CENTER" layoutY="5.0" prefHeight="40.0" prefWidth="599.0" text="Witaj Imię i Nazwisko">
+               <font>
+                  <Font size="24.0" />
+               </font></Label>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <Label layoutX="14.0" layoutY="23.0" prefHeight="27.0" prefWidth="226.0" text="Twoje przydzielone zadania">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <ComboBox layoutX="473.0" layoutY="50.0" prefHeight="26.0" prefWidth="110.0" promptText="Ustawienia" />
+            <Button layoutX="473.0" layoutY="292.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="110.0" text="Wyloguj" />
+            <Button layoutX="473.0" layoutY="79.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="Wygeneruj raport" />
+            <Label layoutX="470.0" layoutY="27.0" prefHeight="18.0" prefWidth="110.0" text="Grupa:" />
+            <ListView layoutX="14.0" layoutY="63.0" prefHeight="266.0" prefWidth="259.0" />
+         </children></AnchorPane>
+  </items>
+</SplitPane>
