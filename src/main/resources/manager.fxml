@@ -4,13 +4,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ManagerController">
    <children>
       <Label layoutX="210.0" layoutY="14.0" text="Panel Kierownika">
          <font>
             <Font size="24.0" />
          </font></Label>
-      <Button layoutX="462.0" layoutY="338.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="122.0" text="Wyloguj" />
+      <Button fx:id="logoutButton" layoutX="462.0" layoutY="338.0" mnemonicParsing="false" onAction="#userLogout" prefHeight="35.0" prefWidth="122.0" text="Wyloguj" />
       <ComboBox layoutX="462.0" layoutY="63.0" prefHeight="26.0" prefWidth="122.0" promptText="Ustawienia" />
       <Button layoutX="462.0" layoutY="103.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="122.0" text="Wygeneruj Raport" />
       <Button layoutX="462.0" layoutY="141.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="122.0" text="Przydziel zadanie" />

@@ -5,4 +5,7 @@ module com.example.system {
 
     opens com.example.system to javafx.fxml;
     exports com.example.system;
+
+    opens controllers to javafx.fxml;
+    exports controllers;
 }
