@@ -12,7 +12,7 @@
    <children>
       <ImageView fx:id="tlo" fitHeight="485.0" fitWidth="664.0" layoutX="51.0" nodeOrientation="INHERIT" opacity="0.67" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@tlo.png" />
+            <Image url="@background.png" />
          </image></ImageView>
 
       <Label alignment="BOTTOM_CENTER" layoutX="11.0" layoutY="65.0" prefHeight="66.0" prefWidth="670.0" text="&quot;SysTrack&quot; - Zarządaj swoją firmą z łatwością" textAlignment="CENTER">
