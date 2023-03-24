@@ -29,7 +29,7 @@ public class Main extends Application {
         }
 
     }
-
+//Komentarz
     //Zmiana panelu/sceny
     public void changeScene(String fxml) throws IOException{
         Parent pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxml)));
