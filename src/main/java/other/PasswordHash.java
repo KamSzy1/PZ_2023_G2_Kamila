@@ -4,26 +4,21 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class PasswordHash {
-    /**
-     * Password hash 2 string.
-     *
-     * @param password the password
-     * @return the hash password
-     */
-    public String passwordHash2(String password) {
-        String generatedPassword = null;
+
+    public String hashedPassword(String password) {
+        String hashPassword = null;
         try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(password.getBytes());
-            byte[] bytes = md.digest();
-            StringBuilder sb = new StringBuilder();
+            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest.update(password.getBytes());
+            byte[] bytes = messageDigest.digest();
+            StringBuilder stringBuilder = new StringBuilder();
             for (byte aByte : bytes) {
-                sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
+                stringBuilder.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
             }
-            generatedPassword = sb.toString();
+            hashPassword = stringBuilder.toString();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            System.out.println("Coś poszło nie tak z hashowaniem hasła");
         }
-        return generatedPassword;
+        return hashPassword;
     }
 }

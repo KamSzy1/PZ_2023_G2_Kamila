@@ -19,8 +19,8 @@ public class Main extends Application {
         primaryStage.setResizable(false);
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/mainPage.fxml")));
-        primaryStage.setTitle("Strona główna");
-        Scene scene = new Scene(root, 680, 480);
+        primaryStage.setTitle("SysTrack");
+        Scene scene = new Scene(root, 680, 485);
         primaryStage.setScene(scene);
         primaryStage.show();
         }
