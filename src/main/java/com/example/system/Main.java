@@ -27,9 +27,8 @@ public class Main extends Application {
         catch (Exception e){
             System.out.println(e.getMessage());
         }
-
     }
-//Komentarz
+
     //Zmiana panelu/sceny
     public void changeScene(String fxml) throws IOException{
         Parent pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxml)));
@@ -37,6 +36,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
+       launch();
     }
 }
