@@ -3,13 +3,10 @@ package controllers;
 import com.example.system.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -23,7 +20,6 @@ public class LoginController {
     @FXML
     private Label wrongLogin;
 
-
     //userLogin jest podpięty pod przycisk
     public void userLogin(ActionEvent event) throws IOException {
         login();
@@ -32,6 +28,7 @@ public class LoginController {
     //Metoda do logowania
     public void login() throws IOException{
 
+        //To jest po to, aby zmienić scene/wyświetlany panel
         Main main = new Main();
 
         //Sprawdzanie pól emaila oraz hasła -> na razie wszystko na sztywno ustawione
@@ -43,7 +40,7 @@ public class LoginController {
             main.changeScene("/admin.fxml");
         } else if (emailField.getText().equals("worker") && passwordField.getText().equals("123")) {
             wrongLogin.setText("Zalogowano pomyślnie!");
-            main.changeScene("/worker.fxml");
+            main.changeScene("/employee.fxml");
         } else if (emailField.getText().isEmpty() && emailField.getText().isEmpty()) {
             wrongLogin.setText("Uzupełnij wszystkie pola!");
         }

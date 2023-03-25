@@ -6,7 +6,7 @@ import javafx.event.ActionEvent;
 
 import java.io.IOException;
 
-public class WorkerController {
+public class EmployeeController {
 
     //Wylogowanie się użytkownika
     public void userLogout(ActionEvent event) throws IOException {
