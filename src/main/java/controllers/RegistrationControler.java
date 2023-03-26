@@ -47,7 +47,7 @@ public class RegistrationControler {
 
         //To jest po to, aby zmienić scene/wyświetlany panel
         Main main = new Main();
-
+//test
         //Pobranie wszystkich danych
         String name, surname, address, zipCode, phoneNumber, place, email, password, repeat_password;
 
