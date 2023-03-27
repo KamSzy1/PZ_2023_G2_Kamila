@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class PasswordHash {
 
-    public String hashedPassword(String password) {
+    public static String hashedPassword(String password) {
         String hashPassword = null;
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("MD5");

@@ -2,6 +2,7 @@ module com.example.system {
     requires javafx.controls;
     requires javafx.fxml;
     requires commons.validator;
+    requires lombok;
 
 
     opens com.example.system to javafx.fxml;

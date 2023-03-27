@@ -7,12 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import other.PasswordHash;
 import other.ValidateData;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class RegistrationControler {
 
     @FXML
@@ -29,13 +24,10 @@ public class RegistrationControler {
     TextField phoneNumberField;
     @FXML
     TextField emailField;
-
     @FXML
     TextField passwordField;
-
     @FXML
     TextField repeatPasswordField;
-
     @FXML
     private Label wrongRegistration;
 
@@ -48,7 +40,6 @@ public class RegistrationControler {
     //Rejestracja użytkownika
     public void registrationUser(ActionEvent event) throws IOException {
         registration();
-
     }
 
     //Metoda do rejestrowania użytkowników
@@ -56,7 +47,7 @@ public class RegistrationControler {
 
         //To jest po to, aby zmienić scene/wyświetlany panel
         Main main = new Main();
-
+//test
         //Pobranie wszystkich danych
         String name, surname, address, zipCode, phoneNumber, place, email, password, repeat_password;
 
@@ -92,9 +83,11 @@ public class RegistrationControler {
         //Jeśli wszyskie dane są poprawne, to doda się do bazy danych wszystko
         if(everythingOk){
 
-            //Hashowanie hasła
-            PasswordHash passwordHash = new PasswordHash();
-            password = passwordHash.hashedPassword(password);
+            //Hashowanie hasła -> sprawdzić czy przez static w Password Hash się nic nie wywali
+            //PasswordHash passwordhash = new PasswordHash();
+
+            password = PasswordHash.hashedPassword(password);
+            System.out.println(password);
 
             //Tutaj powinien pojawić się kod dodawnia do bazy danych
 
