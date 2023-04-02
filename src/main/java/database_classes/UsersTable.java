@@ -7,7 +7,95 @@ public class UsersTable {
     // Jeśli clasa odnosi się do tabeli w bazie danych to proszę o dodawanie "Table" na końcu
     // Piszemy: "WorkerTable", nie "Worker_Table", ani "worker_table" !
 
-
     //Ta tabela ogarnia: administatorów, managerów i workerów
+    private static int id_user;
+    private static String name;
+    private static String surname;
+    private static String address;
+    private static String zip;
+    private static String place;
+    private static int phone_number;
+    private static String email;
+    private static String password;
+    private static String position;
 
+    public static int getId_user() {
+        return id_user;
+    }
+
+    public static void setId_user(int id_user) {
+        UsersTable.id_user = id_user;
+    }
+
+    public static String getName() {
+        return name;
+    }
+
+    public static void setName(String name) {
+        UsersTable.name = name;
+    }
+
+    public static String getSurname() {
+        return surname;
+    }
+
+    public static void setSurname(String surname) {
+        UsersTable.surname = surname;
+    }
+
+    public static String getAddress() {
+        return address;
+    }
+
+    public static void setAddress(String address) {
+        UsersTable.address = address;
+    }
+
+    public static String getZip() {
+        return zip;
+    }
+
+    public static void setZip(String zip) {
+        UsersTable.zip = zip;
+    }
+
+    public static String getPlace() {
+        return place;
+    }
+
+    public static void setPlace(String place) {
+        UsersTable.place = place;
+    }
+
+    public static int getPhone_number() {
+        return phone_number;
+    }
+
+    public static void setPhone_number(int phone_number) {
+        UsersTable.phone_number = phone_number;
+    }
+
+    public static String getEmail() {
+        return email;
+    }
+
+    public static void setEmail(String email) {
+        UsersTable.email = email;
+    }
+
+    public static String getPassword() {
+        return password;
+    }
+
+    public static void setPassword(String password) {
+        UsersTable.password = password;
+    }
+
+    public static String getPosition() {
+        return position;
+    }
+
+    public static void setPosition(String position) {
+        UsersTable.position = position;
+    }
 }

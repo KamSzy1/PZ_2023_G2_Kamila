@@ -3,6 +3,7 @@ module com.example.system {
     requires javafx.fxml;
     requires commons.validator;
     requires lombok;
+    requires java.sql;
 
 
     opens com.example.system to javafx.fxml;
