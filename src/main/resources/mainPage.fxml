@@ -9,27 +9,42 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="647.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainPageController">
+<AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="485.0" prefWidth="680.0" style="-fx-background-color: edf2ef;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainPageController">
 
    <children>
-      <ImageView fx:id="tlo" fitHeight="485.0" fitWidth="680.0" layoutX="51.0" nodeOrientation="INHERIT" opacity="0.67" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@background.png" />
-         </image></ImageView>
-
-      <Label alignment="BOTTOM_CENTER" layoutX="11.0" layoutY="65.0" prefHeight="66.0" prefWidth="670.0" text="&quot;SysTrack&quot; - Zarządaj swoją firmą z łatwością" textAlignment="CENTER">
+      <Button fx:id="loginButton" layoutX="368.0" layoutY="205.0" mnemonicParsing="false" onAction="#goToLogin" prefHeight="37.0" prefWidth="203.0" style="-fx-background-color: #e63946;" text="Zaloguj" textFill="WHITE">
          <font>
-            <Font name="Arial" size="29.0" />
-         </font></Label>
-      <Button fx:id="loginButton" layoutX="285.0" layoutY="204.0" mnemonicParsing="false" onAction="#goToLogin" prefHeight="55.0" prefWidth="123.0" style="-fx-background-color: #89CFF0;" text="Zaloguj">
-         <font>
-            <Font size="20.0" />
+            <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="registrationButton" layoutX="285.0" layoutY="279.0" mnemonicParsing="false" onAction="#goToRegistration" prefHeight="55.0" prefWidth="123.0" style="-fx-background-color: #89CFF0;" text="Zarejestruj">
+      <Button fx:id="registrationButton" layoutX="368.0" layoutY="265.0" mnemonicParsing="false" onAction="#goToRegistration" prefHeight="37.0" prefWidth="203.0" style="-fx-background-color: #e63946;" text="Zarejestruj" textFill="WHITE">
          <font>
-            <Font size="20.0" />
+            <Font size="16.0" />
          </font></Button>
+      <AnchorPane prefHeight="55.0" prefWidth="762.0" style="-fx-background-color: #49a078;">
+         <children>
+      
+            <Label alignment="BOTTOM_CENTER" layoutX="243.0" layoutY="16.0" prefHeight="21.0" prefWidth="488.0" text="Zarządaj swoją firmą z łatwością" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Arial" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="-1.0" prefHeight="486.0" prefWidth="185.0" style="-fx-background-color: #006d77;">
+         <children>
+            <Label alignment="BOTTOM_CENTER" layoutX="36.0" layoutY="140.0" prefHeight="23.0" prefWidth="113.0" text="SysTrack" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Arial" size="20.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="86.0" fitWidth="85.0" layoutX="50.0" layoutY="47.0">
+               <image>
+                  <Image url="@../../../../OneDrive/Pulpit/Projekt%20bez%20tytułu%20(1).png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
 
    </children>
    <opaqueInsets>
