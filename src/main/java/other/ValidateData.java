@@ -60,7 +60,7 @@ public class ValidateData {
         }
     }
 
-    //Sprawdzenie czy adres nie ma spacji na początku lini w adresie
+    //Sprawdzenie czy adres nie ma spacji na początku linii w adresie
     public static void goodAddress(String address) throws Exception {
         if(address.length() > 128){
             throw new Exception("Adres powinien mieć mniej niż 250 znaków");
