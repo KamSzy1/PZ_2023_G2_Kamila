@@ -10,6 +10,6 @@ public class AdminController {
     //Wylogowanie się użytkownika
     public void userLogout(ActionEvent event) throws IOException {
         Main main = new Main();
-        main.changeScene("/login.fxml");
+        main.changeScene("/main.fxml");
     }
 }

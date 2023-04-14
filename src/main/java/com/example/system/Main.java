@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,9 +19,10 @@ public class Main extends Application {
         stage = primaryStage;
         primaryStage.setResizable(false);
 
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/mainPage.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/main.fxml")));
         primaryStage.setTitle("SysTrack");
-        Scene scene = new Scene(root, 680, 485);
+        Scene scene = new Scene(root);
+        primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/ICON.png"))));
         primaryStage.setScene(scene);
         primaryStage.show();
         }
@@ -39,3 +41,8 @@ public class Main extends Application {
        launch();
     }
 }
+
+//Kolorki Hex Codes:
+// #554994 - fioletowy
+// #f55c7a - różowy
+// #f55c7a - jasny fiolet
