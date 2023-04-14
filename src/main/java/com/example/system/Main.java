@@ -1,44 +1,10 @@
 package com.example.system;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.util.Objects;
-
-public class Main extends Application {
-
-    private static Stage stage;
-    @Override
-    public void start(Stage primaryStage) throws IOException {
-        try{
-        stage = primaryStage;
-        primaryStage.setResizable(false);
-
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/main.fxml")));
-        primaryStage.setTitle("SysTrack");
-        Scene scene = new Scene(root);
-        primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/ICON.png"))));
-        primaryStage.setScene(scene);
-        primaryStage.show();
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-    }
-
-    //Zmiana panelu/sceny
-    public void changeScene(String fxml) throws IOException{
-        Parent pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxml)));
-        stage.getScene().setRoot(pane);
-    }
-
+public class Main {
     public static void main(String[] args) {
-       launch();
+        Application.launch(StageChanger.class, args);
     }
 }
 
@@ -46,3 +12,7 @@ public class Main extends Application {
 // #554994 - fioletowy
 // #f55c7a - różowy
 // #f55c7a - jasny fiolet
+
+//Przy zmianie okienka musimy:
+//do szerokości dodać 15
+//do wysokości dodać 30

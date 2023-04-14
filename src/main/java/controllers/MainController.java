@@ -1,6 +1,7 @@
 package controllers;
 
 import com.example.system.Main;
+import com.example.system.StageChanger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -66,15 +67,18 @@ public class MainController {
     public void login() throws IOException {
 
         //To jest po to, aby zmienić scene/wyświetlany panel
-        Main main = new Main();
+        StageChanger stageChanger = new StageChanger();
 
         //Sprawdzanie pól emaila oraz hasła -> na razie wszystko na sztywno ustawione
         if (emailField.getText().equals("manager") && passwordField.getText().equals("123")) {
-            main.changeScene("/manager.fxml");
+            stageChanger.changeScene("/manager.fxml");
+            stageChanger.changeSize(1215, 630);
         } else if (emailField.getText().equals("admin") && passwordField.getText().equals("123")) {
-            main.changeScene("/admin.fxml");
+            stageChanger.changeScene("/admin.fxml");
+            stageChanger.changeSize(1215, 630);
         } else if (emailField.getText().equals("employee") && passwordField.getText().equals("123")) {
-            main.changeScene("/employee.fxml");
+            stageChanger.changeScene("/employee.fxml");
+            stageChanger.changeSize(1215, 630);
         } else if (emailField.getText().isEmpty() && emailField.getText().isEmpty()) {
             wrongLogin.setText("Uzupełnij wszystkie pola!");
         } else {
