@@ -17,7 +17,8 @@ public class UsersTable {
     private static int phone_number;
     private static String email;
     private static String password;
-    private static String position;
+    private static int position_id;
+    private static int groups;
 
     public static int getId_user() {
         return id_user;
@@ -91,11 +92,21 @@ public class UsersTable {
         UsersTable.password = password;
     }
 
-    public static String getPosition() {
-        return position;
+    public static int getPosition_id() {
+        return position_id;
     }
 
-    public static void setPosition(String position) {
-        UsersTable.position = position;
+    public static void setPosition_id(int position_id) {
+        UsersTable.position_id = position_id;
+    }
+
+    public static int getGroups() {
+        return groups;
+    }
+
+    public static void setGroups(int groups) {
+        UsersTable.groups = groups;
     }
 }
+
+

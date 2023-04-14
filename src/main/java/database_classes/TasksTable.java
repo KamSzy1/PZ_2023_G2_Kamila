@@ -1,11 +1,10 @@
 package database_classes;
 
 public class TasksTable {
-
     private static int id_task;
     private static String title;
     private static String description;
-    private static String status;
+    private static int status_id;
     private static int user_id;
 
     public static int getId_task() {
@@ -32,12 +31,12 @@ public class TasksTable {
         TasksTable.description = description;
     }
 
-    public static String getStatus() {
-        return status;
+    public static int getStatus_id() {
+        return status_id;
     }
 
-    public static void setStatus(String status) {
-        TasksTable.status = status;
+    public static void setStatus_id(int status_id) {
+        TasksTable.status_id = status_id;
     }
 
     public static int getUser_id() {
@@ -47,4 +46,7 @@ public class TasksTable {
     public static void setUser_id(int user_id) {
         TasksTable.user_id = user_id;
     }
+
 }
+
+

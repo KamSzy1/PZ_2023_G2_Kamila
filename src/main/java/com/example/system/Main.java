@@ -20,7 +20,7 @@ public class Main extends Application {
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/mainPage.fxml")));
         primaryStage.setTitle("SysTrack");
-        Scene scene = new Scene(root, 680, 485);
+        Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
         }
