@@ -21,7 +21,7 @@
          <children>
             <Label alignment="CENTER" layoutX="215.0" prefHeight="65.0" prefWidth="686.0" text="Zarządaj swoją firmą z łatwością" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font name="System Italic" size="20.0" />
+                  <Font name="Arial Italic" size="20.0" />
                </font>
             </Label>
          </children>
