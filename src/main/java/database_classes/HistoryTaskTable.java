@@ -7,7 +7,8 @@ public class HistoryTaskTable {
     private static int id_task_history;
     private static Calendar start_date;
     private static Calendar end_date;
-    private static int tasks_history_id;
+    private static int tasks_id;
+    private static Calendar planned_end;
 
     public static int getId_task_history() {
         return id_task_history;
@@ -15,14 +16,6 @@ public class HistoryTaskTable {
 
     public static void setId_task_history(int id_task_history) {
         HistoryTaskTable.id_task_history = id_task_history;
-    }
-
-    public static int getTasks_history_id() {
-        return tasks_history_id;
-    }
-
-    public static void setTasks_history_id(int tasks_history_id) {
-        HistoryTaskTable.tasks_history_id = tasks_history_id;
     }
 
     public static Calendar getStart_date() {
@@ -40,4 +33,21 @@ public class HistoryTaskTable {
     public static void setEnd_date(Calendar end_date) {
         HistoryTaskTable.end_date = end_date;
     }
+
+    public static int getTasks_id() {
+        return tasks_id;
+    }
+
+    public static void setTasks_id(int tasks_id) {
+        HistoryTaskTable.tasks_id = tasks_id;
+    }
+
+    public static Calendar getPlanned_end() {
+        return planned_end;
+    }
+
+    public static void setPlanned_end(Calendar planned_end) {
+        HistoryTaskTable.planned_end = planned_end;
+    }
 }
+
