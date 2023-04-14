@@ -38,7 +38,7 @@ public class LoginController {
         } else if (emailField.getText().equals("admin") && passwordField.getText().equals("123")) {
             wrongLogin.setText("Zalogowano pomyślnie!");
             main.changeScene("/admin.fxml");
-        } else if (emailField.getText().equals("worker") && passwordField.getText().equals("123")) {
+        } else if (emailField.getText().equals("employee") && passwordField.getText().equals("123")) {
             wrongLogin.setText("Zalogowano pomyślnie!");
             main.changeScene("/employee.fxml");
         } else if (emailField.getText().isEmpty() && emailField.getText().isEmpty()) {
