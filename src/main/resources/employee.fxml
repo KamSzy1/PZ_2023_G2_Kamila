@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -64,53 +65,57 @@
             </Label>
          </children>
       </Pane>
-      <GridPane fx:id="gridSettings" layoutX="265.0" layoutY="95.0" maxHeight="507.0" maxWidth="935.0" minHeight="507.0" minWidth="935.0" prefHeight="507.0" prefWidth="935.0" style="-fx-background-color: #ffffff;">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
+      <StackPane layoutX="265.0" layoutY="95.0">
          <children>
-            <Label text="USTAWIENIA" />
+            <GridPane fx:id="gridSettings" maxHeight="507.0" maxWidth="935.0" minHeight="507.0" minWidth="935.0" prefHeight="507.0" prefWidth="935.0" style="-fx-background-color: #ffffff;">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="USTAWIENIA" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="gridRaport" maxHeight="507.0" maxWidth="935.0" minHeight="507.0" minWidth="935.0" prefHeight="507.0" prefWidth="935.0" style="-fx-background-color: #ffffff;">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="Raporty" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="gridTasks" maxHeight="507.0" maxWidth="935.0" minHeight="507.0" minWidth="935.0" prefHeight="507.0" prefWidth="935.0" style="-fx-background-color: #ffffff;">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="228.0" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="463.0" minHeight="10.0" prefHeight="463.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <TableView prefHeight="437.0" prefWidth="920.0" GridPane.rowIndex="1">
+                     <columns>
+                        <TableColumn maxWidth="115.0" minWidth="115.0" prefWidth="115.0" text="ID" />
+                        <TableColumn maxWidth="115.0" minWidth="115.0" prefWidth="115.0" text="Tytuł" />
+                        <TableColumn maxWidth="115.0" minWidth="115.0" prefWidth="115.0" text="Opis" />
+                        <TableColumn maxWidth="115.0" minWidth="115.0" prefWidth="115.0" text="Data wykonania" />
+                        <TableColumn maxWidth="115.0" minWidth="115.0" prefWidth="115.0" text="Pracownik" />
+                        <TableColumn maxWidth="115.0" minWidth="115.0" prefWidth="115.0" text="Status" />
+                     </columns>
+                  </TableView>
+               </children>
+            </GridPane>
          </children>
-      </GridPane>
-      <GridPane fx:id="gridRaport" layoutX="265.0" layoutY="95.0" maxHeight="507.0" maxWidth="935.0" minHeight="507.0" minWidth="935.0" prefHeight="507.0" prefWidth="935.0" style="-fx-background-color: #ffffff;">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-         <children>
-            <Label text="Raporty" GridPane.rowIndex="1" />
-         </children>
-      </GridPane>
-      <GridPane fx:id="gridTasks" layoutX="265.0" layoutY="95.0" maxHeight="507.0" maxWidth="935.0" minHeight="507.0" minWidth="935.0" prefHeight="507.0" prefWidth="935.0" style="-fx-background-color: #ffffff;">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints maxHeight="228.0" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="463.0" minHeight="10.0" prefHeight="463.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-         <children>
-            <TableView prefHeight="437.0" prefWidth="920.0" GridPane.rowIndex="1">
-               <columns>
-                  <TableColumn maxWidth="115.0" minWidth="115.0" prefWidth="115.0" text="ID" />
-                  <TableColumn maxWidth="115.0" minWidth="115.0" prefWidth="115.0" text="Tytuł" />
-                  <TableColumn maxWidth="115.0" minWidth="115.0" prefWidth="115.0" text="Opis" />
-                  <TableColumn maxWidth="115.0" minWidth="115.0" prefWidth="115.0" text="Data wykonania" />
-                  <TableColumn maxWidth="115.0" minWidth="115.0" prefWidth="115.0" text="Pracownik" />
-                  <TableColumn maxWidth="115.0" minWidth="115.0" prefWidth="115.0" text="Status" />
-               </columns>
-            </TableView>
-         </children>
-      </GridPane>
+      </StackPane>
    </children>
 </AnchorPane>
