@@ -7,9 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ValidateDataTest {
 
-    final String surnname = "Mateusz";
-    final String surname2 = "Mateusz";
-
     //Sprawdza czy nie wyrzuci wyjątku
     @Test
     void testName() {

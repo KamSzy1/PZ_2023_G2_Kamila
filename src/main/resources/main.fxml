@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainController">
+   <children>
+      <AnchorPane prefHeight="65.0" prefWidth="600.0" style="-fx-background-color: #f55c7a;">
+         <children>
+            <Label alignment="CENTER" layoutX="215.0" prefHeight="65.0" prefWidth="686.0" text="Zarządaj swoją firmą z łatwością" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Arial Italic" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <VBox layoutY="-7.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="607.0" prefWidth="214.0" style="-fx-background-color: #554994;">
+         <children>
+            <Pane prefHeight="180.0" prefWidth="216.0">
+               <children>
+                  <ImageView fitHeight="123.0" fitWidth="140.0" layoutX="47.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/LOGO.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" layoutY="147.0" prefHeight="23.0" prefWidth="216.0" text="SysTrack" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+      <Label fx:id="logRegLabel" alignment="CENTER" layoutX="407.0" layoutY="90.0" prefHeight="32.0" prefWidth="301.0" text="Logowanie" textAlignment="CENTER">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <Button fx:id="backButton" layoutX="230.0" layoutY="94.0" mnemonicParsing="false" onAction="#buttonsHandler" prefHeight="27.0" prefWidth="95.0" style="-fx-background-color: #7858A6;" text="Powrót" textFill="WHITE" visible="false">
+         <font>
+            <Font name="Arial" size="15.0" />
+         </font>
+      </Button>
+      <StackPane layoutX="214.0" layoutY="138.0" prefHeight="462.0" prefWidth="686.0">
+         <children>
+            <GridPane fx:id="gridSuccess" prefHeight="536.0" prefWidth="576.0" style="-fx-background-color: #ffffff;">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="80.0" minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label alignment="CENTER" prefHeight="119.0" prefWidth="454.0" text="Gratulacje! Udało Ci się zarejestrować. Wróć teraz na stronę główną i zaloguj się do swojego konta." textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+            <GridPane fx:id="gridRegistration" prefHeight="536.0" prefWidth="576.0" style="-fx-background-color: #ffffff;">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="15.0" minHeight="15.0" prefHeight="15.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="72.0" minHeight="10.0" prefHeight="72.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="35.0" minHeight="35.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="35.0" minHeight="35.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="35.0" minHeight="35.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="35.0" minHeight="35.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="35.0" minHeight="35.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="registrationButton" mnemonicParsing="false" onAction="#buttonsHandler" prefHeight="25.0" prefWidth="243.0" style="-fx-background-color: #7858A6;" text="Zarejestruj się" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="12">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+                  <TextField fx:id="emailField" promptText="E-mail" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="Arial" size="15.0" />
+                     </font>
+                  </TextField>
+                  <Label prefHeight="17.0" prefWidth="238.0" text="E-mail:" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="17.0" prefWidth="246.0" text="Hasło:" GridPane.columnIndex="2" GridPane.rowIndex="6">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="17.0" prefWidth="235.0" text="Powtórz hasło:" GridPane.columnIndex="2" GridPane.rowIndex="9">
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                  </Label>
+                  <PasswordField fx:id="passwordField" promptText="Hasło" GridPane.columnIndex="2" GridPane.rowIndex="7">
+                     <font>
+                        <Font name="Arial" size="15.0" />
+                     </font>
+                  </PasswordField>
+                  <PasswordField fx:id="repeatPasswordField" promptText="Powtórz hasło" GridPane.columnIndex="2" GridPane.rowIndex="10">
+                     <font>
+                        <Font name="Arial" size="15.0" />
+                     </font>
+                  </PasswordField>
+                  <Label alignment="CENTER" prefHeight="69.0" prefWidth="721.0" text="Witaj .... ! W poniższe pola wpisz dane, którymi będziesz logował się do systemu" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="wrongRegistration" alignment="CENTER" prefHeight="17.0" prefWidth="274.0" GridPane.columnIndex="2" GridPane.rowIndex="13">
+                     <font>
+                        <Font name="Arial" size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+            <GridPane fx:id="gridToken" prefHeight="536.0" prefWidth="576.0" style="-fx-background-color: #ffffff;">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="70.0" minHeight="70.0" prefHeight="70.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="35.0" minHeight="35.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="35.0" minHeight="35.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Button fx:id="tokenButton" mnemonicParsing="false" onAction="#buttonsHandler" prefHeight="25.0" prefWidth="243.0" style="-fx-background-color: #7858A6;" text="Sprawdź token" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="Arial" size="14.0" />
+                     </font>
+                  </Button>
+                  <Label prefHeight="17.0" prefWidth="232.0" text="Token" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="tokenField" promptText="Token" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Arial" size="15.0" />
+                     </font>
+                  </TextField>
+                  <Label fx:id="wrongTokenLabel" contentDisplay="CENTER" prefHeight="17.0" prefWidth="234.0" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <font>
+                        <Font name="Arial" size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+            <GridPane fx:id="gridLogin" prefHeight="450.0" prefWidth="686.0" style="-fx-background-color: #ffffff;">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="108.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="179.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="30.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="40.0" minHeight="15.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="5.0" minHeight="5.0" prefHeight="5.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="30.0" minHeight="20.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="40.0" minHeight="15.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="40.0" minHeight="15.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="30.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="40.0" minHeight="20.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="30.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label prefHeight="30.0" prefWidth="299.0" text="E-mail:" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="30.0" prefWidth="299.0" text="Hasło:" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="emailField" prefHeight="35.0" prefWidth="193.0" promptText="E-mail" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+                  <PasswordField fx:id="passwordField" prefHeight="35.0" prefWidth="193.0" promptText="Hasło" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </PasswordField>
+                  <Button fx:id="loginButton" mnemonicParsing="false" onAction="#buttonsHandler" prefHeight="25.0" prefWidth="284.0" style="-fx-background-color: #7858A6;" text="Zaloguj się" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                     <font>
+                        <Font name="Arial" size="15.0" />
+                     </font>
+                  </Button>
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="280.0" text="Nie posiadasz konta?" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                     <font>
+                        <Font name="Arial" size="15.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="regChangeButton" mnemonicParsing="false" onAction="#buttonsHandler" prefHeight="25.0" prefWidth="284.0" style="-fx-background-color: #7858A6;" text="Zarejestruj się" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                     <font>
+                        <Font name="Arial" size="14.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="wrongLogin" alignment="CENTER" prefHeight="17.0" prefWidth="284.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>

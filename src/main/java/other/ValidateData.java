@@ -46,7 +46,7 @@ public class ValidateData {
         }
     }
 
-    //Sprawdzenie czy nazwisko jest takie jak powinno -> tzn. żeby ktoś Kowalski2019 nie wpisał
+    //Sprawdzenie czy miejscowość jest taka jak powinna
     public static void goodPlace(String place) throws Exception {
         if(place.length() > 128){
             throw new Exception("Nazwa miejscowości powinna mieć mniej niż 125 znaków");
