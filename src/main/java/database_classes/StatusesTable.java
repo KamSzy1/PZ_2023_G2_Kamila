@@ -1,6 +1,7 @@
 package database_classes;
 
 public class StatusesTable {
+
     private int id_status;
     private String name;
 
@@ -19,4 +20,5 @@ public class StatusesTable {
     public void setName(String name) {
         this.name = name;
     }
+
 }

@@ -15,9 +15,8 @@ public class UsersTable {
     private static String zip;
     private static String place;
     private static int phone_number;
-    private static String email;
-    private static String password;
     private static int position_id;
+    private int login;
     private static int groups;
 
     public static int getId_user() {
@@ -76,28 +75,20 @@ public class UsersTable {
         UsersTable.phone_number = phone_number;
     }
 
-    public static String getEmail() {
-        return email;
-    }
-
-    public static void setEmail(String email) {
-        UsersTable.email = email;
-    }
-
-    public static String getPassword() {
-        return password;
-    }
-
-    public static void setPassword(String password) {
-        UsersTable.password = password;
-    }
-
     public static int getPosition_id() {
         return position_id;
     }
 
     public static void setPosition_id(int position_id) {
         UsersTable.position_id = position_id;
+    }
+
+    public int getLogin() {
+        return login;
+    }
+
+    public void setLogin(int login) {
+        this.login = login;
     }
 
     public static int getGroups() {
@@ -107,6 +98,9 @@ public class UsersTable {
     public static void setGroups(int groups) {
         UsersTable.groups = groups;
     }
+
+
+
 }
 
 
