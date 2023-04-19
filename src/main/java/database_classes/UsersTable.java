@@ -8,23 +8,26 @@ public class UsersTable {
     // Piszemy: "WorkerTable", nie "Worker_Table", ani "worker_table" !
 
     //Ta tabela ogarnia: administatorów, managerów i workerów
-    private static int id_user;
+    private static int idUser;
     private static String name;
     private static String surname;
     private static String address;
     private static String zip;
     private static String place;
-    private static int phone_number;
-    private static int position_id;
+    private static int phoneNumber;
+    private static String email;
+    private static String password;
+    private static int positionId;
     private int login;
+    
     private static int groups;
 
-    public static int getId_user() {
-        return id_user;
+    public static int getIdUser() {
+        return idUser;
     }
 
-    public static void setId_user(int id_user) {
-        UsersTable.id_user = id_user;
+    public static void setIdUser(int idUser) {
+        UsersTable.idUser = idUser;
     }
 
     public static String getName() {
@@ -67,20 +70,37 @@ public class UsersTable {
         UsersTable.place = place;
     }
 
-    public static int getPhone_number() {
-        return phone_number;
+    public static int getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public static void setPhone_number(int phone_number) {
-        UsersTable.phone_number = phone_number;
+    public static void setPhoneNumber(int phoneNumber) {
+        UsersTable.phoneNumber = phoneNumber;
     }
 
-    public static int getPosition_id() {
-        return position_id;
+    public static String getEmail() {
+        return email;
     }
 
-    public static void setPosition_id(int position_id) {
-        UsersTable.position_id = position_id;
+    public static void setEmail(String email) {
+        UsersTable.email = email;
+    }
+
+    public static String getPassword() {
+        return password;
+    }
+
+    public static void setPassword(String password) {
+        UsersTable.password = password;
+    }
+
+    public static int getPositionId() {
+        return positionId;
+
+    }
+
+    public static void setPositionId(int positionId) {
+        UsersTable.positionId = positionId;
     }
 
     public int getLogin() {
@@ -99,8 +119,4 @@ public class UsersTable {
         UsersTable.groups = groups;
     }
 
-
-
 }
-
-

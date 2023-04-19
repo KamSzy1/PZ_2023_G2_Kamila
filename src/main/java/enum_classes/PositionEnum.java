@@ -14,7 +14,7 @@ public enum PositionEnum {
         this.index = index;
     }
 
-    static PositionEnum getPositionByIndex(final int index){
+    static PositionEnum getPositionByIndex(final int index) {
         return PositionEnum.values()[index];
     }
 }

@@ -2,15 +2,16 @@ package database_classes;
 
 public class StatusesTable {
 
-    private int id_status;
+    private int idStatus;
+
     private String name;
 
-    public int getId_status() {
-        return id_status;
+    public int getIdStatus() {
+        return idStatus;
     }
 
-    public void setId_status(int id_status) {
-        this.id_status = id_status;
+    public void setIdStatus(int idStatus) {
+        this.idStatus = idStatus;
     }
 
     public String getName() {

@@ -24,35 +24,30 @@ public class AdminController {
     @FXML
     private GridPane gridTasks;
     @FXML
-        private GridPane gridEmployee;
+    private GridPane gridEmployee;
     @FXML
-        private GridPane gridRaport;
+    private GridPane gridRaport;
     @FXML
-        private GridPane gridSettings;
+    private GridPane gridSettings;
     @FXML
     private Label textLabel;
 
-    public void buttonsHandlerPane(ActionEvent event) throws IOException{
-
+    public void buttonsHandlerPane(ActionEvent event) throws IOException {
         Object source = event.getSource();
 
-        if(source == tasksButton){
+        if (source == tasksButton) {
             gridTasks.toFront();
             textLabel.setText("Zadania");
-        }
-        else if(source == employeeButton){
+        } else if (source == employeeButton) {
             gridEmployee.toFront();
             textLabel.setText("Pracownicy");
-        }
-        else if(source == raportButton){
+        } else if (source == raportButton) {
             gridRaport.toFront();
             textLabel.setText("Generowanie raportów");
-        }
-        else if(source == settingsButton){
+        } else if (source == settingsButton) {
             gridSettings.toFront();
             textLabel.setText("Ustawienia");
-        }
-        else if(source == logoutButton){
+        } else if (source == logoutButton) {
             StageChanger stageChanger = new StageChanger();
             stageChanger.changeSize(915, 630);
             stageChanger.changeScene("/main.fxml");
