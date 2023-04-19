@@ -50,37 +50,35 @@ public class MainController {
     private Label logRegLabel;
 
     public void buttonsHandler(ActionEvent event) throws IOException {
+        Object source = event.getSource();
         //Logowanie
-        if (event.getSource() == loginButton) {
+        if (source == loginButton) {
             login();
         }
 
         //Przejście do gridu z panelem tokenu
-        if (event.getSource() == regChangeButton) {
+        if (source == regChangeButton) {
             backButton.setVisible(true);
             logRegLabel.setText("Rejestracja");
             gridToken.toFront();
         }
 
         //Sprawdzenie tokenu i przejście dalej - na razie na sztywno
-        if (event.getSource() == tokenButton) {
-            if(tokenField.getText().equals("1234")){
+        if (source == tokenButton) {
+            if (tokenField.getText().equals("1234")) {
                 gridRegistration.toFront();
-            }else{
+            } else {
                 wrongTokenLabel.setText("Nieprawidłowy token");
             }
-
         }
 
         //
-        if (event.getSource() == registrationButton) {
-
+        if (source == registrationButton) {
             registration();
-
         }
 
         //Powrót z rejestracji do loginu
-        if (event.getSource() == backButton) {
+        if (source == backButton) {
             logRegLabel.setText("Logowanie");
             backButton.setVisible(false);
             wrongLogin.setText("");
@@ -118,17 +116,18 @@ public class MainController {
 
         //To jest po to, aby zmienić scene/wyświetlany panel
         StageChanger stageChanger = new StageChanger();
+        boolean everythingOk = false;
 
         //Pobranie wszystkich danych
-        String email, password, repeat_password;
+        String email;
+        String password;
+        String repeat_password;
 
         email = emailField.getText();
         password = passwordField.getText();
         repeat_password = repeatPasswordField.getText();
 
-        boolean everythingOk = false;
-
-        //Te metody znajdują się wklasie ValidateData w folderze "other"
+        //Te metody znajdują się w klasie ValidateData w folderze "other"
         try {
             ValidateData.goodEmail(email);
             ValidateData.samePassword(password, repeat_password);

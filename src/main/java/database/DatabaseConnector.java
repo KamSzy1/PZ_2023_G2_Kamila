@@ -9,7 +9,6 @@ public class DatabaseConnector {
     private static String pass = "";
 
     public static Connection connect() {
-
         Connection connection = null;
 
         try {

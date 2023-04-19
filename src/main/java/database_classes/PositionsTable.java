@@ -1,24 +1,24 @@
 package database_classes;
 
 public class PositionsTable {
-    private int id_position;
-    private String position_name;
+    private int idPosition;
+    private String positionName;
     private String description;
 
-    public int getId_position() {
-        return id_position;
+    public int getIdPosition() {
+        return idPosition;
     }
 
-    public void setId_position(int id_position) {
-        this.id_position = id_position;
+    public void setIdPosition(int idPosition) {
+        this.idPosition = idPosition;
     }
 
-    public String getPosition_name() {
-        return position_name;
+    public String getPositionName() {
+        return positionName;
     }
 
-    public void setPosition_name(String position_name) {
-        this.position_name = position_name;
+    public void setPositionName(String positionName) {
+        this.positionName = positionName;
     }
 
     public String getDescription() {

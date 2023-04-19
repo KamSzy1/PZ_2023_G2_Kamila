@@ -56,25 +56,25 @@ public class ValidateDataTest {
         Assertions.assertDoesNotThrow(() -> ValidateData.goodAddress(address));
     }
 
-    //Test dla adresu -> wyrzuci wyjątek, ponieważ jest spacja przez " ul"
+    //Test dla adresu -> wyrzuci wyjątek, ponieważ jest spacja przed " ul"
     @Test
     void testAddress2() throws Exception {
         final String address = " ul. Strażacka 12";
         Assertions.assertThrows(Exception.class, () -> ValidateData.goodAddress(address));
     }
 
-    //Test dla adresu
+    //Test dla e-maila
     @Test
     void testEmail() {
         final String email = "misiaczek3000@gmail.com";
         Assertions.assertDoesNotThrow(() -> ValidateData.goodAddress(email));
     }
 
-    //Test dla adresu -> wyrzuci wyjątek, ponieważ jest spacja przez " ul"
+    //Test dla e-maila -> wyrzuci wyjątek, ponieważ jest spacja przed mailem
     @Test
     void testAEmail2() throws Exception {
-        final String address = " zlymisiaczek0003@gmail.com";
-        Assertions.assertThrows(Exception.class, () -> ValidateData.goodAddress(address));
+        final String email = " zlymisiaczek0003@gmail.com";
+        Assertions.assertThrows(Exception.class, () -> ValidateData.goodAddress(email));
     }
 
     //Test dla hasła
@@ -108,14 +108,14 @@ public class ValidateDataTest {
         Assertions.assertThrows(Exception.class, () -> ValidateData.goodPhoneNumber(phone));
     }
 
-    //Test dla kodu pocztowgo
+    //Test dla kodu pocztowego
     @Test
     void testZipCode() {
         final String zipCode = "12-123";
         Assertions.assertDoesNotThrow(() -> ValidateData.goodZipCode(zipCode));
     }
 
-    //Test dla kodu pocztowgo -> wyjątek
+    //Test dla kodu pocztowego -> wyjątek
     @Test
     void testZipCode2() {
         final String zipCode = "ab-123";
