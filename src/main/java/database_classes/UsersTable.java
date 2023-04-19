@@ -18,6 +18,8 @@ public class UsersTable {
     private static String email;
     private static String password;
     private static int positionId;
+    private int login;
+    
     private static int groups;
 
     public static int getIdUser() {
@@ -94,10 +96,19 @@ public class UsersTable {
 
     public static int getPositionId() {
         return positionId;
+
     }
 
     public static void setPositionId(int positionId) {
         UsersTable.positionId = positionId;
+    }
+
+    public int getLogin() {
+        return login;
+    }
+
+    public void setLogin(int login) {
+        this.login = login;
     }
 
     public static int getGroups() {
@@ -107,6 +118,5 @@ public class UsersTable {
     public static void setGroups(int groups) {
         UsersTable.groups = groups;
     }
+
 }
-
-
