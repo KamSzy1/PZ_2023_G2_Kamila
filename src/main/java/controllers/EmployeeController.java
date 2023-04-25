@@ -14,19 +14,17 @@ import java.io.IOException;
 public class EmployeeController {
 
     @FXML
-    private Button tasksButton;
+    private Button myTasksButton;
     @FXML
-    private Button employeeButton;
-    @FXML
-    private Button raportButton;
+    private Button reportButton;
     @FXML
     private Button settingsButton;
     @FXML
     private Button logoutButton;
     @FXML
-    private GridPane gridTasks;
+    private GridPane gridMyTasks;
     @FXML
-    private GridPane gridRaport;
+    private GridPane gridReport;
     @FXML
     private GridPane gridSettings;
     @FXML
@@ -34,22 +32,18 @@ public class EmployeeController {
 
 
     public void buttonsHandlerPane(ActionEvent event) throws IOException {
-        if (event.getSource() == tasksButton) {
-            gridTasks.toFront();
-            textLabel.setText("Zadania");
-        }
+        Object source = event.getSource();
 
-        if (event.getSource() == raportButton) {
-            gridRaport.toFront();
+        if (source == myTasksButton) {
+            gridMyTasks.toFront();
+            textLabel.setText("Moje zadania");
+        } else if (source == reportButton) {
+            gridReport.toFront();
             textLabel.setText("Generowanie raportów");
-        }
-
-        if (event.getSource() == settingsButton) {
+        } else if (source == settingsButton) {
             gridSettings.toFront();
             textLabel.setText("Ustawienia");
-        }
-
-        if (event.getSource() == logoutButton) {
+        } else if (source == logoutButton) {
             StageChanger stageChanger = new StageChanger();
             stageChanger.changeSize(915, 630);
             stageChanger.changeScene("/main.fxml");
