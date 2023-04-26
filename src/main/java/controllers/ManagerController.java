@@ -13,6 +13,8 @@ import java.io.IOException;
 public class ManagerController {
 
     @FXML
+    private Button myTasksButton;
+    @FXML
     private Button tasksButton;
     @FXML
     private Button employeeButton;
@@ -23,6 +25,8 @@ public class ManagerController {
     @FXML
     private Button logoutButton;
     @FXML
+    private Button addTaskButton;
+    @FXML
     private GridPane gridTasks;
     @FXML
     private GridPane gridEmployee;
@@ -31,12 +35,17 @@ public class ManagerController {
     @FXML
     private GridPane gridSettings;
     @FXML
+    private GridPane gridMyTasks;
+    @FXML
     private Label textLabel;
 
     public void buttonsHandlerPane(ActionEvent event) throws IOException {
         Object source = event.getSource();
 
-        if (source == tasksButton) {
+        if (source == myTasksButton) {
+            gridMyTasks.toFront();
+            textLabel.setText("Moje zadania");
+        } else if (source == tasksButton) {
             gridTasks.toFront();
             textLabel.setText("Zadania");
         } else if (source == employeeButton) {

@@ -19,7 +19,6 @@ public class UsersTable {
     private static String password;
     private static int positionId;
     private int login;
-    
     private static int groups;
 
     public static int getIdUser() {
