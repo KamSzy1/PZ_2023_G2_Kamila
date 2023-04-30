@@ -1,5 +1,8 @@
 package controllers;
 
+import database.DatabaseConnector;
+import database.QExecutor;
+import database_classes.TasksTable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -21,6 +24,7 @@ public class AddTaskController {
     private Button cancelButton;
     @FXML
     private Button addButton;
+    TasksTable tasksTable = new TasksTable();
 
 
     public void buttonsHandler(ActionEvent event) throws IOException {
@@ -32,8 +36,17 @@ public class AddTaskController {
             stage.close();
 
         } else if (source == addButton) {
-            //Tutaj trzeba dodać dodawanie zadania do bazy
-
+            // Dodawanie nowych zadań
+            tasksTable.setTitle(titleField.getText());
+            tasksTable.setDescription(descriptionArea.getText());
+            tasksTable.setStatusId(2);
+            tasksTable.setUserId(1);
+            DatabaseConnector.connect();
+            QExecutor.executeQuery("insert into tasks (title, description, status_id, user_id) values ('"
+                    + tasksTable.getTitle() + "','"
+                    + tasksTable.getDescription() + "','"
+                    + tasksTable.getStatusId() + "','"
+                    + tasksTable.getUserId() + "')");
         }
     }
 

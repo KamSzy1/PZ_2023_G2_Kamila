@@ -127,6 +127,12 @@
                         <TableColumn fx:id="myTaskPlannedDate" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Data wykonania" />
                         <TableColumn fx:id="myTaskStatus" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Status" />
                         <TableColumn fx:id="myTaskEdit" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Edycja" />
+                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="ID"/>
+                        <TableColumn maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Tytuł" />
+                        <TableColumn maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Opis" />
+                        <TableColumn maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Data wykonania" />
+                        <TableColumn maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Status" />
+                        <TableColumn maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Edycja" />
                      </columns>
                   </TableView>
                </children>

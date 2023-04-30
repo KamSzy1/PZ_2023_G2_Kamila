@@ -7,6 +7,18 @@ public class TasksTable {
     private static int statusId;
     private static int userId;
 
+    public TasksTable(int idTask, String title, String description, int statusId, int userId) {
+        this.idTask = idTask;
+        this.title = title;
+        this.description = description;
+        this.statusId = statusId;
+        this.userId = userId;
+    }
+
+    public TasksTable() {
+
+    }
+
     public static int getIdTask() {
         return idTask;
     }

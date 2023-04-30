@@ -2,6 +2,11 @@ package controllers;
 
 import com.example.system.Main;
 import com.example.system.StageChanger;
+import database.QExecutor;
+import database_classes.TasksTable;
+import database_classes.UsersTable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,11 +15,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
 import java.util.Objects;
 
 public class ManagerController {
@@ -73,12 +83,14 @@ public class ManagerController {
     private TableColumn<?, ?> taskStatus;
     @FXML
     private TableColumn<?, ?> taskTitle;
+    private TableView<TasksTable> tableView = new TableView<>();
 
     public void buttonsHandlerPane(ActionEvent event) throws IOException {
         Stage stage;
         Parent root;
         StageChanger stageChanger = new StageChanger();
         Object source = event.getSource();
+
 
         if (source == myTasksButton) {
             gridMyTasks.toFront();
