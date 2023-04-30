@@ -23,20 +23,25 @@
    <children>
       <VBox maxHeight="600.0" maxWidth="265.0" minHeight="600.0" minWidth="265.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="600.0" prefWidth="265.0" style="-fx-background-color: #554994;">
          <children>
-            <Pane maxHeight="180.0" maxWidth="228.0" minHeight="180.0" minWidth="216.0" prefHeight="180.0" prefWidth="228.0">
+            <Pane maxHeight="180.0" maxWidth="263.0" minHeight="123.0" minWidth="216.0" prefHeight="123.0" prefWidth="263.0">
                <children>
-                  <ImageView fitHeight="123.0" fitWidth="140.0" layoutX="72.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="65.0" fitWidth="102.0" layoutX="99.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/LOGO.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" layoutX="25.0" layoutY="144.0" prefHeight="23.0" prefWidth="216.0" text="SysTrack" textAlignment="CENTER" textFill="WHITE">
+                  <Label alignment="CENTER" layoutX="24.0" layoutY="91.0" prefHeight="23.0" prefWidth="216.0" text="SysTrack" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Arial" size="20.0" />
                      </font>
                   </Label>
                </children>
             </Pane>
+            <Label fx:id="welcomeLabel" alignment="CENTER" maxHeight="60.0" maxWidth="265.0" minHeight="60.0" minWidth="265.0" prefHeight="60.0" prefWidth="265.0" text="Witaj ..." textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
             <Button fx:id="myTasksButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="60.0" maxWidth="265.0" minHeight="50.0" minWidth="60.0" mnemonicParsing="false" onAction="#buttonsHandlerPane" prefHeight="60.0" prefWidth="265.0" style="-fx-background-color: #554994;" text="Moje zadania" textFill="WHITE">
                <font>
                   <Font name="Arial" size="20.0" />
@@ -116,12 +121,12 @@
                   </HBox>
                   <TableView maxHeight="463.0" maxWidth="920.0" minHeight="463.0" minWidth="920.0" prefHeight="463.0" prefWidth="920.0" GridPane.rowIndex="1">
                      <columns>
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="ID" />
-                        <TableColumn maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Tytuł" />
-                        <TableColumn maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Opis" />
-                        <TableColumn maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Data wykonania" />
-                        <TableColumn maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Status" />
-                        <TableColumn maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Edycja" />
+                        <TableColumn fx:id="myTaskID" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="ID" />
+                        <TableColumn fx:id="myTaskTitle" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Tytuł" />
+                        <TableColumn fx:id="myTaskDescription" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Opis" />
+                        <TableColumn fx:id="myTaskPlannedDate" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Data wykonania" />
+                        <TableColumn fx:id="myTaskStatus" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Status" />
+                        <TableColumn fx:id="myTaskEdit" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Edycja" />
                      </columns>
                   </TableView>
                </children>

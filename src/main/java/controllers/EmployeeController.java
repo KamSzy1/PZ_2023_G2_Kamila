@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
@@ -29,6 +30,20 @@ public class EmployeeController {
     private GridPane gridSettings;
     @FXML
     private Label textLabel;
+    @FXML
+    private Label welcomeLabel;
+    @FXML
+    private TableColumn<?, ?> myTaskDescription;
+    @FXML
+    private TableColumn<?, ?> myTaskEdit;
+    @FXML
+    private TableColumn<?, ?> myTaskID;
+    @FXML
+    private TableColumn<?, ?> myTaskPlannedDate;
+    @FXML
+    private TableColumn<?, ?> myTaskStatus;
+    @FXML
+    private TableColumn<?, ?> myTaskTitle;
 
 
     public void buttonsHandlerPane(ActionEvent event) throws IOException {

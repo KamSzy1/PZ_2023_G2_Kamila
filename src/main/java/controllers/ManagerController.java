@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -44,6 +45,34 @@ public class ManagerController {
     private GridPane gridMyTasks;
     @FXML
     private Label textLabel;
+    @FXML
+    private Label welcomeLabel;
+    @FXML
+    private TableColumn<?, ?> myTaskDescription;
+    @FXML
+    private TableColumn<?, ?> myTaskEdit;
+    @FXML
+    private TableColumn<?, ?> myTaskID;
+    @FXML
+    private TableColumn<?, ?> myTaskPlannedDate;
+    @FXML
+    private TableColumn<?, ?> myTaskStatus;
+    @FXML
+    private TableColumn<?, ?> myTaskTitle;
+    @FXML
+    private TableColumn<?, ?> taskDescription;
+    @FXML
+    private TableColumn<?, ?> taskEdit;
+    @FXML
+    private TableColumn<?, ?> taskEmployee;
+    @FXML
+    private TableColumn<?, ?> taskID;
+    @FXML
+    private TableColumn<?, ?> taskPlannedDate;
+    @FXML
+    private TableColumn<?, ?> taskStatus;
+    @FXML
+    private TableColumn<?, ?> taskTitle;
 
     public void buttonsHandlerPane(ActionEvent event) throws IOException {
         Stage stage;

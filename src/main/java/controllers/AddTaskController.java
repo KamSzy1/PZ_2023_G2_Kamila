@@ -22,6 +22,7 @@ public class AddTaskController {
     @FXML
     private Button addButton;
 
+
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
 
