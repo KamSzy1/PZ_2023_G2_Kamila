@@ -3,11 +3,17 @@ package controllers;
 import com.example.system.StageChanger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class AdminController {
 
@@ -41,6 +47,9 @@ public class AdminController {
     private Label textLabel;
 
     public void buttonsHandlerPane(ActionEvent event) throws IOException {
+        Stage stage;
+        Parent root;
+        StageChanger stageChanger = new StageChanger();
         Object source = event.getSource();
 
         if (source == myTasksButton) {
@@ -49,6 +58,7 @@ public class AdminController {
         } else if (source == tasksButton) {
             gridTasks.toFront();
             textLabel.setText("Zadania");
+
         } else if (source == employeeButton) {
             gridEmployee.toFront();
             textLabel.setText("Pracownicy");
@@ -60,9 +70,22 @@ public class AdminController {
             gridSettings.toFront();
             textLabel.setText("Ustawienia");
         } else if (source == logoutButton) {
-            StageChanger stageChanger = new StageChanger();
             stageChanger.changeSize(915, 630);
             stageChanger.changeScene("/main.fxml");
+        } else if (source == addTaskButton) {
+            stage = new Stage();
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/addTask.fxml")));
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(addTaskButton.getScene().getWindow());
+            stage.showAndWait();
+        } else if (source == addEmployeeButton) {
+            stage = new Stage();
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/addEmployee.fxml")));
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(addTaskButton.getScene().getWindow());
+            stage.showAndWait();
         }
 
     }
