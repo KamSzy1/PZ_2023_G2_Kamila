@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -45,6 +46,51 @@ public class AdminController {
     private GridPane gridMyTasks;
     @FXML
     private Label textLabel;
+    @FXML
+    private Label welcomeLabel;
+    @FXML
+    private TableColumn<?, ?> employeeAddress;
+    @FXML
+    private TableColumn<?, ?> employeeGroup;
+    @FXML
+    private TableColumn<?, ?> employeeID;
+    @FXML
+    private TableColumn<?, ?> employeeMail;
+    @FXML
+    private TableColumn<?, ?> employeeName;
+    @FXML
+    private TableColumn<?, ?> employeePhone;
+    @FXML
+    private TableColumn<?, ?> employeePosition;
+    @FXML
+    private TableColumn<?, ?> employeeSurname;
+    @FXML
+    private TableColumn<?, ?> myTaskDescription;
+    @FXML
+    private TableColumn<?, ?> myTaskEdit;
+    @FXML
+    private TableColumn<?, ?> myTaskID;
+    @FXML
+    private TableColumn<?, ?> myTaskPlannedDate;
+    @FXML
+    private TableColumn<?, ?> myTaskStatus;
+    @FXML
+    private TableColumn<?, ?> myTaskTitle;
+    @FXML
+    private TableColumn<?, ?> taskDescription;
+    @FXML
+    private TableColumn<?, ?> taskEdit;
+    @FXML
+    private TableColumn<?, ?> taskEmployee;
+    @FXML
+    private TableColumn<?, ?> taskID;
+    @FXML
+    private TableColumn<?, ?> taskPlannedDate;
+    @FXML
+    private TableColumn<?, ?> taskStatus;
+    @FXML
+    private TableColumn<?, ?> taskTitle;
+
 
     public void buttonsHandlerPane(ActionEvent event) throws IOException {
         Stage stage;
@@ -58,11 +104,9 @@ public class AdminController {
         } else if (source == tasksButton) {
             gridTasks.toFront();
             textLabel.setText("Zadania");
-
         } else if (source == employeeButton) {
             gridEmployee.toFront();
             textLabel.setText("Pracownicy");
-
         } else if (source == raportButton) {
             gridReport.toFront();
             textLabel.setText("Generowanie raportów");
