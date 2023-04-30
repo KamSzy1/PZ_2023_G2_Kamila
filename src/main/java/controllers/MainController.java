@@ -2,6 +2,8 @@ package controllers;
 
 import com.example.system.Main;
 import com.example.system.StageChanger;
+import database.DatabaseConnector;
+import database.QExecutor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,6 +15,8 @@ import other.PasswordHash;
 import other.ValidateData;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class MainController {
 
@@ -49,6 +53,7 @@ public class MainController {
     @FXML
     private Label logRegLabel;
 
+    public static int id_user;
     String email;
     String password;
 
@@ -98,9 +103,35 @@ public class MainController {
 
         //To jest po to, aby zmienić scene/wyświetlany panel
         StageChanger stageChanger = new StageChanger();
+        DatabaseConnector.connect();
+
+        try {
+            if (email.isEmpty() && password.isEmpty()) {
+                wrongLogin.setText("Uzupełnij wszystkie pola!");
+            } else {
+                ResultSet result = QExecutor.executeSelect("SELECT * FROM login inner join users ON login.user_id = users.id_user WHERE email = '" + emailField.getText() + "' and password = '" + passwordField.getText() + "'");
+                result.next();
+                //this.id_user = result.getInt("id_user");
+                if (result.getInt("position_id") == 1) {
+                    stageChanger.changeScene("/admin.fxml");
+                    stageChanger.changeSize(1215, 630);
+                } else if (result.getInt("position_id") == 2) {
+                    stageChanger.changeScene("/manager.fxml");
+                    stageChanger.changeSize(1215, 630);
+                } else {
+                    stageChanger.changeScene("/employee.fxml");
+                    stageChanger.changeSize(1215, 630);
+                }
+            }
+
+        } catch (SQLException throwables) {
+            wrongLogin.setText("Zły email bądź hasło");
+            throwables.printStackTrace();
+        }
+
 
         //Sprawdzanie pól emaila oraz hasła -> na razie wszystko na sztywno ustawione
-        if (email.equals("manager") && password.equals("123")) {
+        /*if (email.equals("manager") && password.equals("123")) {
             stageChanger.changeScene("/manager.fxml");
             stageChanger.changeSize(1215, 630);
         } else if (email.equals("admin") && password.equals("123")) {
@@ -113,7 +144,7 @@ public class MainController {
             wrongLogin.setText("Uzupełnij wszystkie pola!");
         } else {
             wrongLogin.setText("Zły email bądź hasło");
-        }
+        }*/
 
     }
 

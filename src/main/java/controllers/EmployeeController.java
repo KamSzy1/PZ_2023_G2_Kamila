@@ -3,6 +3,8 @@ package controllers;
 
 import com.example.system.Main;
 import com.example.system.StageChanger;
+import database.DatabaseConnector;
+import database.QExecutor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,6 +13,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class EmployeeController {
 
@@ -48,6 +52,16 @@ public class EmployeeController {
 
     public void buttonsHandlerPane(ActionEvent event) throws IOException {
         Object source = event.getSource();
+        /*DatabaseConnector.connect();
+
+        try{
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM users WHERE id_user =" + MainController.id_user);
+            result.next();
+            System.out.println(result.getString("name"));
+            //welcomeLabel.setText("Witaj" + result.getString("name") + " " + result.getString("surname"));
+        } catch(SQLException throwables) {
+            throwables.printStackTrace();
+        }*/
 
         if (source == myTasksButton) {
             gridMyTasks.toFront();
