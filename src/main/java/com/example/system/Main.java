@@ -11,7 +11,7 @@ public class Main {
 //Kolorki Hex Codes:
 // #554994 - fioletowy
 // #f55c7a - różowy
-// #f55c7a - jasny fiolet
+// #7a6fb9 - jasny fiolet -> sprawdzić czy my w ogóle chcemy
 
 //Przy zmianie okienka musimy:
 //do szerokości dodać 15

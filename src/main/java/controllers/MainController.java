@@ -49,11 +49,17 @@ public class MainController {
     @FXML
     private Label logRegLabel;
 
+    String email;
+    String password;
+
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
         //Logowanie
         if (source == loginButton) {
-            login();
+            email = emailField.getText();
+            password = passwordField.getText();
+
+            login(email, password);
         }
 
         //Przejście do gridu z panelem tokenu
@@ -88,22 +94,22 @@ public class MainController {
     }
 
     //Metoda do logowania
-    public void login() throws IOException {
+    public void login(String email, String password) throws IOException {
 
         //To jest po to, aby zmienić scene/wyświetlany panel
         StageChanger stageChanger = new StageChanger();
 
         //Sprawdzanie pól emaila oraz hasła -> na razie wszystko na sztywno ustawione
-        if (emailField.getText().equals("manager") && passwordField.getText().equals("123")) {
+        if (email.equals("manager") && password.equals("123")) {
             stageChanger.changeScene("/manager.fxml");
             stageChanger.changeSize(1215, 630);
-        } else if (emailField.getText().equals("admin") && passwordField.getText().equals("123")) {
+        } else if (email.equals("admin") && password.equals("123")) {
             stageChanger.changeScene("/admin.fxml");
             stageChanger.changeSize(1215, 630);
-        } else if (emailField.getText().equals("employee") && passwordField.getText().equals("123")) {
+        } else if (email.equals("employee") && password.equals("123")) {
             stageChanger.changeScene("/employee.fxml");
             stageChanger.changeSize(1215, 630);
-        } else if (emailField.getText().isEmpty() && emailField.getText().isEmpty()) {
+        } else if (email.isEmpty() && password.isEmpty()) {
             wrongLogin.setText("Uzupełnij wszystkie pola!");
         } else {
             wrongLogin.setText("Zły email bądź hasło");
