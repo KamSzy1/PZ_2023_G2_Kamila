@@ -52,6 +52,7 @@ public class EmployeeController {
         if (source == myTasksButton) {
             gridMyTasks.toFront();
             textLabel.setText("Moje zadania");
+
         } else if (source == reportButton) {
             gridReport.toFront();
             textLabel.setText("Generowanie raportów");
