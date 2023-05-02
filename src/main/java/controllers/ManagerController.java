@@ -44,6 +44,10 @@ public class ManagerController {
     @FXML
     private Button addTaskButton;
     @FXML
+    private Button mailEditButton;
+    @FXML
+    private Button passwordEditButton;
+    @FXML
     private GridPane gridTasks;
     @FXML
     private GridPane gridEmployee;
@@ -57,6 +61,20 @@ public class ManagerController {
     private Label textLabel;
     @FXML
     private Label welcomeLabel;
+    @FXML
+    private Label nameLabel;
+    @FXML
+    private Label surnameLabel;
+    @FXML
+    private Label addressLabel;
+    @FXML
+    private Label zipLabel;
+    @FXML
+    private Label placeLabel;
+    @FXML
+    private Label phoneLabel;
+    @FXML
+    private Label groupLabel;
     @FXML
     private TableColumn<?, ?> myTaskDescription;
     @FXML
@@ -85,12 +103,9 @@ public class ManagerController {
     private TableColumn<?, ?> taskTitle;
     private TableView<TasksTable> tableView = new TableView<>();
 
+    //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
     public void buttonsHandlerPane(ActionEvent event) throws IOException {
-        Stage stage;
-        Parent root;
-        StageChanger stageChanger = new StageChanger();
         Object source = event.getSource();
-
 
         if (source == myTasksButton) {
             gridMyTasks.toFront();
@@ -107,17 +122,31 @@ public class ManagerController {
         } else if (source == settingsButton) {
             gridSettings.toFront();
             textLabel.setText("Ustawienia");
-        } else if (source == logoutButton) {
+        }
+
+    }
+
+    //To jest do obsługi wszystkich buttonów, które zmieniają cały panel (Stage) i PopupWindow
+    public void buttonsHandlerStages(ActionEvent event) throws IOException {
+        Object source = event.getSource();
+        Stage stage;
+        Parent root;
+        StageChanger stageChanger = new StageChanger();
+
+        if (source == logoutButton) {
             stageChanger.changeSize(915, 630);
             stageChanger.changeScene("/main.fxml");
-        }else if (source == addTaskButton) {
+        } else if (source == addTaskButton) {
             stage = new Stage();
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/addTask.fxml")));
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(addTaskButton.getScene().getWindow());
             stage.showAndWait();
+        } else if (source == mailEditButton) {
+            System.out.println("A");
+        } else if (source == passwordEditButton) {
+            System.out.println("B");
         }
-
     }
 }

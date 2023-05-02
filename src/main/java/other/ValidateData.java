@@ -8,13 +8,13 @@ import java.util.regex.Pattern;
 public class ValidateData {
 
     //Nie pytajcie co to robi, uwierzcie w Jasną Stronę Javy
-    final static String regex_zipCode = "^[0-9]{2}(?:-[0-9]{3})?$"; //98-145
-    final static String regex_number = "^[0-9]{9}$"; //123 123 123
-    final static String regex_address = "^\\S.*$"; //ul. Strażakca 9/10
-    final static String regex_place = "^[\\p{L}\\p{M}]+([ -][\\p{L}\\p{M}]+)?$"; //Rzeszów // Nowa Sarzyna // Bielsko-Biała
+    private static String regex_zipCode = "^[0-9]{2}(?:-[0-9]{3})?$"; //98-145
+    private final static String regex_number = "^[0-9]{9}$"; //123 123 123
+    private final static String regex_address = "^\\S.*$"; //ul. Strażakca 9/10
+    private final static String regex_place = "^[\\p{L}\\p{M}]+([ -][\\p{L}\\p{M}]+)?$"; //Rzeszów // Nowa Sarzyna // Bielsko-Biała
     // Zapasowy regex, jakby coś się zepsuło
     // ^(?!\d)[\p{L}\p{M}]+(?:[-\s][\p{L}\p{M}]+)*$
-    final static String regex_name = "^[\\p{L}]+$"; //
+    private final static String regex_name = "^[\\p{L}]+$"; //
     //Zapasowy regex
     //[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+
 

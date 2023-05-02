@@ -68,7 +68,7 @@
                </font>
             </Button>
             <Pane maxHeight="50.0" maxWidth="265.0" minHeight="50.0" minWidth="265.0" prefHeight="50.0" prefWidth="265.0" />
-            <Button fx:id="logoutButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="60.0" maxWidth="265.0" minHeight="50.0" minWidth="60.0" mnemonicParsing="false" onAction="#buttonsHandlerPane" prefHeight="60.0" prefWidth="265.0" style="-fx-background-color: #554994;" text="Wyloguj" textFill="WHITE">
+            <Button fx:id="logoutButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="60.0" maxWidth="265.0" minHeight="50.0" minWidth="60.0" mnemonicParsing="false" onAction="#buttonsHandlerStages" prefHeight="60.0" prefWidth="265.0" style="-fx-background-color: #554994;" text="Wyloguj" textFill="WHITE">
                <font>
                   <Font name="Arial" size="20.0" />
                </font>
@@ -86,19 +86,6 @@
       </Pane>
       <StackPane layoutX="273.0" layoutY="79.0">
          <children>
-            <GridPane fx:id="gridSettings" maxHeight="507.0" maxWidth="920.0" minHeight="507.0" minWidth="920.0" prefHeight="507.0" prefWidth="920.0" style="-fx-background-color: #ffffff;">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label text="USTAWIENIA" />
-               </children>
-            </GridPane>
             <GridPane fx:id="gridReport" maxHeight="507.0" maxWidth="920.0" minHeight="507.0" minWidth="920.0" prefHeight="507.0" prefWidth="920.0" style="-fx-background-color: #ffffff;">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -111,34 +98,6 @@
               </rowConstraints>
                <children>
                   <Label text="Raporty" GridPane.rowIndex="1" />
-               </children>
-            </GridPane>
-            <GridPane fx:id="gridMyTasks" maxHeight="507.0" maxWidth="920.0" minHeight="507.0" minWidth="920.0" prefHeight="507.0" prefWidth="920.0" style="-fx-background-color: #ffffff;">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="45.0" minHeight="35.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="463.0" minHeight="10.0" prefHeight="463.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-                     <children>
-                        <FontAwesomeIconView fill="#554994" glyphName="SEARCH" />
-                        <TextField maxHeight="25.0" maxWidth="325.0" minHeight="25.0" minWidth="315.0" prefHeight="25.0" prefWidth="325.0" />
-                        <ComboBox maxHeight="25.0" maxWidth="305.0" minHeight="25.0" minWidth="200.0" prefHeight="25.0" prefWidth="305.0" />
-                     </children>
-                  </HBox>
-                  <TableView maxHeight="463.0" maxWidth="920.0" minHeight="463.0" minWidth="920.0" prefHeight="463.0" prefWidth="920.0" GridPane.rowIndex="1">
-                     <columns>
-                        <TableColumn fx:id="myTaskID" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="ID" />
-                        <TableColumn fx:id="myTaskTitle" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Tytuł" />
-                        <TableColumn fx:id="myTaskDescription" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Opis" />
-                        <TableColumn fx:id="myTaskPlannedDate" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Data wykonania" />
-                        <TableColumn fx:id="myTaskStatus" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Status" />
-                        <TableColumn fx:id="myTaskEdit" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Edycja" />
-                     </columns>
-                  </TableView>
                </children>
             </GridPane>
             <GridPane fx:id="gridEmployee" maxHeight="507.0" maxWidth="920.0" minHeight="507.0" minWidth="920.0" prefHeight="507.0" prefWidth="920.0" style="-fx-background-color: #ffffff;">
@@ -167,13 +126,122 @@
                         <FontAwesomeIconView fill="#554994" glyphName="SEARCH" />
                         <TextField maxHeight="25.0" maxWidth="325.0" minHeight="25.0" minWidth="315.0" prefHeight="25.0" prefWidth="325.0" />
                         <ComboBox maxHeight="25.0" maxWidth="305.0" minHeight="25.0" minWidth="200.0" prefHeight="25.0" prefWidth="305.0" />
-                        <Button fx:id="addEmployeeButton" alignment="CENTER" maxHeight="25.0" maxWidth="200.0" minHeight="25.0" minWidth="200.0" mnemonicParsing="false" onAction="#buttonsHandlerPane" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: #554994;" text="Dodaj pracownika" textAlignment="CENTER" textFill="WHITE">
+                        <Button fx:id="addEmployeeButton" alignment="CENTER" maxHeight="25.0" maxWidth="200.0" minHeight="25.0" minWidth="200.0" mnemonicParsing="false" onAction="#buttonsHandlerStages" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: #554994;" text="Dodaj pracownika" textAlignment="CENTER" textFill="WHITE">
                            <graphic>
                               <FontAwesomeIconView fill="WHITE" glyphName="PLUS" textAlignment="CENTER" />
                            </graphic>
                         </Button>
                      </children>
                   </HBox>
+               </children>
+            </GridPane>
+            <GridPane fx:id="gridSettings" maxHeight="507.0" maxWidth="920.0" minHeight="507.0" minWidth="920.0" prefHeight="507.0" prefWidth="920.0" style="-fx-background-color: #ffffff;">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label fx:id="userInfoLabel" text="Dane użytkownika:" GridPane.columnIndex="1">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
+                  <Label fx:id="userInfoLabel1" text="Kod pocztowy:" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="userInfoLabel2" text="Adres:" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="userInfoLabel3" text="Nazwisko:" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="userInfoLabel4" text="Imię:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="userInfoLabel13" text="Numer tel.:" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="userInfoLabel14" text="Miejscowość:" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="userInfoLabel41" text="Hasło:" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="userInfoLabel42" text="E-mail:" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="nameLabel" maxWidth="135.0" minWidth="135.0" prefHeight="21.0" prefWidth="135.0" text="                    " GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="mailEditButton" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" mnemonicParsing="false" onAction="#buttonsHandlerStages" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #554994;" text="Edytuj" textFill="WHITE" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="passwordEditButton" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" mnemonicParsing="false" onAction="#buttonsHandlerStages" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #554994;" text="Edytuj" textFill="WHITE" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="surnameLabel" maxHeight="25.0" maxWidth="135.0" minHeight="25.0" minWidth="135.0" prefHeight="25.0" prefWidth="135.0" text="                    " GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="addressLabel" maxWidth="135.0" minWidth="135.0" prefHeight="21.0" prefWidth="135.0" text="                    " GridPane.columnIndex="2" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="zipLabel" maxWidth="135.0" minWidth="135.0" prefWidth="135.0" text="                    " GridPane.columnIndex="2" GridPane.rowIndex="4">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="placeLabel" maxWidth="135.0" minWidth="135.0" prefWidth="135.0" text="                    " GridPane.columnIndex="2" GridPane.rowIndex="5">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="phoneLabel" maxWidth="135.0" minWidth="135.0" prefWidth="135.0" text="                    " GridPane.columnIndex="2" GridPane.rowIndex="6">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
                </children>
             </GridPane>
             <GridPane fx:id="gridTasks" maxHeight="507.0" maxWidth="920.0" minHeight="507.0" minWidth="920.0" prefHeight="507.0" prefWidth="920.0" style="-fx-background-color: #ffffff;">
@@ -190,7 +258,7 @@
                         <FontAwesomeIconView fill="#554994" glyphName="SEARCH" />
                         <TextField maxHeight="25.0" maxWidth="325.0" minHeight="25.0" minWidth="315.0" prefHeight="25.0" prefWidth="325.0" />
                         <ComboBox maxHeight="25.0" maxWidth="305.0" minHeight="25.0" minWidth="200.0" prefHeight="25.0" prefWidth="305.0" />
-                        <Button fx:id="addTaskButton" alignment="CENTER" maxHeight="25.0" maxWidth="200.0" minHeight="25.0" minWidth="200.0" mnemonicParsing="false" onAction="#buttonsHandlerPane" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: #554994;" text="Dodaj zadanie" textAlignment="CENTER" textFill="WHITE">
+                        <Button fx:id="addTaskButton" alignment="CENTER" maxHeight="25.0" maxWidth="200.0" minHeight="25.0" minWidth="200.0" mnemonicParsing="false" onAction="#buttonsHandlerStages" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: #554994;" text="Dodaj zadanie" textAlignment="CENTER" textFill="WHITE">
                            <graphic>
                               <FontAwesomeIconView fill="WHITE" glyphName="PLUS" textAlignment="CENTER" />
                            </graphic></Button>
@@ -205,6 +273,34 @@
                         <TableColumn fx:id="taskEmployee" maxWidth="124.0" minWidth="124.0" prefWidth="124.0" text="Pracownik" />
                         <TableColumn fx:id="taskStatus" maxWidth="124.0" minWidth="124.0" prefWidth="124.0" text="Status" />
                         <TableColumn fx:id="taskEdit" maxWidth="124.0" minWidth="124.0" prefWidth="124.0" text="Edycja" />
+                     </columns>
+                  </TableView>
+               </children>
+            </GridPane>
+            <GridPane fx:id="gridMyTasks" maxHeight="507.0" maxWidth="920.0" minHeight="507.0" minWidth="920.0" prefHeight="507.0" prefWidth="920.0" style="-fx-background-color: #ffffff;">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="45.0" minHeight="35.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="463.0" minHeight="10.0" prefHeight="463.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <FontAwesomeIconView fill="#554994" glyphName="SEARCH" />
+                        <TextField maxHeight="25.0" maxWidth="325.0" minHeight="25.0" minWidth="315.0" prefHeight="25.0" prefWidth="325.0" />
+                        <ComboBox maxHeight="25.0" maxWidth="305.0" minHeight="25.0" minWidth="200.0" prefHeight="25.0" prefWidth="305.0" />
+                     </children>
+                  </HBox>
+                  <TableView maxHeight="463.0" maxWidth="920.0" minHeight="463.0" minWidth="920.0" prefHeight="463.0" prefWidth="920.0" GridPane.rowIndex="1">
+                     <columns>
+                        <TableColumn fx:id="myTaskID" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="ID" />
+                        <TableColumn fx:id="myTaskTitle" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Tytuł" />
+                        <TableColumn fx:id="myTaskDescription" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Opis" />
+                        <TableColumn fx:id="myTaskPlannedDate" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Data wykonania" />
+                        <TableColumn fx:id="myTaskStatus" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Status" />
+                        <TableColumn fx:id="myTaskEdit" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Edycja" />
                      </columns>
                   </TableView>
                </children>
