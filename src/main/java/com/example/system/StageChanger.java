@@ -40,6 +40,7 @@ public class StageChanger extends Application {
     public void changeScene(String fxml) throws IOException {
         Parent pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxml)));
         stage.getScene().setRoot(pane);
+
     }
 
 }

@@ -4,9 +4,10 @@ import lombok.Getter;
 
 @Getter
 public enum StatusEnum {
-    ADMIN(0),
-    MANAGER(1),
-    EMPLOYEE(2);
+    DONE(0),
+    UNDONE(1),
+    IN_PROGRESS(2),
+    OUTDATED(3);
 
     private final int index;
 

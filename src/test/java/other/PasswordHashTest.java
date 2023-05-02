@@ -11,8 +11,8 @@ public class PasswordHashTest {
     @Test
     void testHash(){
         final String password = "abc123";
-        final String hash_password = "e99a18c428cb38d5f260853678922e03";
-        final String exp_hash = hashedPassword(password);
-        assertEquals(exp_hash, hash_password);
+        final String exp_hash = "e99a18c428cb38d5f260853678922e03";
+        final String hash_password = hashedPassword(password);
+        assertEquals(hash_password, exp_hash);
     }
 }

@@ -7,14 +7,20 @@ import database.DatabaseConnector;
 import database.QExecutor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class EmployeeController {
 
@@ -27,6 +33,10 @@ public class EmployeeController {
     @FXML
     private Button logoutButton;
     @FXML
+    private Button mailEditButton;
+    @FXML
+    private Button passwordEditButton;
+    @FXML
     private GridPane gridMyTasks;
     @FXML
     private GridPane gridReport;
@@ -36,6 +46,22 @@ public class EmployeeController {
     private Label textLabel;
     @FXML
     private Label welcomeLabel;
+    @FXML
+    private Label nameLabel;
+    @FXML
+    private Label surnameLabel;
+    @FXML
+    private Label addressLabel;
+    @FXML
+    private Label zipLabel;
+    @FXML
+    private Label placeLabel;
+    @FXML
+    private Label phoneLabel;
+    @FXML
+    private Label groupLabel;
+    @FXML
+    private Label managerLabel;
     @FXML
     private TableColumn<?, ?> myTaskDescription;
     @FXML
@@ -49,7 +75,7 @@ public class EmployeeController {
     @FXML
     private TableColumn<?, ?> myTaskTitle;
 
-
+    //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
     public void buttonsHandlerPane(ActionEvent event) throws IOException {
         Object source = event.getSource();
         /*DatabaseConnector.connect();
@@ -73,12 +99,24 @@ public class EmployeeController {
         } else if (source == settingsButton) {
             gridSettings.toFront();
             textLabel.setText("Ustawienia");
-        } else if (source == logoutButton) {
-            StageChanger stageChanger = new StageChanger();
+        }
+    }
+
+    //To jest do obsługi wszystkich buttonów, które zmieniają cały panel (Stage) i PopupWindow
+    public void buttonsHandlerStages(ActionEvent event) throws IOException {
+        Object source = event.getSource();
+        Stage stage;
+        Parent root;
+        StageChanger stageChanger = new StageChanger();
+
+        if (source == logoutButton) {
             stageChanger.changeSize(915, 630);
             stageChanger.changeScene("/main.fxml");
+        } else if (source == mailEditButton) {
+            System.out.println("A");
+        } else if (source == passwordEditButton) {
+            System.out.println("B");
         }
-
     }
 
 

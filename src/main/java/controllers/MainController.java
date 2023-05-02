@@ -31,9 +31,13 @@ public class MainController {
     @FXML
     private TextField emailField;
     @FXML
+    private TextField regEmailField;
+    @FXML
     private PasswordField passwordField;
     @FXML
-    private PasswordField repeatPasswordField;
+    private PasswordField regPasswordField;
+    @FXML
+    private PasswordField regRepeatPasswordField;
     @FXML
     private TextField tokenField;
     @FXML
@@ -56,53 +60,70 @@ public class MainController {
     public static int id_user;
     String email;
     String password;
+    String repeat_password;
+    StageChanger stageChanger = new StageChanger();
 
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
-        //Logowanie
         if (source == loginButton) {
+            //Logowanie
             email = emailField.getText();
             password = passwordField.getText();
 
             login(email, password);
-        }
-
-        //Przejście do gridu z panelem tokenu
-        if (source == regChangeButton) {
+        } else if (source == regChangeButton) {
+            //Przejście do gridu z panelem tokenu
             backButton.setVisible(true);
             logRegLabel.setText("Rejestracja");
+            tokenField.setText("");
             gridToken.toFront();
-        }
-
-        //Sprawdzenie tokenu i przejście dalej - na razie na sztywno
-        if (source == tokenButton) {
+        } else if (source == tokenButton) {
+            //Sprawdzenie tokenu i przejście dalej - na razie na sztywno
             if (tokenField.getText().equals("1234")) {
                 gridRegistration.toFront();
             } else {
                 wrongTokenLabel.setText("Nieprawidłowy token");
             }
-        }
+        } else if (source == registrationButton) {
+            // Rejestracja użytkownika
+    /* ! Jeszcze nie działa, bo nie mamy dodawania pracowników do bazy! Na razie jest to szkielet
+        Jak będzie dodawanie pracowników, to dokończę tę część !
+    */
+            boolean everythingOk = false;
 
-        //
-        if (source == registrationButton) {
-            registration();
-        }
+            //Pobranie wszystkich danych
+            email = regEmailField.getText();
+            password = regPasswordField.getText();
+            repeat_password = regRepeatPasswordField.getText();
 
-        //Powrót z rejestracji do loginu
-        if (source == backButton) {
+            //Te metody znajdują się w klasie ValidateData w package "other"
+            try {
+                ValidateData.goodEmail(email);
+                ValidateData.samePassword(password, repeat_password);
+                everythingOk = true;
+            } catch (Exception e) {
+                wrongRegistration.setText(e.getMessage());
+            }
+
+            //Jeśli wszyskie dane są poprawne, to doda się do bazy danych wszystko
+            if (everythingOk) {
+                registration(email, password);
+                stageChanger.changeScene("/main.fxml");
+            } else {
+                wrongRegistration.setText("Coś poszło nie tak. Spróbuj później");
+            }
+        } else if (source == backButton) {
+            //Powrót z rejestracji do loginu
             logRegLabel.setText("Logowanie");
             backButton.setVisible(false);
             wrongLogin.setText("");
             gridLogin.toFront();
         }
-
     }
 
     //Metoda do logowania
     public void login(String email, String password) throws IOException {
 
-        //To jest po to, aby zmienić scene/wyświetlany panel
-        StageChanger stageChanger = new StageChanger();
         DatabaseConnector.connect();
 
         try {
@@ -129,66 +150,16 @@ public class MainController {
             throwables.printStackTrace();
         }
 
-
-        //Sprawdzanie pól emaila oraz hasła -> na razie wszystko na sztywno ustawione
-        /*if (email.equals("manager") && password.equals("123")) {
-            stageChanger.changeScene("/manager.fxml");
-            stageChanger.changeSize(1215, 630);
-        } else if (email.equals("admin") && password.equals("123")) {
-            stageChanger.changeScene("/admin.fxml");
-            stageChanger.changeSize(1215, 630);
-        } else if (email.equals("employee") && password.equals("123")) {
-            stageChanger.changeScene("/employee.fxml");
-            stageChanger.changeSize(1215, 630);
-        } else if (email.isEmpty() && password.isEmpty()) {
-            wrongLogin.setText("Uzupełnij wszystkie pola!");
-        } else {
-            wrongLogin.setText("Zły email bądź hasło");
-        }*/
-
     }
 
     //Metoda do rejestrowania użytkowników
-    public void registration() throws IOException {
+    // SZKIELET
+    public void registration(String mail, String password) {
+        String hashedPassword = PasswordHash.hashedPassword(password);
+        String token = "1234";
 
-        //To jest po to, aby zmienić scene/wyświetlany panel
-        StageChanger stageChanger = new StageChanger();
-        boolean everythingOk = false;
-
-        //Pobranie wszystkich danych
-        String email;
-        String password;
-        String repeat_password;
-
-        email = emailField.getText();
-        password = passwordField.getText();
-        repeat_password = repeatPasswordField.getText();
-
-        //Te metody znajdują się w klasie ValidateData w folderze "other"
-        try {
-            ValidateData.goodEmail(email);
-            ValidateData.samePassword(password, repeat_password);
-            everythingOk = true;
-
-            //Linijkę poniżej można usunąć, jak się zrobi rejesrtację do końca
-            wrongRegistration.setText("Zarejestrowano pomyślnie");
-        } catch (Exception e) {
-            wrongRegistration.setText(e.getMessage());
-        }
-
-        //Jeśli wszyskie dane są poprawne, to doda się do bazy danych wszystko
-        if (everythingOk) {
-
-            password = PasswordHash.hashedPassword(password);
-            System.out.println(password);
-
-            //Tutaj powinien pojawić się kod dodawnia do bazy danych
-
-
-            //Po wykonaniu się wszystkiego zmieni się panel [na portzeby testów na razie kod jest w komentarzu]
-            //stageChanger.changeScene("/main.fxml");
-
-        }
+        DatabaseConnector.connect();
+        QExecutor.executeQuery("insert into login (email, password) values ('" + mail + "','" + hashedPassword + "where token=" + token + "'");
 
     }
 }
