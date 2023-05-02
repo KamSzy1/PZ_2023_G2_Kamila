@@ -4,50 +4,50 @@ import java.util.Calendar;
 
 public class HistoryTaskTable {
 
-    private static int idTaskHistory;
-    private static Calendar startDate;
-    private static Calendar endDate;
-    private static int tasksId;
-    private static Calendar plannedEnd;
+    private int idTaskHistory;
+    private Calendar startDate;
+    private Calendar endDate;
+    private int tasksId;
+    private Calendar plannedEnd;
 
-    public static int getIdTaskHistory() {
+    public int getIdTaskHistory() {
         return idTaskHistory;
     }
 
-    public static void setIdTaskHistory(int idTaskHistory) {
-        HistoryTaskTable.idTaskHistory = idTaskHistory;
+    public void setIdTaskHistory(int idTaskHistory) {
+        this.idTaskHistory = idTaskHistory;
     }
 
-    public static Calendar getStartDate() {
+    public Calendar getStartDate() {
         return startDate;
     }
 
-    public static void setStartDate(Calendar startDate) {
-        HistoryTaskTable.startDate = startDate;
+    public void setStartDate(Calendar startDate) {
+        this.startDate = startDate;
     }
 
-    public static Calendar getEndDate() {
+    public Calendar getEndDate() {
         return endDate;
     }
 
-    public static void setEndDate(Calendar endDate) {
-        HistoryTaskTable.endDate = endDate;
+    public void setEndDate(Calendar endDate) {
+        this.endDate = endDate;
     }
 
-    public static int getTasksId() {
+    public int getTasksId() {
         return tasksId;
     }
 
-    public static void setTasksId(int tasksId) {
-        HistoryTaskTable.tasksId = tasksId;
+    public void setTasksId(int tasksId) {
+        this.tasksId = tasksId;
     }
 
-    public static Calendar getPlannedEnd() {
+    public Calendar getPlannedEnd() {
         return plannedEnd;
     }
 
-    public static void setPlannedEnd(Calendar plannedEnd) {
-        HistoryTaskTable.plannedEnd = plannedEnd;
+    public void setPlannedEnd(Calendar plannedEnd) {
+        this.plannedEnd = plannedEnd;
     }
 }
 
