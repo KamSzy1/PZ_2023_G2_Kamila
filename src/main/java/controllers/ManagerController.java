@@ -92,20 +92,22 @@ public class ManagerController {
     @FXML
     private TableView<TasksTable> myTaskTableView;
     @FXML
-    private TableColumn<?, ?> taskDescription;
+    private TableView<TasksTable> taskTableView;
     @FXML
-    private TableColumn<?, ?> taskEdit;
+    private TableColumn<TasksTable, String> taskDescription;
     @FXML
-    private TableColumn<?, ?> taskEmployee;
+    private TableColumn<TasksTable, ?> taskEdit;
+    @FXML
+    private TableColumn<TasksTable, Integer> taskEmployee;
     @FXML
     private TableColumn<TasksTable, Integer> taskID;
     @FXML
-    private TableColumn<?, ?> taskPlannedDate;
+    private TableColumn<TasksTable, ?> taskPlannedDate;
     @FXML
-    private TableColumn<?, ?> taskStatus;
+    private TableColumn<TasksTable, Integer> taskStatus;
     @FXML
-    private TableColumn<?, ?> taskTitle;
-    private TableView<TasksTable> tableView = new TableView<>();
+    private TableColumn<TasksTable, String> taskTitle;
+    private ObservableList<TasksTable> myTaskTable;
     private ObservableList<TasksTable> taskTable;
 
     UsersTable usersTable = new UsersTable();
@@ -115,11 +117,10 @@ public class ManagerController {
         welcomeLabel.setText("Witaj " + usersTable.getName() + " " + usersTable.getSurname() + "!");
     }
 
-    //Wyświetlanie "Moich Zadań"
-    public void task() {
+    public void myTask() {
         DatabaseConnector.connect();
         try {
-            taskTable = FXCollections.observableArrayList();
+            myTaskTable = FXCollections.observableArrayList();
 
             ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks INNER JOIN statuses ON tasks.status_id = statuses.id_status WHERE user_id = " + usersTable.getIdUser());
 
@@ -130,7 +131,7 @@ public class ManagerController {
                 task.setTitle(result.getString("title"));
                 task.setDescription(result.getString("description"));
                 task.setName(result.getString("name"));
-                taskTable.add(task);
+                myTaskTable.add(task);
 
             }
         } catch (SQLException throwables) {
@@ -144,6 +145,36 @@ public class ManagerController {
 
     }
 
+    //Wyświetlanie zadań
+    public void tasks() {
+        DatabaseConnector.connect();
+        try {
+            taskTable = FXCollections.observableArrayList();
+
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks INNER JOIN statuses ON tasks.status_id = statuses.id_status");
+
+            while (result.next()) {
+                TasksTable task = new TasksTable();
+
+                task.setIdTask(result.getInt("id_task"));
+                task.setTitle(result.getString("title"));
+                task.setDescription(result.getString("description"));
+                task.setStatusId(result.getInt("status_id"));
+                task.setUserId(result.getInt("user_id"));
+                taskTable.add(task);
+
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        taskID.setCellValueFactory(new PropertyValueFactory<TasksTable, Integer>("idTask"));
+        taskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        taskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        taskStatus.setCellValueFactory(new PropertyValueFactory<>("statusId"));
+        taskEmployee.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        taskTableView.setItems(taskTable);
+    }
+
     //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
     public void buttonsHandlerPane(ActionEvent event) throws IOException {
         Object source = event.getSource();
@@ -151,10 +182,11 @@ public class ManagerController {
         if (source == myTasksButton) {
             gridMyTasks.toFront();
             textLabel.setText("Moje zadania");
-            task();
+            myTask();
         } else if (source == tasksButton) {
             gridTasks.toFront();
             textLabel.setText("Zadania");
+            tasks();
         } else if (source == employeeButton) {
             gridEmployee.toFront();
             textLabel.setText("Pracownicy");
