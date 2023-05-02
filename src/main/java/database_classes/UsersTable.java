@@ -8,98 +8,98 @@ public class UsersTable {
     // Piszemy: "WorkerTable", nie "Worker_Table", ani "worker_table" !
 
     //Ta tabela ogarnia: administatorów, managerów i workerów
-    private int idUser;
-    private String name;
-    private String surname;
-    private String address;
-    private String zip;
-    private String place;
-    private int phoneNumber;
-    private String email;
-    private String password;
-    private int positionId;
+    private static int idUser;
+    private static String name;
+    private static String surname;
+    private static String address;
+    private static String zip;
+    private static String place;
+    private static int phoneNumber;
+    private static String email;
+    private static String password;
+    private static int positionId;
     private int login;
-    private int groups;
+    private static int groups;
 
-    public int getIdUser() {
+
+    public static int getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public static void setIdUser(int idUser) {
+        UsersTable.idUser = idUser;
     }
 
-    public String getName() {
+    public static String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public static void setName(String name) {
+        UsersTable.name = name;
     }
 
-    public String getSurname() {
+    public static String getSurname() {
         return surname;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public static void setSurname(String surname) {
+        UsersTable.surname = surname;
     }
 
-    public String getAddress() {
+    public static String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public static void setAddress(String address) {
+        UsersTable.address = address;
     }
 
-    public String getZip() {
+    public static String getZip() {
         return zip;
     }
 
-    public void setZip(String zip) {
-        this.zip = zip;
+    public static void setZip(String zip) {
+        UsersTable.zip = zip;
     }
 
-    public String getPlace() {
+    public static String getPlace() {
         return place;
     }
 
-    public void setPlace(String place) {
-        this.place = place;
+    public static void setPlace(String place) {
+        UsersTable.place = place;
     }
 
-    public int getPhoneNumber() {
+    public static int getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public static void setPhoneNumber(int phoneNumber) {
+        UsersTable.phoneNumber = phoneNumber;
     }
 
-    public String getEmail() {
+    public static String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public static void setEmail(String email) {
+        UsersTable.email = email;
     }
 
-    public String getPassword() {
+    public static String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public static void setPassword(String password) {
+        UsersTable.password = password;
     }
 
-    public int getPositionId() {
+    public static int getPositionId() {
         return positionId;
-
     }
 
-    public void setPositionId(int positionId) {
-        this.positionId = positionId;
+    public static void setPositionId(int positionId) {
+        UsersTable.positionId = positionId;
     }
 
     public int getLogin() {
@@ -110,12 +110,18 @@ public class UsersTable {
         this.login = login;
     }
 
-    public int getGroups() {
+    public static int getGroups() {
         return groups;
     }
 
-    public void setGroups(int groups) {
-        this.groups = groups;
+    public static void setGroups(int groups) {
+        UsersTable.groups = groups;
     }
 
+    public UsersTable() {
+
+    }
+
+
 }
+

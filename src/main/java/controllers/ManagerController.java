@@ -115,6 +115,7 @@ public class ManagerController {
     @FXML
     private void initialize() {
         welcomeLabel.setText("Witaj " + usersTable.getName() + " " + usersTable.getSurname() + "!");
+        myTask();
     }
 
     public void myTask() {
@@ -141,7 +142,7 @@ public class ManagerController {
         myTaskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         myTaskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         myTaskStatus.setCellValueFactory(new PropertyValueFactory<>("name"));
-        myTaskTableView.setItems(taskTable);
+        myTaskTableView.setItems(myTaskTable);
 
     }
 
