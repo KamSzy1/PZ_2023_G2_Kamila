@@ -2,7 +2,9 @@ package controllers;
 
 import com.example.system.Main;
 import com.example.system.StageChanger;
+import database.DatabaseConnector;
 import database.QExecutor;
+import database_classes.StatusesTable;
 import database_classes.TasksTable;
 import database_classes.UsersTable;
 import javafx.collections.FXCollections;
@@ -80,7 +82,7 @@ public class ManagerController {
     @FXML
     private TableColumn<?, ?> myTaskEdit;
     @FXML
-    private TableColumn<?, ?> myTaskID;
+    private TableColumn<TasksTable, Integer> myTaskID;
     @FXML
     private TableColumn<?, ?> myTaskPlannedDate;
     @FXML
@@ -88,13 +90,15 @@ public class ManagerController {
     @FXML
     private TableColumn<?, ?> myTaskTitle;
     @FXML
+    private TableView<TasksTable> myTaskTableView;
+    @FXML
     private TableColumn<?, ?> taskDescription;
     @FXML
     private TableColumn<?, ?> taskEdit;
     @FXML
     private TableColumn<?, ?> taskEmployee;
     @FXML
-    private TableColumn<?, ?> taskID;
+    private TableColumn<TasksTable, Integer> taskID;
     @FXML
     private TableColumn<?, ?> taskPlannedDate;
     @FXML
@@ -102,6 +106,43 @@ public class ManagerController {
     @FXML
     private TableColumn<?, ?> taskTitle;
     private TableView<TasksTable> tableView = new TableView<>();
+    private ObservableList<TasksTable> taskTable;
+
+    UsersTable usersTable = new UsersTable();
+
+    @FXML
+    private void initialize() {
+        welcomeLabel.setText("Witaj " + usersTable.getName() + " " + usersTable.getSurname() + "!");
+    }
+
+    //Wyświetlanie "Moich Zadań"
+    public void task() {
+        DatabaseConnector.connect();
+        try {
+            taskTable = FXCollections.observableArrayList();
+
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks INNER JOIN statuses ON tasks.status_id = statuses.id_status WHERE user_id = " + usersTable.getIdUser());
+
+            while (result.next()) {
+                TasksTable task = new TasksTable();
+
+                task.setIdTask(result.getInt("id_task"));
+                task.setTitle(result.getString("title"));
+                task.setDescription(result.getString("description"));
+                task.setName(result.getString("name"));
+                taskTable.add(task);
+
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        myTaskID.setCellValueFactory(new PropertyValueFactory<TasksTable, Integer>("idTask"));
+        myTaskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        myTaskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        myTaskStatus.setCellValueFactory(new PropertyValueFactory<>("name"));
+        myTaskTableView.setItems(taskTable);
+
+    }
 
     //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
     public void buttonsHandlerPane(ActionEvent event) throws IOException {
@@ -110,6 +151,7 @@ public class ManagerController {
         if (source == myTasksButton) {
             gridMyTasks.toFront();
             textLabel.setText("Moje zadania");
+            task();
         } else if (source == tasksButton) {
             gridTasks.toFront();
             textLabel.setText("Zadania");

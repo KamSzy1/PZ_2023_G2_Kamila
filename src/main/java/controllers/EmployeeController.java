@@ -5,6 +5,10 @@ import com.example.system.Main;
 import com.example.system.StageChanger;
 import database.DatabaseConnector;
 import database.QExecutor;
+import database_classes.TasksTable;
+import database_classes.UsersTable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +17,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -74,6 +80,17 @@ public class EmployeeController {
     private TableColumn<?, ?> myTaskStatus;
     @FXML
     private TableColumn<?, ?> myTaskTitle;
+    @FXML
+    private TableView<TasksTable> myTaskTableView;
+    UsersTable usersTable = new UsersTable();
+
+    @FXML
+    private void initialize() {
+        welcomeLabel.setText("Witaj " + usersTable.getName() + " " + usersTable.getSurname() + "!");
+        task();
+    }
+
+    private ObservableList<TasksTable> taskTable;
 
     //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
     public void buttonsHandlerPane(ActionEvent event) throws IOException {
@@ -100,6 +117,35 @@ public class EmployeeController {
             gridSettings.toFront();
             textLabel.setText("Ustawienia");
         }
+    }
+
+    //Wyświetlanie "Moich Zadań"
+    public void task() {
+        DatabaseConnector.connect();
+        try {
+            taskTable = FXCollections.observableArrayList();
+
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks INNER JOIN statuses ON tasks.status_id = statuses.id_status WHERE user_id = " + usersTable.getIdUser());
+
+            while (result.next()) {
+                TasksTable task = new TasksTable();
+
+                task.setIdTask(result.getInt("id_task"));
+                task.setTitle(result.getString("title"));
+                task.setDescription(result.getString("description"));
+                task.setName(result.getString("name"));
+                taskTable.add(task);
+
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        myTaskID.setCellValueFactory(new PropertyValueFactory<>("idTask"));
+        myTaskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        myTaskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        myTaskStatus.setCellValueFactory(new PropertyValueFactory<>("name"));
+        myTaskTableView.setItems(taskTable);
+
     }
 
     //To jest do obsługi wszystkich buttonów, które zmieniają cały panel (Stage) i PopupWindow
