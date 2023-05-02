@@ -4,6 +4,7 @@ import com.example.system.Main;
 import com.example.system.StageChanger;
 import database.DatabaseConnector;
 import database.QExecutor;
+import database_classes.UsersTable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -62,6 +63,7 @@ public class MainController {
     String password;
     String repeat_password;
     StageChanger stageChanger = new StageChanger();
+    UsersTable usersTable = new UsersTable();
 
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
@@ -130,8 +132,11 @@ public class MainController {
             if (email.isEmpty() && password.isEmpty()) {
                 wrongLogin.setText("Uzupełnij wszystkie pola!");
             } else {
-                ResultSet result = QExecutor.executeSelect("SELECT * FROM login inner join users ON login.user_id = users.id_user WHERE email = '" + emailField.getText() + "' and password = '" + passwordField.getText() + "'");
+                ResultSet result = QExecutor.executeSelect("SELECT * FROM users inner join login ON login.user_id = users.id_user WHERE email = '" + emailField.getText() + "' and password = '" + passwordField.getText() + "'");
                 result.next();
+                usersTable.setName(result.getString(2));
+                usersTable.setSurname(result.getString(3));
+                usersTable.setIdUser(result.getInt("id_user"));
                 //this.id_user = result.getInt("id_user");
                 if (result.getInt("position_id") == 1) {
                     stageChanger.changeScene("/admin.fxml");

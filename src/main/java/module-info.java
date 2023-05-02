@@ -11,4 +11,6 @@ module com.example.system {
 
     opens controllers to javafx.fxml;
     exports controllers;
+    opens database_classes to javafx.fxml;
+    exports database_classes;
 }
