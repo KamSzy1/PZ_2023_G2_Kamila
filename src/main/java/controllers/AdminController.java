@@ -80,6 +80,8 @@ public class AdminController implements Initializable {
     @FXML
     private TableColumn<?, ?> employeeAddress;
     @FXML
+    private TableView<UsersTable> employeeTableView;
+    @FXML
     private TableColumn<?, ?> employeeGroup;
     @FXML
     private TableColumn<?, ?> employeeID;
@@ -108,30 +110,30 @@ public class AdminController implements Initializable {
     @FXML
     private TableView<TasksTable> myTaskTableView;
     @FXML
-    private TableColumn<TasksTable, String> taskDescription;
+    private TableColumn<?, ?> taskDescription;
     @FXML
     private TableColumn<?, ?> taskEdit;
     @FXML
-    private TableColumn<TasksTable, Integer> taskEmployee;
+    private TableColumn<?, ?> taskEmployee;
     @FXML
-    private TableColumn<TasksTable, Integer> taskID;
+    private TableColumn<?, ?> taskID;
     @FXML
     private TableColumn<?, ?> taskPlannedDate;
     @FXML
-    private TableColumn<TasksTable, Integer> taskStatus;
+    private TableColumn<?, ?> taskStatus;
     @FXML
-    private TableColumn<TasksTable, String> taskTitle;
+    private TableColumn<?, ?> taskTitle;
     @FXML
     private TableView<TasksTable> taskTableView;
 
     UsersTable usersTable = new UsersTable();
     private ObservableList<TasksTable> myTaskTable;
     private ObservableList<TasksTable> taskTable;
+    private ObservableList<UsersTable> userTable;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        welcomeLabel.setText("Witaj " + usersTable.getName() + " " + usersTable.getSurname() + "!");
+        welcomeLabel.setText("Witaj " + usersTable.getLoginName() + " " + usersTable.getLoginSurname() + "!");
         myTask();
-
     }
 
     //Wyświetlanie moich zadań
@@ -140,15 +142,15 @@ public class AdminController implements Initializable {
         try {
             myTaskTable = FXCollections.observableArrayList();
 
-            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks INNER JOIN statuses ON tasks.status_id = statuses.id_status WHERE user_id = " + usersTable.getIdUser());
-            System.out.println(usersTable.getIdUser());
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks INNER JOIN statuses ON tasks.status_id = statuses.id_status WHERE user_id = " + usersTable.getLoginIdUser());
+            System.out.println(usersTable.getLoginIdUser());
             while (result.next()) {
                 TasksTable task = new TasksTable();
 
                 task.setIdTask(result.getInt("id_task"));
                 task.setTitle(result.getString("title"));
                 task.setDescription(result.getString("description"));
-                task.setName(result.getString("name"));
+                task.setNameStatus(result.getString("name"));
                 myTaskTable.add(task);
 
             }
@@ -158,7 +160,7 @@ public class AdminController implements Initializable {
         myTaskID.setCellValueFactory(new PropertyValueFactory<>("idTask"));
         myTaskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         myTaskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-        myTaskStatus.setCellValueFactory(new PropertyValueFactory<>("name"));
+        myTaskStatus.setCellValueFactory(new PropertyValueFactory<>("nameStatus"));
         myTaskTableView.setItems(myTaskTable);
     }
 
@@ -176,7 +178,7 @@ public class AdminController implements Initializable {
                 task.setIdTask(result.getInt("id_task"));
                 task.setTitle(result.getString("title"));
                 task.setDescription(result.getString("description"));
-                task.setStatusId(result.getInt("status_id"));
+                task.setNameStatus(result.getString("name"));
                 task.setUserId(result.getInt("user_id"));
                 taskTable.add(task);
 
@@ -184,12 +186,48 @@ public class AdminController implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        taskID.setCellValueFactory(new PropertyValueFactory<TasksTable, Integer>("idTask"));
+        taskID.setCellValueFactory(new PropertyValueFactory<>("idTask"));
         taskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         taskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-        taskStatus.setCellValueFactory(new PropertyValueFactory<>("statusId"));
+        taskStatus.setCellValueFactory(new PropertyValueFactory<>("nameStatus"));
         taskEmployee.setCellValueFactory(new PropertyValueFactory<>("userId"));
         taskTableView.setItems(taskTable);
+    }
+
+    //Wyświetlanie pracowników
+    public void employee() {
+        DatabaseConnector.connect();
+        try {
+            userTable = FXCollections.observableArrayList();
+
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM users JOIN positions ON users.position_id = positions.id_position JOIN login ON users.id_user=login.user_id;");
+
+            while (result.next()) {
+                UsersTable user = new UsersTable();
+
+                user.setIdUser(result.getInt("id_user"));
+                user.setName(result.getString("name"));
+                user.setSurname(result.getString("surname"));
+                user.setEmail(result.getString("email"));
+                user.setAddress(result.getString("address"));
+                user.setPhoneNumber(result.getInt("phone_num"));
+                user.setNamePosition(result.getString("position_name"));
+                user.setGroups(result.getInt("groups"));
+                userTable.add(user);
+
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        employeeID.setCellValueFactory(new PropertyValueFactory<>("idUser"));
+        employeeName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        employeeSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
+        employeePosition.setCellValueFactory(new PropertyValueFactory<>("namePosition"));
+        employeeAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        employeeMail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        employeePhone.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        employeeGroup.setCellValueFactory(new PropertyValueFactory<>("groups"));
+        employeeTableView.setItems(userTable);
     }
 
     //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
@@ -208,6 +246,7 @@ public class AdminController implements Initializable {
         } else if (source == employeeButton) {
             gridEmployee.toFront();
             textLabel.setText("Pracownicy");
+            employee();
         } else if (source == raportButton) {
             gridReport.toFront();
             textLabel.setText("Generowanie raportów");

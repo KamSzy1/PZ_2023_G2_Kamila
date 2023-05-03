@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="600.0" maxWidth="1200.0" minHeight="600.0" minWidth="1200.0" prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminController">
+<AnchorPane maxHeight="600.0" maxWidth="1200.0" minHeight="600.0" minWidth="1200.0" prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminController">
    <children>
       <VBox maxHeight="600.0" maxWidth="265.0" minHeight="600.0" minWidth="265.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="600.0" prefWidth="265.0" style="-fx-background-color: #554994;">
          <children>
@@ -109,7 +109,7 @@
                 <RowConstraints maxHeight="466.0" minHeight="10.0" prefHeight="463.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TableView prefHeight="453.0" prefWidth="918.0" GridPane.rowIndex="1">
+                  <TableView fx:id="employeeTableView" prefHeight="453.0" prefWidth="918.0" GridPane.rowIndex="1">
                     <columns>
                       <TableColumn fx:id="employeeID" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="ID" />
                       <TableColumn fx:id="employeeName" maxWidth="115.0" minWidth="115.0" prefWidth="115.0" text="Imię" />

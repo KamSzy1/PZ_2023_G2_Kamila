@@ -1,10 +1,8 @@
 package controllers;
 
-import com.example.system.Main;
 import com.example.system.StageChanger;
 import database.DatabaseConnector;
 import database.QExecutor;
-import database_classes.StatusesTable;
 import database_classes.TasksTable;
 import database_classes.UsersTable;
 import javafx.collections.FXCollections;
@@ -26,7 +24,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.Objects;
 
 public class ManagerController {
@@ -51,6 +48,24 @@ public class ManagerController {
     private Button passwordEditButton;
     @FXML
     private GridPane gridTasks;
+    @FXML
+    private TableColumn<?, ?> employeeAddress;
+    @FXML
+    private TableColumn<?, ?> employeeGroup;
+    @FXML
+    private TableColumn<?, ?> employeeID;
+    @FXML
+    private TableColumn<?, ?> employeeMail;
+    @FXML
+    private TableColumn<?, ?> employeeName;
+    @FXML
+    private TableColumn<?, ?> employeePhone;
+    @FXML
+    private TableColumn<?, ?> employeePosition;
+    @FXML
+    private TableColumn<?, ?> employeeSurname;
+    @FXML
+    private TableView<UsersTable> employeeTableView;
     @FXML
     private GridPane gridEmployee;
     @FXML
@@ -109,41 +124,42 @@ public class ManagerController {
     private TableColumn<TasksTable, String> taskTitle;
     private ObservableList<TasksTable> myTaskTable;
     private ObservableList<TasksTable> taskTable;
+    private ObservableList<UsersTable> userTable;
 
     UsersTable usersTable = new UsersTable();
 
     @FXML
     private void initialize() {
-        welcomeLabel.setText("Witaj " + usersTable.getName() + " " + usersTable.getSurname() + "!");
+        welcomeLabel.setText("Witaj " + usersTable.getLoginName() + " " + usersTable.getLoginSurname() + "!");
         myTask();
     }
 
+    //Wyświetlanie moich zadań
     public void myTask() {
         DatabaseConnector.connect();
         try {
             myTaskTable = FXCollections.observableArrayList();
 
-            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks INNER JOIN statuses ON tasks.status_id = statuses.id_status WHERE user_id = " + usersTable.getIdUser());
-
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks INNER JOIN statuses ON tasks.status_id = statuses.id_status WHERE user_id = " + usersTable.getLoginIdUser());
+            System.out.println(usersTable.getLoginIdUser());
             while (result.next()) {
                 TasksTable task = new TasksTable();
 
                 task.setIdTask(result.getInt("id_task"));
                 task.setTitle(result.getString("title"));
                 task.setDescription(result.getString("description"));
-                task.setName(result.getString("name"));
+                task.setNameStatus(result.getString("name"));
                 myTaskTable.add(task);
 
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        myTaskID.setCellValueFactory(new PropertyValueFactory<TasksTable, Integer>("idTask"));
+        myTaskID.setCellValueFactory(new PropertyValueFactory<>("idTask"));
         myTaskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         myTaskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-        myTaskStatus.setCellValueFactory(new PropertyValueFactory<>("name"));
+        myTaskStatus.setCellValueFactory(new PropertyValueFactory<>("nameStatus"));
         myTaskTableView.setItems(myTaskTable);
-
     }
 
     //Wyświetlanie zadań
@@ -160,7 +176,7 @@ public class ManagerController {
                 task.setIdTask(result.getInt("id_task"));
                 task.setTitle(result.getString("title"));
                 task.setDescription(result.getString("description"));
-                task.setStatusId(result.getInt("status_id"));
+                task.setNameStatus(result.getString("name"));
                 task.setUserId(result.getInt("user_id"));
                 taskTable.add(task);
 
@@ -168,12 +184,48 @@ public class ManagerController {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        taskID.setCellValueFactory(new PropertyValueFactory<TasksTable, Integer>("idTask"));
+        taskID.setCellValueFactory(new PropertyValueFactory<>("idTask"));
         taskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         taskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-        taskStatus.setCellValueFactory(new PropertyValueFactory<>("statusId"));
+        taskStatus.setCellValueFactory(new PropertyValueFactory<>("nameStatus"));
         taskEmployee.setCellValueFactory(new PropertyValueFactory<>("userId"));
         taskTableView.setItems(taskTable);
+    }
+
+    //Wyświetlanie pracowników
+    public void employee() {
+        DatabaseConnector.connect();
+        try {
+            userTable = FXCollections.observableArrayList();
+
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM users JOIN positions ON users.position_id = positions.id_position JOIN login ON users.id_user=login.user_id;");
+
+            while (result.next()) {
+                UsersTable user = new UsersTable();
+
+                user.setIdUser(result.getInt("id_user"));
+                user.setName(result.getString("name"));
+                user.setSurname(result.getString("surname"));
+                user.setEmail(result.getString("email"));
+                user.setAddress(result.getString("address"));
+                user.setPhoneNumber(result.getInt("phone_num"));
+                user.setNamePosition(result.getString("position_name"));
+                user.setGroups(result.getInt("groups"));
+                userTable.add(user);
+
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        employeeID.setCellValueFactory(new PropertyValueFactory<>("idUser"));
+        employeeName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        employeeSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
+        employeePosition.setCellValueFactory(new PropertyValueFactory<>("namePosition"));
+        employeeAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        employeeMail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        employeePhone.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        employeeGroup.setCellValueFactory(new PropertyValueFactory<>("groups"));
+        employeeTableView.setItems(userTable);
     }
 
     //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
@@ -191,6 +243,7 @@ public class ManagerController {
         } else if (source == employeeButton) {
             gridEmployee.toFront();
             textLabel.setText("Pracownicy");
+            employee();
         } else if (source == raportButton) {
             gridRaport.toFront();
             textLabel.setText("Generowanie raportów");
@@ -198,7 +251,6 @@ public class ManagerController {
             gridSettings.toFront();
             textLabel.setText("Ustawienia");
         }
-
     }
 
     //To jest do obsługi wszystkich buttonów, które zmieniają cały panel (Stage) i PopupWindow
