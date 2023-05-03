@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,11 +23,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
-public class AdminController {
+public class AdminController implements Initializable {
 
     @FXML
     private Button myTasksButton;
@@ -124,9 +127,11 @@ public class AdminController {
     UsersTable usersTable = new UsersTable();
     private ObservableList<TasksTable> myTaskTable;
     private ObservableList<TasksTable> taskTable;
-    @FXML
-    private void initialize() {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         welcomeLabel.setText("Witaj " + usersTable.getName() + " " + usersTable.getSurname() + "!");
+        myTask();
+
     }
 
     //Wyświetlanie moich zadań
@@ -136,7 +141,7 @@ public class AdminController {
             myTaskTable = FXCollections.observableArrayList();
 
             ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks INNER JOIN statuses ON tasks.status_id = statuses.id_status WHERE user_id = " + usersTable.getIdUser());
-
+            System.out.println(usersTable.getIdUser());
             while (result.next()) {
                 TasksTable task = new TasksTable();
 
@@ -154,7 +159,7 @@ public class AdminController {
         myTaskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         myTaskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         myTaskStatus.setCellValueFactory(new PropertyValueFactory<>("name"));
-        myTaskTableView.setItems(taskTable);
+        myTaskTableView.setItems(myTaskTable);
     }
 
     //Wyświetlanie zadań
@@ -242,6 +247,7 @@ public class AdminController {
             System.out.println("B");
         }
     }
+
 
 
 }
