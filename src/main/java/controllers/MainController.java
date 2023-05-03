@@ -134,10 +134,9 @@ public class MainController {
             } else {
                 ResultSet result = QExecutor.executeSelect("SELECT * FROM users inner join login ON login.user_id = users.id_user WHERE email = '" + emailField.getText() + "' and password = '" + passwordField.getText() + "'");
                 result.next();
-                usersTable.setName(result.getString("name"));
-                usersTable.setSurname(result.getString("surname"));
-                usersTable.setIdUser(result.getInt("id_user"));
-                //this.id_user = result.getInt("id_user");
+                usersTable.setLoginName(result.getString("name"));
+                usersTable.setLoginSurname(result.getString("surname"));
+                usersTable.setLoginIdUser(result.getInt("id_user"));
                 if (result.getInt("position_id") == 1) {
                     stageChanger.changeScene("/admin.fxml");
                     stageChanger.changeSize(1215, 630);

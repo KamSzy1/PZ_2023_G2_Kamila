@@ -86,7 +86,7 @@ public class EmployeeController {
 
     @FXML
     private void initialize() {
-        welcomeLabel.setText("Witaj " + usersTable.getName() + " " + usersTable.getSurname() + "!");
+        welcomeLabel.setText("Witaj " + usersTable.getLoginName() + " " + usersTable.getLoginSurname() + "!");
         task();
     }
 
@@ -125,7 +125,7 @@ public class EmployeeController {
         try {
             taskTable = FXCollections.observableArrayList();
 
-            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks INNER JOIN statuses ON tasks.status_id = statuses.id_status WHERE user_id = " + usersTable.getIdUser());
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks INNER JOIN statuses ON tasks.status_id = statuses.id_status WHERE user_id = " + usersTable.getLoginIdUser());
 
             while (result.next()) {
                 TasksTable task = new TasksTable();
@@ -133,7 +133,7 @@ public class EmployeeController {
                 task.setIdTask(result.getInt("id_task"));
                 task.setTitle(result.getString("title"));
                 task.setDescription(result.getString("description"));
-                task.setName(result.getString("name"));
+                task.setNameStatus(result.getString("name"));
                 taskTable.add(task);
 
             }
@@ -143,7 +143,7 @@ public class EmployeeController {
         myTaskID.setCellValueFactory(new PropertyValueFactory<>("idTask"));
         myTaskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         myTaskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-        myTaskStatus.setCellValueFactory(new PropertyValueFactory<>("name"));
+        myTaskStatus.setCellValueFactory(new PropertyValueFactory<>("nameStatus"));
         myTaskTableView.setItems(taskTable);
 
     }

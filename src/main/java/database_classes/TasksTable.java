@@ -6,16 +6,25 @@ public class TasksTable {
     private String description;
     private int statusId;
     private int userId;
+    private String nameStatus;
 
-    public String getName() {
-        return name;
+    public String getNameUser() {
+        return nameUser;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameUser(String nameUser) {
+        this.nameUser = nameUser;
     }
 
-    private String name;
+    private String nameUser;
+
+    public String getNameStatus() {
+        return nameStatus;
+    }
+
+    public void setNameStatus(String name) {
+        this.nameStatus = name;
+    }
 
     public int getIdTask() {
         return idTask;

@@ -8,98 +8,134 @@ public class UsersTable {
     // Piszemy: "WorkerTable", nie "Worker_Table", ani "worker_table" !
 
     //Ta tabela ogarnia: administatorów, managerów i workerów
-    private static int idUser;
-    private static String name;
-    private static String surname;
-    private static String address;
-    private static String zip;
-    private static String place;
-    private static int phoneNumber;
-    private static String email;
-    private static String password;
-    private static int positionId;
-    private int login;
-    private static int groups;
+    private static int idLoginUser;
+    private int idUser;
 
-
-    public static int getIdUser() {
+    public int getIdUser() {
         return idUser;
     }
 
-    public static void setIdUser(int idUser) {
-        UsersTable.idUser = idUser;
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
     }
 
-    public static String getName() {
+    private String name;
+    private String surname;
+    private String address;
+    private String zip;
+    private String place;
+    private int phoneNumber;
+    private String email;
+    private String password;
+    private int positionId;
+    private int login;
+    private int groups;
+    private static String loginName;
+    private static String loginSurname;
+    private String namePosition;
+
+    public String getNamePosition() {
+        return namePosition;
+    }
+
+    public void setNamePosition(String namePosition) {
+        this.namePosition = namePosition;
+    }
+
+    public static String getLoginName() {
+        return loginName;
+    }
+
+    public static void setLoginName(String loginName) {
+        UsersTable.loginName = loginName;
+    }
+
+    public static String getLoginSurname() {
+        return loginSurname;
+    }
+
+    public static void setLoginSurname(String loginSurname) {
+        UsersTable.loginSurname = loginSurname;
+    }
+
+    public static int getLoginIdUser() {
+        return idLoginUser;
+    }
+
+    public static void setLoginIdUser(int idLoginUser) {
+        UsersTable.idLoginUser = idLoginUser;
+    }
+
+    public String getName() {
         return name;
     }
 
-    public static void setName(String name) {
-        UsersTable.name = name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public static String getSurname() {
+    public String getSurname() {
         return surname;
     }
 
-    public static void setSurname(String surname) {
-        UsersTable.surname = surname;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
-    public static String getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public static void setAddress(String address) {
-        UsersTable.address = address;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public static String getZip() {
+    public String getZip() {
         return zip;
     }
 
-    public static void setZip(String zip) {
-        UsersTable.zip = zip;
+    public void setZip(String zip) {
+        this.zip = zip;
     }
 
-    public static String getPlace() {
+    public String getPlace() {
         return place;
     }
 
-    public static void setPlace(String place) {
-        UsersTable.place = place;
+    public void setPlace(String place) {
+        this.place = place;
     }
 
-    public static int getPhoneNumber() {
+    public int getPhoneNumber() {
         return phoneNumber;
     }
 
-    public static void setPhoneNumber(int phoneNumber) {
-        UsersTable.phoneNumber = phoneNumber;
+    public void setPhoneNumber(int phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public static String getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    public static void setEmail(String email) {
-        UsersTable.email = email;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public static String getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public static void setPassword(String password) {
-        UsersTable.password = password;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public static int getPositionId() {
+    public int getPositionId() {
         return positionId;
     }
 
-    public static void setPositionId(int positionId) {
-        UsersTable.positionId = positionId;
+    public void setPositionId(int positionId) {
+        this.positionId = positionId;
     }
 
     public int getLogin() {
@@ -110,12 +146,12 @@ public class UsersTable {
         this.login = login;
     }
 
-    public static int getGroups() {
+    public int getGroups() {
         return groups;
     }
 
-    public static void setGroups(int groups) {
-        UsersTable.groups = groups;
+    public void setGroups(int groups) {
+        this.groups = groups;
     }
 
     public UsersTable() {
