@@ -14,7 +14,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import other.PasswordHash;
 import other.ValidateData;
-
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -66,6 +65,7 @@ public class MainController {
     UsersTable usersTable = new UsersTable();
 
     public void buttonsHandler(ActionEvent event) throws IOException {
+        String hashedPassword = PasswordHash.hashedPassword(passwordField.getText());
         Object source = event.getSource();
         if (source == loginButton) {
             //Logowanie
@@ -124,7 +124,8 @@ public class MainController {
     }
 
     //Metoda do logowania
-    public void login(String email, String password) throws IOException {
+     public void login(String email, String password) throws IOException {
+        String hashedPassword = PasswordHash.hashedPassword(passwordField.getText());
 
         DatabaseConnector.connect();
 
@@ -132,7 +133,7 @@ public class MainController {
             if (email.isEmpty() && password.isEmpty()) {
                 wrongLogin.setText("Uzupełnij wszystkie pola!");
             } else {
-                ResultSet result = QExecutor.executeSelect("SELECT * FROM users inner join login ON login.user_id = users.id_user WHERE email = '" + emailField.getText() + "' and password = '" + passwordField.getText() + "'");
+                ResultSet result = QExecutor.executeSelect("SELECT * FROM users inner join login ON login.user_id = users.id_user WHERE email = '" + emailField.getText() + "' and password = '" + hashedPassword + "'");
                 result.next();
                 usersTable.setLoginName(result.getString("name"));
                 usersTable.setLoginSurname(result.getString("surname"));
@@ -154,7 +155,7 @@ public class MainController {
             throwables.printStackTrace();
         }
 
-    }
+}
 
     //Metoda do rejestrowania użytkowników
     // SZKIELET
