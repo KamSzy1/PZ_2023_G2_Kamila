@@ -154,6 +154,20 @@ public class UsersTable {
         this.groups = groups;
     }
 
+
+    public UsersTable(int idUser, String name, String surname, String address, String zip, String place, int phoneNumber, int positionId, int login, int groups){
+        this.idUser = idUser;
+        this.name = name;
+        this.surname = surname;
+        this.address = address;
+        this.zip = zip;
+        this.place = place;
+        this.phoneNumber = phoneNumber;
+        this.positionId = positionId;
+        this.login = login;
+        this.groups = groups;
+
+    }
     public UsersTable() {
 
     }
