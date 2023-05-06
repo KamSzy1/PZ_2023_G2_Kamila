@@ -18,7 +18,6 @@ public class ValidateData {
     //Zapasowy regex
     //[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+
 
-
     //Sprawdzenie czy imię jest takie jak powinno -> tzn. żeby ktoś Kasia2000 nie wpisał
     public static void goodName(String name) throws Exception {
         if (name.length() > 128) {
