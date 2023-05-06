@@ -163,6 +163,32 @@ public class ManagerController {
         myTaskTableView.setItems(myTaskTable);
     }
 
+    public void data() {
+        DatabaseConnector.connect();
+        try {
+            ResultSet rs = QExecutor.executeSelect("SELECT * FROM users where id_user=" + UsersTable.getLoginIdUser());
+            while (rs.next()) {
+                UsersTable user = new UsersTable();
+                user.setName(rs.getString("name"));
+                user.setSurname(rs.getString("surname"));
+                user.setAddress(rs.getString("address"));
+                user.setPlace(rs.getString("place"));
+                user.setZip(rs.getString("zip"));
+                user.setPhoneNumber(rs.getInt("phone_num"));
+                user.setGroups(rs.getInt("groups"));
+                nameLabel.setText(user.getName());
+                surnameLabel.setText(user.getSurname());
+                addressLabel.setText(user.getAddress());
+                zipLabel.setText(user.getZip());
+                placeLabel.setText(user.getPlace());
+                phoneLabel.setText(String.valueOf(user.getPhoneNumber()));
+                groupLabel.setText(String.valueOf(user.getGroups()));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     //Wyświetlanie zadań
     public void tasks() {
         DatabaseConnector.connect();
@@ -251,6 +277,7 @@ public class ManagerController {
         } else if (source == settingsButton) {
             gridSettings.toFront();
             textLabel.setText("Ustawienia");
+            data();
         }
     }
 
