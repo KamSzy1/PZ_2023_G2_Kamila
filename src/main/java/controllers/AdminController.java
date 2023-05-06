@@ -137,6 +137,30 @@ public class AdminController implements Initializable {
         myTask();
     }
 
+    public void data() {
+        DatabaseConnector.connect();
+        try {
+            ResultSet rs = QExecutor.executeSelect("SELECT * FROM users where id_user=" + UsersTable.getLoginIdUser());
+            while (rs.next()) {
+                UsersTable user = new UsersTable();
+                user.setName(rs.getString("name"));
+                user.setSurname(rs.getString("surname"));
+                user.setAddress(rs.getString("address"));
+                user.setPlace(rs.getString("place"));
+                user.setZip(rs.getString("zip"));
+                user.setPhoneNumber(rs.getInt("phone_num"));
+                nameLabel.setText(user.getName());
+                surnameLabel.setText(user.getSurname());
+                addressLabel.setText(user.getAddress());
+                zipLabel.setText(user.getZip());
+                placeLabel.setText(user.getPlace());
+                phoneLabel.setText(String.valueOf(user.getPhoneNumber()));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     //Wyświetlanie moich zadań
     public void myTask() {
         DatabaseConnector.connect();
@@ -253,6 +277,7 @@ public class AdminController implements Initializable {
         } else if (source == settingsButton) {
             gridSettings.toFront();
             textLabel.setText("Ustawienia");
+            data();
         }
     }
 
