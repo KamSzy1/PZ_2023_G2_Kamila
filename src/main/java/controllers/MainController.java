@@ -1,6 +1,5 @@
 package controllers;
 
-import com.example.system.Main;
 import com.example.system.StageChanger;
 import database.DatabaseConnector;
 import database.QExecutor;
