@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MainController {
+public class    MainController {
 
     @FXML
     private Button backButton;
