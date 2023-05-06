@@ -21,7 +21,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -130,9 +129,11 @@ public class AdminController implements Initializable {
     private ObservableList<TasksTable> myTaskTable;
     private ObservableList<TasksTable> taskTable;
     private ObservableList<UsersTable> userTable;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         welcomeLabel.setText("Witaj " + usersTable.getLoginName() + " " + usersTable.getLoginSurname() + "!");
+        gridMyTasks.toFront();
         myTask();
     }
 
@@ -234,7 +235,6 @@ public class AdminController implements Initializable {
     public void buttonsHandlerPane(ActionEvent event) throws IOException {
         Object source = event.getSource();
 
-
         if (source == myTasksButton) {
             gridMyTasks.toFront();
             textLabel.setText("Moje zadania");
@@ -286,7 +286,6 @@ public class AdminController implements Initializable {
             System.out.println("B");
         }
     }
-
 
 
 }

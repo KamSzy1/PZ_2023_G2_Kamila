@@ -131,6 +131,7 @@ public class ManagerController {
     @FXML
     private void initialize() {
         welcomeLabel.setText("Witaj " + usersTable.getLoginName() + " " + usersTable.getLoginSurname() + "!");
+        gridMyTasks.toFront();
         myTask();
     }
 

@@ -1,6 +1,5 @@
 package controllers;
 
-
 import com.example.system.Main;
 import com.example.system.StageChanger;
 import database.DatabaseConnector;
@@ -87,6 +86,7 @@ public class EmployeeController {
     @FXML
     private void initialize() {
         welcomeLabel.setText("Witaj " + usersTable.getLoginName() + " " + usersTable.getLoginSurname() + "!");
+        gridMyTasks.toFront();
         task();
     }
 

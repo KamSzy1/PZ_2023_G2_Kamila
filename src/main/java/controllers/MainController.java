@@ -1,6 +1,5 @@
 package controllers;
 
-import com.example.system.Main;
 import com.example.system.StageChanger;
 import database.DatabaseConnector;
 import database.QExecutor;
@@ -14,7 +13,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import other.PasswordHash;
 import other.ValidateData;
-
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
