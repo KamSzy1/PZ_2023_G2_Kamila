@@ -132,7 +132,7 @@ public class    MainController {
             if (email.isEmpty() && password.isEmpty()) {
                 wrongLogin.setText("Uzupełnij wszystkie pola!");
             } else {
-                ResultSet result = QExecutor.executeSelect("SELECT * FROM users inner join login ON login.user_id = users.id_user WHERE email = '" + emailField.getText() + "' and password = '" + hashedPassword + "'");
+                ResultSet result = QExecutor.executeSelect("SELECT * FROM users inner join login ON login.token = users.token WHERE email = '" + emailField.getText() + "' and password = '" + hashedPassword + "'");
                 result.next();
                 usersTable.setLoginName(result.getString("name"));
                 usersTable.setLoginSurname(result.getString("surname"));
