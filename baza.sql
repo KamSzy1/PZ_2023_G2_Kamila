@@ -30,10 +30,10 @@ CREATE TABLE users(
 
 CREATE TABLE tasks_history(
     id_task_history int(11) primary key not null auto_increment UNIQUE,
-    start_date DATE not null,
-    end_date DATE not null,
+    start_date DATE,
+    end_date DATE,
     tasks_id int(11) UNIQUE REFERENCES tasks.id_task,
-    planned_end DATE not null
+    planned_end DATE
 );
 
 CREATE TABLE statuses(

@@ -1,14 +1,22 @@
 package controllers;
 
-import database.DatabaseConnector;
-import database.QExecutor;
-import database_classes.TasksTable;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
-import java.io.IOException;
-import java.time.LocalDate;
+        import database.DatabaseConnector;
+        import database.QExecutor;
+        import database_classes.HistoryTaskTable;
+        import database_classes.TasksTable;
+        import javafx.collections.FXCollections;
+        import javafx.collections.ObservableList;
+        import javafx.event.ActionEvent;
+        import javafx.fxml.FXML;
+        import javafx.scene.control.*;
+        import javafx.stage.Stage;
+        import java.io.IOException;
+        import java.sql.Date;
+        import java.sql.ResultSet;
+        import java.sql.SQLException;
+        import java.time.LocalDate;
+        import java.time.ZoneId;
+        import java.time.format.DateTimeFormatter;
 
 public class AddTaskController {
     @FXML
@@ -16,14 +24,20 @@ public class AddTaskController {
     @FXML
     private TextField titleField;
     @FXML
-    private ListView<?> personView;
+    private ListView<String> personView;
     @FXML
     private TextArea descriptionArea;
     @FXML
     private Button cancelButton;
     @FXML
     private Button addButton;
+    private ListView<String> list;
     TasksTable tasksTable = new TasksTable();
+    HistoryTaskTable historyTaskTable = new HistoryTaskTable();
+    private ObservableList<String> names;
+    LocalDate currentDate = LocalDate.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    String formattedDate = currentDate.format(formatter);
 
 
     public void buttonsHandler(ActionEvent event) throws IOException {
@@ -35,28 +49,49 @@ public class AddTaskController {
             stage.close();
 
         } else if (source == addButton) {
-            // Dodawanie nowych zadań
-            tasksTable.setTitle(titleField.getText());
-            tasksTable.setDescription(descriptionArea.getText());
-            tasksTable.setStatusId(2);
-            tasksTable.setUserId(1);
-            DatabaseConnector.connect();
-            QExecutor.executeQuery("insert into tasks (title, description, status_id, user_id) values ('"
-                    + tasksTable.getTitle() + "','"
-                    + tasksTable.getDescription() + "','"
-                    + tasksTable.getStatusId() + "','"
-                    + tasksTable.getUserId() + "')");
+            addTask();
         }
     }
 
-    void addTask() {
-        titleField.getText();
-        descriptionArea.getText();
-        personView.getSelectionModel().getSelectedItem();  // Tutaj jest ListView prawdopodobnie do zmienienia, ale to już podmieni się jak ktoś za ten panel się weźmie
-        timePicker.getValue(); // Tutaj jest timePicker
+    public void addTask() {
+        // Dodawanie nowych zadań
+        LocalDate date = timePicker.getValue();
+        tasksTable.setTitle(titleField.getText());
+        tasksTable.setDescription(descriptionArea.getText());
+        historyTaskTable.setPlannedEnd(Date.valueOf(date));
+        historyTaskTable.setStartDate(Date.valueOf(formattedDate));
+        tasksTable.setStatusId(2);
+        tasksTable.setUserId(Integer.parseInt(personView.getSelectionModel().getSelectedItem()));
+        System.out.println(timePicker);
+        DatabaseConnector.connect();
+        QExecutor.executeQuery("insert into tasks (title, description, status_id, user_id) values ('"
+                + tasksTable.getTitle() + "','"
+                + tasksTable.getDescription() + "','"
+                + tasksTable.getStatusId() + "','"
+                + tasksTable.getUserId() + "')");
+
+        QExecutor.executeQuery("insert into tasks_history (planned_end, start_date, tasks_id) values ('"
+                + historyTaskTable.getPlannedEnd() + "','"
+                + historyTaskTable.getStartDate() + "',"
+                + "(SELECT MAX(id_task) FROM tasks))");
+    }
+
+    public void userList() {
+        DatabaseConnector.connect();
+        names = FXCollections.observableArrayList();
+        try {
+            ResultSet rs = QExecutor.executeSelect("SELECT * FROM users");
+            while (rs.next()) {
+                names.add(rs.getString(2));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        personView.setItems(names);
     }
 
     public void initialize() {
+        userList();
         timePicker.setDayCellFactory(picker -> new DateCell() {
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);

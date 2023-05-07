@@ -1,5 +1,7 @@
 package database_classes;
 
+import java.sql.Date;
+
 public class TasksTable {
     private int idTask;
     private String title;
@@ -7,6 +9,16 @@ public class TasksTable {
     private int statusId;
     private int userId;
     private String nameStatus;
+
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
+
+    private Date data;
 
     public String getNameUser() {
         return nameUser;

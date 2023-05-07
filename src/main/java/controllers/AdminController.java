@@ -3,6 +3,7 @@ package controllers;
 import com.example.system.StageChanger;
 import database.DatabaseConnector;
 import database.QExecutor;
+import database_classes.HistoryTaskTable;
 import database_classes.TasksTable;
 import database_classes.UsersTable;
 import javafx.animation.KeyFrame;
@@ -28,6 +29,7 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
@@ -178,7 +180,7 @@ public class AdminController implements Initializable {
             System.out.println(usersTable.getLoginIdUser());
             while (result.next()) {
                 TasksTable task = new TasksTable();
-
+                HistoryTaskTable htask = new HistoryTaskTable();
                 task.setIdTask(result.getInt("id_task"));
                 task.setTitle(result.getString("title"));
                 task.setDescription(result.getString("description"));
@@ -202,18 +204,18 @@ public class AdminController implements Initializable {
         try {
             taskTable = FXCollections.observableArrayList();
 
-            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks INNER JOIN statuses ON tasks.status_id = statuses.id_status");
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks JOIN statuses ON tasks.status_id = statuses.id_status JOIN users ON tasks.user_id=users.id_user JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task");
 
             while (result.next()) {
                 TasksTable task = new TasksTable();
-
+                HistoryTaskTable historyTaskTable = new HistoryTaskTable();
                 task.setIdTask(result.getInt("id_task"));
                 task.setTitle(result.getString("title"));
                 task.setDescription(result.getString("description"));
+                task.setData(result.getDate("tasks_history.planned_end"));
                 task.setNameStatus(result.getString("name"));
-                task.setUserId(result.getInt("user_id"));
+                task.setNameUser(result.getString("users.name"));
                 taskTable.add(task);
-
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -221,8 +223,9 @@ public class AdminController implements Initializable {
         taskID.setCellValueFactory(new PropertyValueFactory<>("idTask"));
         taskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         taskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        taskPlannedDate.setCellValueFactory(new PropertyValueFactory<>("data"));
         taskStatus.setCellValueFactory(new PropertyValueFactory<>("nameStatus"));
-        taskEmployee.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        taskEmployee.setCellValueFactory(new PropertyValueFactory<>("nameUser"));
         taskTableView.setItems(taskTable);
     }
 
