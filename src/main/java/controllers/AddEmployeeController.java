@@ -44,6 +44,8 @@ public class AddEmployeeController {
     @FXML
     private TextField zipCodeField;
 
+    public static boolean bool;
+
     UsersTable addEmployee = new UsersTable();
     LoginTable loginTable = new LoginTable();
 
@@ -69,6 +71,7 @@ public class AddEmployeeController {
         } else if (source == addButton) {
             //Dodawanie pracownika
             addPerson();
+            bool = true;
 
             //Zamykanie okienka
             Stage stage = (Stage) addButton.getScene().getWindow();
@@ -120,6 +123,9 @@ public class AddEmployeeController {
             stringBuilder.append(CHARS.charAt(i));
         }
         return stringBuilder.toString();
+    }
+    public static boolean refBool(){
+        return bool;
     }
 
 }
