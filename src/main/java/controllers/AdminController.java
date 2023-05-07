@@ -5,9 +5,12 @@ import database.DatabaseConnector;
 import database.QExecutor;
 import database_classes.TasksTable;
 import database_classes.UsersTable;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,6 +24,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -124,6 +129,8 @@ public class AdminController implements Initializable {
     private TableColumn<?, ?> taskTitle;
     @FXML
     private TableView<TasksTable> taskTableView;
+
+    Timeline time;
 
     UsersTable usersTable = new UsersTable();
     private ObservableList<TasksTable> myTaskTable;
@@ -300,6 +307,20 @@ public class AdminController implements Initializable {
             stage.showAndWait();
         } else if (source == addEmployeeButton) {
             stage = new Stage();
+
+            time = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    if (AddEmployeeController.refBool()) {
+                        refresh();
+                        time.stop();
+                        AddEmployeeController.bool = false;
+                    }
+                }
+            }));
+            time.setCycleCount(Timeline.INDEFINITE);
+            time.play();
+
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/addEmployee.fxml")));
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -312,5 +333,9 @@ public class AdminController implements Initializable {
         }
     }
 
+    private void refresh() {
+        userTable.clear();
+        employee();
+    }
 
 }

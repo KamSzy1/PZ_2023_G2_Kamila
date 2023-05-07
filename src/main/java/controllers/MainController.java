@@ -13,11 +13,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import other.PasswordHash;
 import other.ValidateData;
+
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class    MainController {
+public class MainController {
 
     @FXML
     private Button backButton;
@@ -60,6 +61,7 @@ public class    MainController {
     String email;
     String password;
     String repeat_password;
+    String token;
     StageChanger stageChanger = new StageChanger();
     UsersTable usersTable = new UsersTable();
 
@@ -80,16 +82,27 @@ public class    MainController {
             gridToken.toFront();
         } else if (source == tokenButton) {
             //Sprawdzenie tokenu i przejście dalej - na razie na sztywno
-            if (tokenField.getText().equals("1234")) {
-                gridRegistration.toFront();
-            } else {
-                wrongTokenLabel.setText("Nieprawidłowy token");
+
+            try {
+                if (tokenField.getText().isEmpty()) {
+                    wrongTokenLabel.setText("Pusty token!");
+                } else {
+                    ResultSet result = QExecutor.executeSelect("SELECT * FROM login WHERE token ='" + tokenField.getText() + "'");
+                    result.next();
+                    if (result.getString("email") == null) {
+                        token = tokenField.getText();
+                        gridRegistration.toFront();
+                    } else {
+                        wrongTokenLabel.setText("Taki użytkownik już istnieje!");
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
+
         } else if (source == registrationButton) {
             // Rejestracja użytkownika
-    /* ! Jeszcze nie działa, bo nie mamy dodawania pracowników do bazy! Na razie jest to szkielet
-        Jak będzie dodawanie pracowników, to dokończę tę część !
-    */
+
             boolean everythingOk = false;
 
             //Pobranie wszystkich danych
@@ -108,7 +121,7 @@ public class    MainController {
 
             //Jeśli wszyskie dane są poprawne, to doda się do bazy danych wszystko
             if (everythingOk) {
-                registration(email, password);
+                registration(email, password, token);
                 stageChanger.changeScene("/main.fxml");
             } else {
                 wrongRegistration.setText("Coś poszło nie tak. Spróbuj później");
@@ -123,7 +136,7 @@ public class    MainController {
     }
 
     //Metoda do logowania
-     public void login(String email, String password) throws IOException {
+    public void login(String email, String password) throws IOException {
         String hashedPassword = PasswordHash.hashedPassword(passwordField.getText());
 
         DatabaseConnector.connect();
@@ -154,16 +167,17 @@ public class    MainController {
             throwables.printStackTrace();
         }
 
-}
+    }
 
     //Metoda do rejestrowania użytkowników
-    // SZKIELET
-    public void registration(String mail, String password) {
+
+    public void registration(String mail, String password, String token) {
+
         String hashedPassword = PasswordHash.hashedPassword(password);
-        String token = "1234";
+
 
         DatabaseConnector.connect();
-        QExecutor.executeQuery("insert into login (email, password) values ('" + mail + "','" + hashedPassword + "where token=" + token + "'");
+        QExecutor.executeQuery("UPDATE login set email = '" + mail + "', password = '" + hashedPassword + "' where token= '" + token + "'");
 
     }
 }
