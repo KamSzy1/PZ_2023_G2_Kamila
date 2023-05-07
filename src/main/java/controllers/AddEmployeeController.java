@@ -2,7 +2,7 @@ package controllers;
 
 import database.DatabaseConnector;
 import database.QExecutor;
-import database_classes.TasksTable;
+import database_classes.LoginTable;
 import database_classes.UsersTable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,7 +10,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.stage.Stage;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
@@ -41,12 +40,12 @@ public class AddEmployeeController {
     @FXML
     private TextField tokenField;
     @FXML
+    private TextField groupField;
+    @FXML
     private TextField zipCodeField;
 
-
-
-
-    UsersTable addEmplyee = new UsersTable();
+    UsersTable addEmployee = new UsersTable();
+    LoginTable loginTable = new LoginTable();
 
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
@@ -69,41 +68,46 @@ public class AddEmployeeController {
 
         } else if (source == addButton) {
             //Dodawanie pracownika
-            addEmplyee.setName(nameField.getText());
-            addEmplyee.setSurname(surnameField.getText());
-            addEmplyee.setAddress(addressField.getText());
-            addEmplyee.setZip(zipCodeField.getText());
-            addEmplyee.setPlace(placeField.getText());
-            addEmplyee.setPhoneNumber(Integer.parseInt(numberField.getText()));
-            addEmplyee.setPositionId(2);
-            addEmplyee.setGroups(Integer.parseInt(numberField.getText()));
-//              addEmplyee.setToken(tokenField.getText());
+            addPerson();
 
-            //Utwórzenie połączenia z bazą danych
-            DatabaseConnector.connect();
+            //Zamykanie okienka
+            Stage stage = (Stage) addButton.getScene().getWindow();
+            stage.close();
 
-            //Utwórz zapytanie SQL do wstawienia nowego rekordu
-            QExecutor.executeQuery("insert into users (name, surname, address, zip, place, phone_num, position_id, groups) values ('"
-                    + addEmplyee.getName() + "','"
-                    + addEmplyee.getSurname() + "','"
-                    + addEmplyee.getAddress() + "','"
-                    + addEmplyee.getZip() + "','"
-                    + addEmplyee.getPlace() + "','"
-                    + addEmplyee.getPhoneNumber() + "','"
-                    + addEmplyee.getPositionId() + "','"
-                    + addEmplyee.getGroups() + "')");
-//                        + addEmplyee.getToken() + "')");
         }
     }
+
+    //Dodawanie pracownika
     void addPerson() {
-        nameField.getText();
-        surnameField.getText();
-        addressField.getText();
-        zipCodeField.getText();
-        placeField.getText();
-        numberField.getText();
-        positionField.getText(); // prawdopodobnie poprawić bo to z listy się ma wybierać i getText() może poprawnie nie pobierać nazwy
-        tokenField.getText();
+        addEmployee.setName(nameField.getText());
+        addEmployee.setSurname(surnameField.getText());
+        addEmployee.setAddress(addressField.getText());
+        addEmployee.setZip(zipCodeField.getText());
+        addEmployee.setPlace(placeField.getText());
+        addEmployee.setPhoneNumber(Integer.parseInt(numberField.getText()));
+        addEmployee.setPositionId(2);
+        addEmployee.setToken(tokenField.getText());
+        addEmployee.setGroups(Integer.parseInt(groupField.getText()));
+
+        loginTable.setToken(tokenField.getText());
+
+        //Utwórzenie połączenia z bazą danych
+        DatabaseConnector.connect();
+
+        //Utwórz zapytanie SQL do wstawienia nowego rekordu
+        QExecutor.executeQuery("INSERT INTO users (name, surname, address, zip, place, phone_num, position_id, token, groups) VALUES ('"
+                + addEmployee.getName() + "','"
+                + addEmployee.getSurname() + "','"
+                + addEmployee.getAddress() + "','"
+                + addEmployee.getZip() + "','"
+                + addEmployee.getPlace() + "','"
+                + addEmployee.getPhoneNumber() + "','"
+                + addEmployee.getPositionId() + "','"
+                + addEmployee.getToken() + "','"
+                + addEmployee.getGroups() + "')");
+
+        QExecutor.executeQuery("INSERT INTO login (token) VALUES ('"
+                + loginTable.getToken() + "')");
     }
 
     //Generowanie tokenu

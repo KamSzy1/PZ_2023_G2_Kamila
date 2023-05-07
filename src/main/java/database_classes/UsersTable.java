@@ -34,6 +34,8 @@ public class UsersTable {
     private static String loginSurname;
     private String namePosition;
 
+    private String token;
+
     public String getNamePosition() {
         return namePosition;
     }
@@ -154,6 +156,13 @@ public class UsersTable {
         this.groups = groups;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public UsersTable(int idUser, String name, String surname, String address, String zip, String place, int phoneNumber, int positionId, int login, int groups){
         this.idUser = idUser;
