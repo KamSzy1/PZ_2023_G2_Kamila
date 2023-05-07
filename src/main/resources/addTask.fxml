@@ -41,9 +41,9 @@
             <Label text="Opis" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Osoba przypisana" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Label text="Data zakończenia" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <TextField fx:id="titleField" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <TextField fx:id="titleField" promptText="Tytuł" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <DatePicker fx:id="timePicker" prefHeight="25.0" prefWidth="253.0" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-            <TextArea fx:id="descriptionArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <TextArea fx:id="descriptionArea" prefHeight="200.0" prefWidth="200.0" promptText="Opis" GridPane.columnIndex="2" GridPane.rowIndex="3" />
             <ListView fx:id="personView" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="250.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
             <Button fx:id="cancelButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#buttonsHandler" prefHeight="31.0" prefWidth="109.0" style="-fx-background-color: #7a6fb9;" text="Anuluj" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="9">
                <font>
