@@ -24,12 +24,12 @@ CREATE TABLE users(
     place varchar(128) not null,
     phone_num int(9) not null UNIQUE,
     position_id int(11) REFERENCES positions.id_position,
-    token varchar(250) DEFAULT null,
+    token varchar(250) not null,
     groups int(11) not null
 );
 
 CREATE TABLE tasks_history(
-    id_task_history int(11) primary key not null auto_increment UNIQUE,
+    id_task_history int(11) primary key not null auto_increment,
     start_date DATE,
     end_date DATE,
     tasks_id int(11) UNIQUE REFERENCES tasks.id_task,
@@ -46,7 +46,7 @@ CREATE TABLE tasks(
     title VARCHAR(50) not null,
     description MEDIUMTEXT not null,
     status_id int(1) REFERENCES statuses.id_status,
-    user_id int(11) REFERENCES user.id_user
+    user_id int(11) REFERENCES users.id_user
 );
 
 ALTER TABLE tasks add CONSTRAINT user_id FOREIGN KEY (user_id) REFERENCES users(id_user);
