@@ -4,6 +4,8 @@ import database.DatabaseConnector;
 import database.QExecutor;
 import database_classes.LoginTable;
 import database_classes.UsersTable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -13,6 +15,8 @@ import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Random;
 
 public class AddEmployeeController {
@@ -34,7 +38,7 @@ public class AddEmployeeController {
     @FXML
     private TextField placeField;
     @FXML
-    private TextField positionField;
+    private ComboBox positionBox;
     @FXML
     private TextField surnameField;
     @FXML
@@ -44,6 +48,7 @@ public class AddEmployeeController {
     @FXML
     private TextField zipCodeField;
 
+    private ObservableList<String> positionName;
     public static boolean bool;
     UsersTable addEmployee = new UsersTable();
     LoginTable loginTable = new LoginTable();
@@ -71,6 +76,7 @@ public class AddEmployeeController {
             //Dodawanie pracownika
             addPerson();
             bool = true;
+            positionList();
 
             //Zamykanie okienka
             Stage stage = (Stage) addButton.getScene().getWindow();
@@ -86,7 +92,7 @@ public class AddEmployeeController {
         addEmployee.setZip(zipCodeField.getText());
         addEmployee.setPlace(placeField.getText());
         addEmployee.setPhoneNumber(Integer.parseInt(numberField.getText()));
-        addEmployee.setPositionId(2);
+        addEmployee.setPositionId((Integer) positionBox.getSelectionModel().getSelectedItem());
         addEmployee.setToken(tokenField.getText());
         addEmployee.setGroups(Integer.parseInt(groupField.getText()));
 
@@ -110,6 +116,22 @@ public class AddEmployeeController {
         QExecutor.executeQuery("INSERT INTO login (token) VALUES ('"
                 + loginTable.getToken() + "')");
     }
+    //wyświetlanie pozycji
+    public void positionList(){
+        DatabaseConnector.connect();
+        positionName = FXCollections.observableArrayList();
+        try {
+            ResultSet rs = QExecutor.executeSelect("SELECT * FROM  postions");
+            while (rs.next()) {
+                positionName.add(rs.getString(2));
+            }
+            }catch(SQLException throwables){
+                throwables.printStackTrace();
+            }
+            positionBox.setItems(positionName);
+            }
+
+
 
     //Generowanie tokenu
     public static String generateToken() {

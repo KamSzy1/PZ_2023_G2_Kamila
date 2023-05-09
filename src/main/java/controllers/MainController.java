@@ -15,6 +15,7 @@ import other.PasswordHash;
 import other.ValidateData;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -49,7 +50,7 @@ public class MainController {
     @FXML
     private Button regChangeButton;
     @FXML
-    private Label wrongLogin;
+    public Label wrongLogin;
     @FXML
     private Label wrongRegistration;
     @FXML
@@ -64,6 +65,9 @@ public class MainController {
     String token;
     StageChanger stageChanger = new StageChanger();
     UsersTable usersTable = new UsersTable();
+
+    public MainController(Connection connection) {
+    }
 
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
@@ -147,7 +151,7 @@ public class MainController {
     }
 
     //Metoda do logowania
-    public void login(String email, String password) throws IOException {
+    public UsersTable login(String email, String password) throws IOException {
         DatabaseConnector.connect();
 
         try {
@@ -173,6 +177,7 @@ public class MainController {
             throwables.printStackTrace();
         }
 
+        return null;
     }
 
     //Metoda do rejestrowania użytkowników
