@@ -133,7 +133,6 @@ public class AdminController implements Initializable {
     private TableView<TasksTable> taskTableView;
 
     Timeline time;
-
     UsersTable usersTable = new UsersTable();
     private ObservableList<TasksTable> myTaskTable;
     private ObservableList<TasksTable> taskTable;
@@ -186,7 +185,6 @@ public class AdminController implements Initializable {
                 task.setDescription(result.getString("description"));
                 task.setNameStatus(result.getString("name"));
                 myTaskTable.add(task);
-
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="600.0" maxWidth="1200.0" minHeight="600.0" minWidth="1200.0" prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EmployeeController">
    <children>
@@ -44,7 +57,7 @@
                   <Font name="Arial" size="20.0" />
                </font>
             </Button>
-            <Pane maxHeight="175.0" maxWidth="265.0" minHeight="175.0" minWidth="265.0" prefHeight="175.0" prefWidth="265.0" />
+            <Pane maxHeight="160.0" maxWidth="265.0" minHeight="135.0" minWidth="265.0" prefHeight="160.0" prefWidth="265.0" />
             <Button fx:id="logoutButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="60.0" maxWidth="265.0" minHeight="50.0" minWidth="60.0" mnemonicParsing="false" onAction="#buttonsHandlerStages" prefHeight="60.0" prefWidth="265.0" style="-fx-background-color: #554994;" text="Wyloguj" textFill="WHITE">
                <font>
                   <Font name="Arial" size="20.0" />
@@ -75,6 +88,40 @@
                </rowConstraints>
                <children>
                   <Label text="Raporty" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="gridMyTasks" maxHeight="507.0" maxWidth="920.0" minHeight="507.0" minWidth="920.0" prefHeight="507.0" prefWidth="920.0" style="-fx-background-color: #ffffff;">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="45.0" minHeight="35.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="463.0" minHeight="10.0" prefHeight="463.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <FontAwesomeIconView fill="#554994" glyphName="SEARCH" />
+                        <TextField maxHeight="25.0" maxWidth="325.0" minHeight="25.0" minWidth="315.0" prefHeight="25.0" prefWidth="325.0" />
+                        <ComboBox maxHeight="25.0" maxWidth="305.0" minHeight="25.0" minWidth="200.0" prefHeight="25.0" prefWidth="305.0" />
+                     </children>
+                  </HBox>
+                  <TableView fx:id="myTaskTableView" maxHeight="463.0" maxWidth="920.0" minHeight="463.0" minWidth="920.0" prefHeight="463.0" prefWidth="920.0" GridPane.rowIndex="1">
+                     <columns>
+                        <TableColumn fx:id="myTaskID" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="ID" />
+                        <TableColumn fx:id="myTaskTitle" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Tytuł" />
+                        <TableColumn fx:id="myTaskDescription" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Opis" />
+                        <TableColumn fx:id="myTaskPlannedDate" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Data wykonania" />
+                        <TableColumn fx:id="myTaskStatus" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Status" />
+                        <TableColumn fx:id="myTaskEdit" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Edycja" />
+                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="ID" />
+                        <TableColumn maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Tytuł" />
+                        <TableColumn maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Opis" />
+                        <TableColumn maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Data wykonania" />
+                        <TableColumn maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Status" />
+                        <TableColumn maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Edycja" />
+                     </columns>
+                  </TableView>
                </children>
             </GridPane>
             <GridPane fx:id="gridSettings" maxHeight="507.0" maxWidth="920.0" minHeight="507.0" minWidth="920.0" prefHeight="507.0" prefWidth="920.0" style="-fx-background-color: #ffffff;">
@@ -195,50 +242,6 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <Label fx:id="userInfoLabel1311" text="Kierownik" GridPane.columnIndex="1" GridPane.rowIndex="8">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="managerLabel" maxWidth="135.0" minWidth="135.0" prefWidth="135.0" text="                    " GridPane.columnIndex="2" GridPane.rowIndex="8">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-               </children>
-            </GridPane>
-            <GridPane fx:id="gridMyTasks" maxHeight="507.0" maxWidth="920.0" minHeight="507.0" minWidth="920.0" prefHeight="507.0" prefWidth="920.0" style="-fx-background-color: #ffffff;">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="45.0" minHeight="35.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="463.0" minHeight="10.0" prefHeight="463.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-                     <children>
-                        <FontAwesomeIconView fill="#554994" glyphName="SEARCH" />
-                        <TextField maxHeight="25.0" maxWidth="325.0" minHeight="25.0" minWidth="315.0" prefHeight="25.0" prefWidth="325.0" />
-                        <ComboBox maxHeight="25.0" maxWidth="305.0" minHeight="25.0" minWidth="200.0" prefHeight="25.0" prefWidth="305.0" />
-                     </children>
-                  </HBox>
-                  <TableView fx:id="myTaskTableView" maxHeight="463.0" maxWidth="920.0" minHeight="463.0" minWidth="920.0" prefHeight="463.0" prefWidth="920.0" GridPane.rowIndex="1">
-                     <columns>
-                        <TableColumn fx:id="myTaskID" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="ID" />
-                        <TableColumn fx:id="myTaskTitle" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Tytuł" />
-                        <TableColumn fx:id="myTaskDescription" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Opis" />
-                        <TableColumn fx:id="myTaskPlannedDate" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Data wykonania" />
-                        <TableColumn fx:id="myTaskStatus" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Status" />
-                        <TableColumn fx:id="myTaskEdit" maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Edycja" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="ID" />
-                        <TableColumn maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Tytuł" />
-                        <TableColumn maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Opis" />
-                        <TableColumn maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Data wykonania" />
-                        <TableColumn maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Status" />
-                        <TableColumn maxWidth="164.0" minWidth="164.0" prefWidth="164.0" text="Edycja" />
-                     </columns>
-                  </TableView>
                </children>
             </GridPane>
          </children>

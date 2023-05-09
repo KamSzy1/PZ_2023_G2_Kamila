@@ -31,6 +31,7 @@ public class AddTaskController {
     private Button cancelButton;
     @FXML
     private Button addButton;
+
     private ListView<String> list;
     TasksTable tasksTable = new TasksTable();
     HistoryTaskTable historyTaskTable = new HistoryTaskTable();
@@ -38,7 +39,6 @@ public class AddTaskController {
     LocalDate currentDate = LocalDate.now();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     String formattedDate = currentDate.format(formatter);
-
 
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();

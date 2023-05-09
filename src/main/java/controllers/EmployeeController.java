@@ -66,8 +66,6 @@ public class EmployeeController {
     @FXML
     private Label groupLabel;
     @FXML
-    private Label managerLabel;
-    @FXML
     private TableColumn<?, ?> myTaskDescription;
     @FXML
     private TableColumn<?, ?> myTaskEdit;
@@ -81,7 +79,6 @@ public class EmployeeController {
     private TableColumn<?, ?> myTaskTitle;
     @FXML
     private TableView<TasksTable> myTaskTableView;
-    UsersTable usersTable = new UsersTable();
 
     @FXML
     private void initialize() {
@@ -90,6 +87,7 @@ public class EmployeeController {
         task();
     }
 
+    UsersTable usersTable = new UsersTable();
     private ObservableList<TasksTable> taskTable;
 
     //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
@@ -109,7 +107,6 @@ public class EmployeeController {
         if (source == myTasksButton) {
             gridMyTasks.toFront();
             textLabel.setText("Moje zadania");
-
         } else if (source == reportButton) {
             gridReport.toFront();
             textLabel.setText("Generowanie raportów");
@@ -151,7 +148,6 @@ public class EmployeeController {
         DatabaseConnector.connect();
         try {
             taskTable = FXCollections.observableArrayList();
-
             ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks INNER JOIN statuses ON tasks.status_id = statuses.id_status WHERE user_id = " + usersTable.getLoginIdUser());
 
             while (result.next()) {
@@ -162,7 +158,6 @@ public class EmployeeController {
                 task.setDescription(result.getString("description"));
                 task.setNameStatus(result.getString("name"));
                 taskTable.add(task);
-
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -178,8 +173,8 @@ public class EmployeeController {
     //To jest do obsługi wszystkich buttonów, które zmieniają cały panel (Stage) i PopupWindow
     public void buttonsHandlerStages(ActionEvent event) throws IOException {
         Object source = event.getSource();
-        Stage stage;
-        Parent root;
+        Stage stage; //Wiem, że nie używamy tych dwóch zmiennych na razie,
+        Parent root; //ale jak się doda edycje maila i hasła, to nam będą potrzebne
         StageChanger stageChanger = new StageChanger();
 
         if (source == logoutButton) {
