@@ -1,6 +1,7 @@
 package other;
 
 import org.apache.commons.validator.routines.EmailValidator;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,7 +10,7 @@ public class ValidateData {
     //Nie pytajcie co to robi, uwierzcie w Jasną Stronę Javy
     private static String regex_zipCode = "^[0-9]{2}(?:-[0-9]{3})?$"; //98-145
     private final static String regex_number = "^[0-9]{9}$"; //123 123 123
-    private final static String regex_address = "^\\S.*$"; //ul. Strażakca 9/10
+    private final static String regex_address = "^\\S.*$"; //ul. Strażacka 9/10
     private final static String regex_place = "^[\\p{L}\\p{M}]+([ -][\\p{L}\\p{M}]+)?$"; //Rzeszów // Nowa Sarzyna // Bielsko-Biała
     // Zapasowy regex, jakby coś się zepsuło
     // ^(?!\d)[\p{L}\p{M}]+(?:[-\s][\p{L}\p{M}]+)*$
@@ -113,6 +114,5 @@ public class ValidateData {
             throw new Exception("Błędny kod pocztowy");
         }
     }
-
 
 }
