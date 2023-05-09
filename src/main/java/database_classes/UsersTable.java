@@ -33,7 +33,6 @@ public class UsersTable {
     private static String loginName;
     private static String loginSurname;
     private String namePosition;
-
     private String token;
 
     public String getNamePosition() {

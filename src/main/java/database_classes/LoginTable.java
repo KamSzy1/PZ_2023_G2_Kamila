@@ -1,17 +1,17 @@
 package database_classes;
 
 public class LoginTable {
-    private int id_login;
+    private int idLogin;
     private String token;
     private String email;
     private String password;
 
-    public int getId_login() {
-        return id_login;
+    public int getIdLogin() {
+        return idLogin;
     }
 
-    public void setId_login(int id_login) {
-        this.id_login = id_login;
+    public void setIdLogin(int idLogin) {
+        this.idLogin = idLogin;
     }
 
     public String getToken() {

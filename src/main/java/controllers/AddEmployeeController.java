@@ -45,7 +45,6 @@ public class AddEmployeeController {
     private TextField zipCodeField;
 
     public static boolean bool;
-
     UsersTable addEmployee = new UsersTable();
     LoginTable loginTable = new LoginTable();
 
@@ -76,7 +75,6 @@ public class AddEmployeeController {
             //Zamykanie okienka
             Stage stage = (Stage) addButton.getScene().getWindow();
             stage.close();
-
         }
     }
 
