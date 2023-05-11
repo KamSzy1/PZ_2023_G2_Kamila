@@ -1,4 +1,4 @@
-package controllers;
+package controllers_popup;
 
 import database.DatabaseConnector;
 import database.QExecutor;
@@ -14,10 +14,8 @@ import javafx.scene.control.TextField;
 import other.ValidateData;
 
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
-import java.util.jar.Attributes;
 
 public class AddEmployeeController {
 
@@ -47,6 +45,8 @@ public class AddEmployeeController {
     private TextField groupField;
     @FXML
     private TextField zipCodeField;
+    @FXML
+    private Label wrongLabel;
 
     public static boolean bool;
     UsersTable addEmployee = new UsersTable();
@@ -90,8 +90,8 @@ public class AddEmployeeController {
         String zipCode = zipCodeField.getText();
         String place = placeField.getText();
         String number = numberField.getText();
-
-        boolean isEverythingOk = false;
+        String token = tokenField.getText();
+        String group = groupField.getText();
 
         try {
             ValidateData.goodName(name);
@@ -100,13 +100,8 @@ public class AddEmployeeController {
             ValidateData.goodZipCode(zipCode);
             ValidateData.goodPlace(place);
             ValidateData.goodPhoneNumber(number);
-            isEverythingOk = true;
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        if (isEverythingOk) {
+            ValidateData.goodToken(token);
+            ValidateData.goodGroup(group);
 
             addEmployee.setSurname(surname);
             addEmployee.setAddress(address);
@@ -114,8 +109,8 @@ public class AddEmployeeController {
             addEmployee.setPlace(place);
             addEmployee.setPhoneNumber(Integer.parseInt(number));
             addEmployee.setPositionId(2);
-            addEmployee.setToken(tokenField.getText());
-            addEmployee.setGroups(Integer.parseInt(groupField.getText()));
+            addEmployee.setToken(token);
+            addEmployee.setGroups(Integer.parseInt(group));
 
             loginTable.setToken(tokenField.getText());
 
@@ -136,9 +131,11 @@ public class AddEmployeeController {
 
             QExecutor.executeQuery("INSERT INTO login (token) VALUES ('"
                     + loginTable.getToken() + "')");
-
+        } catch (SQLException e){
+            e.printStackTrace();
+        } catch (Exception e) {
+            wrongLabel.setText(e.getMessage());
         }
-
     }
 
     //Generowanie tokenu

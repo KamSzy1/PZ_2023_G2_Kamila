@@ -1,4 +1,4 @@
-package controllers;
+package controllers_popup;
 
         import database.DatabaseConnector;
         import database.QExecutor;
@@ -15,7 +15,6 @@ package controllers;
         import java.sql.ResultSet;
         import java.sql.SQLException;
         import java.time.LocalDate;
-        import java.time.ZoneId;
         import java.time.format.DateTimeFormatter;
 
 public class AddTaskController {
@@ -40,6 +39,19 @@ public class AddTaskController {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     String formattedDate = currentDate.format(formatter);
 
+    @FXML
+    public void initialize() {
+        userList();
+        timePicker.setDayCellFactory(picker -> new DateCell() {
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate today = LocalDate.now();
+
+                setDisable(empty || date.compareTo(today) < 0 );
+            }
+        });
+    }
+
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
 
@@ -63,23 +75,29 @@ public class AddTaskController {
         tasksTable.setStatusId(2);
         tasksTable.setUserId(Integer.parseInt(personView.getSelectionModel().getSelectedItem()));
         System.out.println(timePicker);
-        DatabaseConnector.connect();
-        QExecutor.executeQuery("insert into tasks (title, description, status_id, user_id) values ('"
-                + tasksTable.getTitle() + "','"
-                + tasksTable.getDescription() + "','"
-                + tasksTable.getStatusId() + "','"
-                + tasksTable.getUserId() + "')");
 
-        QExecutor.executeQuery("insert into tasks_history (planned_end, start_date, tasks_id) values ('"
-                + historyTaskTable.getPlannedEnd() + "','"
-                + historyTaskTable.getStartDate() + "',"
-                + "(SELECT MAX(id_task) FROM tasks))");
+        try {
+            DatabaseConnector.connect();
+            QExecutor.executeQuery("insert into tasks (title, description, status_id, user_id) values ('"
+                    + tasksTable.getTitle() + "','"
+                    + tasksTable.getDescription() + "','"
+                    + tasksTable.getStatusId() + "','"
+                    + tasksTable.getUserId() + "')");
+
+            QExecutor.executeQuery("insert into tasks_history (planned_end, start_date, tasks_id) values ('"
+                    + historyTaskTable.getPlannedEnd() + "','"
+                    + historyTaskTable.getStartDate() + "',"
+                    + "(SELECT MAX(id_task) FROM tasks))");
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
     }
 
     public void userList() {
-        DatabaseConnector.connect();
-        names = FXCollections.observableArrayList();
         try {
+            DatabaseConnector.connect();
+            names = FXCollections.observableArrayList();
             ResultSet rs = QExecutor.executeSelect("SELECT * FROM users");
             while (rs.next()) {
                 names.add(rs.getString(2));
@@ -88,18 +106,6 @@ public class AddTaskController {
             throwables.printStackTrace();
         }
         personView.setItems(names);
-    }
-
-    public void initialize() {
-        userList();
-        timePicker.setDayCellFactory(picker -> new DateCell() {
-            public void updateItem(LocalDate date, boolean empty) {
-                super.updateItem(date, empty);
-                LocalDate today = LocalDate.now();
-
-                setDisable(empty || date.compareTo(today) < 0 );
-            }
-        });
     }
 
 }

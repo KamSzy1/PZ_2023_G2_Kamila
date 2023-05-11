@@ -1,6 +1,5 @@
 package controllers;
 
-import com.example.system.Main;
 import com.example.system.StageChanger;
 import database.DatabaseConnector;
 import database.QExecutor;
@@ -82,7 +81,7 @@ public class EmployeeController {
 
     @FXML
     private void initialize() {
-        welcomeLabel.setText("Witaj " + usersTable.getLoginName() + " " + usersTable.getLoginSurname() + "!");
+        welcomeLabel.setText("Witaj " + UsersTable.getLoginName() + " " + UsersTable.getLoginSurname() + "!");
         gridMyTasks.toFront();
         task();
     }
@@ -93,16 +92,6 @@ public class EmployeeController {
     //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
     public void buttonsHandlerPane(ActionEvent event) throws IOException {
         Object source = event.getSource();
-        /*DatabaseConnector.connect();
-
-        try{
-            ResultSet result = QExecutor.executeSelect("SELECT * FROM users WHERE id_user =" + MainController.id_user);
-            result.next();
-            System.out.println(result.getString("name"));
-            //welcomeLabel.setText("Witaj" + result.getString("name") + " " + result.getString("surname"));
-        } catch(SQLException throwables) {
-            throwables.printStackTrace();
-        }*/
 
         if (source == myTasksButton) {
             gridMyTasks.toFront();
@@ -117,9 +106,36 @@ public class EmployeeController {
         }
     }
 
+    //To jest do obsługi wszystkich buttonów, które zmieniają cały panel (Stage) i PopupWindow
+    public void buttonsHandlerStages(ActionEvent event) throws IOException {
+        Object source = event.getSource();
+        Stage stage; //Wiem, że nie używamy tych dwóch zmiennych na razie,
+        Parent root; //ale jak się doda edycje maila i hasła, to nam będą potrzebne
+        StageChanger stageChanger = new StageChanger();
+
+        if (source == logoutButton) {
+            stageChanger.changeSize(915, 630);
+            stageChanger.changeScene("/main.fxml");
+        } else if (source == mailEditButton) {
+            stage = new Stage();
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/editEmailInSettings.fxml")));
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(mailEditButton.getScene().getWindow());
+            stage.showAndWait();
+        } else if (source == passwordEditButton) {
+            stage = new Stage();
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/editPasswordInSettings.fxml")));
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(passwordEditButton.getScene().getWindow());
+            stage.showAndWait();
+        }
+    }
+
     public void data() {
-        DatabaseConnector.connect();
         try {
+            DatabaseConnector.connect();
             ResultSet rs = QExecutor.executeSelect("SELECT * FROM users where id_user=" + UsersTable.getLoginIdUser());
             while (rs.next()) {
                 UsersTable user = new UsersTable();
@@ -138,15 +154,15 @@ public class EmployeeController {
                 phoneLabel.setText(String.valueOf(user.getPhoneNumber()));
                 groupLabel.setText(String.valueOf(user.getGroups()));
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     //Wyświetlanie "Moich Zadań"
     public void task() {
-        DatabaseConnector.connect();
         try {
+            DatabaseConnector.connect();
             taskTable = FXCollections.observableArrayList();
             ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks INNER JOIN statuses ON tasks.status_id = statuses.id_status WHERE user_id = " + usersTable.getLoginIdUser());
 
@@ -167,25 +183,5 @@ public class EmployeeController {
         myTaskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         myTaskStatus.setCellValueFactory(new PropertyValueFactory<>("nameStatus"));
         myTaskTableView.setItems(taskTable);
-
     }
-
-    //To jest do obsługi wszystkich buttonów, które zmieniają cały panel (Stage) i PopupWindow
-    public void buttonsHandlerStages(ActionEvent event) throws IOException {
-        Object source = event.getSource();
-        Stage stage; //Wiem, że nie używamy tych dwóch zmiennych na razie,
-        Parent root; //ale jak się doda edycje maila i hasła, to nam będą potrzebne
-        StageChanger stageChanger = new StageChanger();
-
-        if (source == logoutButton) {
-            stageChanger.changeSize(915, 630);
-            stageChanger.changeScene("/main.fxml");
-        } else if (source == mailEditButton) {
-            System.out.println("A");
-        } else if (source == passwordEditButton) {
-            System.out.println("B");
-        }
-    }
-
-
 }

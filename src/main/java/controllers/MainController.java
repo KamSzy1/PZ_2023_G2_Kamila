@@ -58,15 +58,13 @@ public class MainController {
     private Label logRegLabel;
 
     public static int id_user;
-    String email;
-    String password;
-    String repeat_password;
-    String token;
-    StageChanger stageChanger = new StageChanger();
-    UsersTable usersTable = new UsersTable();
+    private String token;
+    private final StageChanger stageChanger = new StageChanger();
 
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
+        String password;
+        String email;
 
         if (source == loginButton) {
             //Logowanie
@@ -107,30 +105,21 @@ public class MainController {
 
         } else if (source == registrationButton) {
             // Rejestracja użytkownika
-
-            boolean isEverythingOk = false;
-
-            //Pobranie wszystkich danych
             email = regEmailField.getText();
             password = regPasswordField.getText();
-            repeat_password = regRepeatPasswordField.getText();
+            String repeat_password = regRepeatPasswordField.getText();
 
             //Te metody znajdują się w klasie ValidateData w package "other"
             try {
                 ValidateData.goodEmail(email);
                 ValidateData.samePassword(password, repeat_password);
-                isEverythingOk = true;
+
+                registration(email, password, token);
+                stageChanger.changeScene("/main.fxml");
             } catch (Exception e) {
                 wrongRegistration.setText(e.getMessage());
             }
 
-            //Jeśli wszyskie dane są poprawne, to doda się do bazy danych wszystko
-            if (isEverythingOk) {
-                registration(email, password, token);
-                stageChanger.changeScene("/main.fxml");
-            } else {
-                wrongRegistration.setText("Coś poszło nie tak. Spróbuj później");
-            }
         } else if (source == backButton) {
             //Powrót z rejestracji do loginu
             emailField.clear();
@@ -148,15 +137,14 @@ public class MainController {
 
     //Metoda do logowania
     public void login(String email, String password) throws IOException {
-        DatabaseConnector.connect();
-
         try {
+            DatabaseConnector.connect();
             String hashedPassword = PasswordHash.hashedPassword(password);
             ResultSet result = QExecutor.executeSelect("SELECT * FROM users inner join login ON login.token = users.token WHERE email = '" + email + "' and password = '" + hashedPassword + "'");
             result.next();
-            usersTable.setLoginName(result.getString("name"));
-            usersTable.setLoginSurname(result.getString("surname"));
-            usersTable.setLoginIdUser(result.getInt("id_user"));
+            UsersTable.setLoginName(result.getString("name"));
+            UsersTable.setLoginSurname(result.getString("surname"));
+            UsersTable.setLoginIdUser(result.getInt("id_user"));
             if (result.getInt("position_id") == 1) {
                 stageChanger.changeScene("/admin.fxml");
                 stageChanger.changeSize(1215, 630);
@@ -177,11 +165,14 @@ public class MainController {
 
     //Metoda do rejestrowania użytkowników
     public void registration(String mail, String password, String token) {
-
         String hashedPassword = PasswordHash.hashedPassword(password);
 
-        DatabaseConnector.connect();
-        QExecutor.executeQuery("UPDATE login set email = '" + mail + "', password = '" + hashedPassword + "' where token= '" + token + "'");
+        try {
+            DatabaseConnector.connect();
+            QExecutor.executeQuery("UPDATE login set email = '" + mail + "', password = '" + hashedPassword + "' where token= '" + token + "'");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 }
