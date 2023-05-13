@@ -1,7 +1,6 @@
 package other;
 
 import org.apache.commons.validator.routines.EmailValidator;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,9 +13,10 @@ public class ValidateData {
     private final static String regex_place = "^[\\p{L}\\p{M}]+([ -][\\p{L}\\p{M}]+)?$"; //Rzeszów // Nowa Sarzyna // Bielsko-Biała
     // Zapasowy regex, jakby coś się zepsuło
     // ^(?!\d)[\p{L}\p{M}]+(?:[-\s][\p{L}\p{M}]+)*$
-    private final static String regex_name = "^[\\p{L}]+$"; //
+    private final static String regex_name = "^[\\p{L}]+$"; //Nie pozwala na spację przed imieniem i nazwiskiem
     //Zapasowy regex
     //[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+
+    private final static String number = "-?\\d+(\\.\\d+)?"; //0-9
 
     //Sprawdzenie czy imię jest takie jak powinno -> tzn. żeby ktoś Kasia2000 nie wpisał
     public static void goodName(String name) throws Exception {
@@ -115,4 +115,23 @@ public class ValidateData {
         }
     }
 
+    //Sprawdzenie czy token jest wygenerowany
+    public static void goodToken(String token) throws Exception {
+        if (token.equals("") || token.isBlank() || token.equals(" ")) {
+            throw new Exception("Wygeneruj token");
+        }
+    }
+
+    //Sprawdzenie czy grupa jest numeryczna
+    public static void goodGroup(String strNum) throws Exception {
+        if (strNum == null) {
+            throw new Exception("Wpisz numer grupy");
+        } else {
+            Pattern pattern_number = Pattern.compile(number);
+            Matcher number = pattern_number.matcher(strNum);
+            if (!number.matches()) {
+                throw new Exception("Numer grupy musi być liczbą");
+            }
+        }
+    }
 }
