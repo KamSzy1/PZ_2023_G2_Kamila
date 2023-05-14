@@ -26,6 +26,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -88,7 +89,7 @@ public class AdminController {
     @FXML
     private TableColumn<?, ?> employeeGroup;
     @FXML
-    private TableColumn<?, ?> employeeEdit;
+    private TableColumn<?, ?> employeeID;
     @FXML
     private TableColumn<?, ?> employeeMail;
     @FXML
@@ -104,6 +105,8 @@ public class AdminController {
     @FXML
     private TableColumn<?, ?> myTaskEdit;
     @FXML
+    private TableColumn<?, ?> myTaskID;
+    @FXML
     private TableColumn<?, ?> myTaskPlannedDate;
     @FXML
     private TableColumn<?, ?> myTaskStatus;
@@ -117,6 +120,8 @@ public class AdminController {
     private TableColumn<?, ?> taskEdit;
     @FXML
     private TableColumn<?, ?> taskEmployee;
+    @FXML
+    private TableColumn<?, ?> taskID;
     @FXML
     private TableColumn<?, ?> taskPlannedDate;
     @FXML
@@ -133,9 +138,9 @@ public class AdminController {
 
     @FXML
     public void initialize() {
-        myTask();
         welcomeLabel.setText("Witaj " + UsersTable.getLoginName() + " " + UsersTable.getLoginSurname() + "!");
         gridMyTasks.toFront();
+        myTask();
     }
 
     //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
@@ -250,13 +255,15 @@ public class AdminController {
             myTaskTable = FXCollections.observableArrayList();
 
             ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks " +
-                                                                "INNER JOIN statuses ON tasks.status_id = statuses.id_status " +
-                                                                "WHERE user_id = " + UsersTable.getLoginIdUser());
+                    "JOIN statuses ON tasks.status_id = statuses.id_status " +
+                    "JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task " +
+                    "WHERE user_id = " + UsersTable.getLoginIdUser());
             System.out.println(UsersTable.getLoginIdUser());
             while (result.next()) {
                 TasksTable task = new TasksTable();
                 HistoryTaskTable htask = new HistoryTaskTable();
                 task.setTitle(result.getString("title"));
+                task.setData(result.getDate("planned_end"));
                 task.setDescription(result.getString("description"));
                 task.setNameStatus(result.getString("name"));
                 myTaskTable.add(task);
@@ -265,6 +272,7 @@ public class AdminController {
             e.printStackTrace();
         }
         myTaskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        myTaskPlannedDate.setCellValueFactory(new PropertyValueFactory<>("data"));
         myTaskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         myTaskStatus.setCellValueFactory(new PropertyValueFactory<>("nameStatus"));
         myTaskTableView.setItems(myTaskTable);
@@ -277,13 +285,14 @@ public class AdminController {
             taskTable = FXCollections.observableArrayList();
 
             ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks " +
-                                "JOIN statuses ON tasks.status_id = statuses.id_status " +
-                                "JOIN users ON tasks.user_id=users.id_user " +
-                                "JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task");
+                    "JOIN statuses ON tasks.status_id = statuses.id_status " +
+                    "JOIN users ON tasks.user_id=users.id_user " +
+                    "JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task");
 
             while (result.next()) {
                 TasksTable task = new TasksTable();
                 HistoryTaskTable historyTaskTable = new HistoryTaskTable();
+                task.setIdTask(result.getInt("id_task"));
                 task.setTitle(result.getString("title"));
                 task.setDescription(result.getString("description"));
                 task.setData(result.getDate("tasks_history.planned_end"));
@@ -309,8 +318,8 @@ public class AdminController {
             userTable = FXCollections.observableArrayList();
 
             ResultSet result = QExecutor.executeSelect("SELECT * FROM users " +
-                                                                "JOIN positions ON users.position_id = positions.id_position " +
-                                                                "JOIN login ON users.token=login.token;");
+                    "JOIN positions ON users.position_id = positions.id_position " +
+                    "JOIN login ON users.token=login.token;");
 
             while (result.next()) {
                 UsersTable user = new UsersTable();
@@ -342,5 +351,4 @@ public class AdminController {
         userTable.clear();
         employee();
     }
-
 }

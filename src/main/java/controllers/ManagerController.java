@@ -54,7 +54,7 @@ public class ManagerController {
     @FXML
     private TableColumn<?, ?> employeeGroup;
     @FXML
-    private TableColumn<?, ?> employeeEdit;
+    private TableColumn<?, ?> employeeID;
     @FXML
     private TableColumn<?, ?> employeeMail;
     @FXML
@@ -196,22 +196,26 @@ public class ManagerController {
             DatabaseConnector.connect();
             myTaskTable = FXCollections.observableArrayList();
 
-            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks INNER JOIN statuses ON tasks.status_id = statuses.id_status " +
-                                                                    "WHERE user_id = " + UsersTable.getLoginIdUser());
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks " +
+                                                                "JOIN statuses ON tasks.status_id = statuses.id_status " +
+                                                                "JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task " +
+                                                                "WHERE user_id = " + UsersTable.getLoginIdUser());
             System.out.println(UsersTable.getLoginIdUser());
             while (result.next()) {
                 TasksTable task = new TasksTable();
-
+                HistoryTaskTable htask = new HistoryTaskTable();
                 task.setTitle(result.getString("title"));
+                task.setData(result.getDate("planned_end"));
                 task.setDescription(result.getString("description"));
                 task.setNameStatus(result.getString("name"));
                 myTaskTable.add(task);
-
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
         myTaskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        myTaskPlannedDate.setCellValueFactory(new PropertyValueFactory<>("data"));
         myTaskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         myTaskStatus.setCellValueFactory(new PropertyValueFactory<>("nameStatus"));
         myTaskTableView.setItems(myTaskTable);

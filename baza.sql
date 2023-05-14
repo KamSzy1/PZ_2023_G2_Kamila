@@ -24,7 +24,7 @@ CREATE TABLE users(
     place varchar(128) not null,
     phone_num int(9) not null UNIQUE,
     position_id int(11) REFERENCES positions.id_position,
-    token varchar(250) not null,
+    token varchar(250) not null UNIQUE,
     groups int(11) not null
 );
 
