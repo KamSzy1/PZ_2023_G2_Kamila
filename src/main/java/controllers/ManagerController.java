@@ -119,6 +119,7 @@ public class ManagerController {
     private TableColumn<TasksTable, Integer> taskStatus;
     @FXML
     private TableColumn<TasksTable, String> taskTitle;
+
     private ObservableList<TasksTable> myTaskTable;
     private ObservableList<TasksTable> taskTable;
     private ObservableList<UsersTable> userTable;

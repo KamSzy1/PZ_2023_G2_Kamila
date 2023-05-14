@@ -80,14 +80,14 @@ public class EmployeeController {
     @FXML
     private TableView<TasksTable> myTaskTableView;
 
+    private ObservableList<TasksTable> myTaskTable;
+
     @FXML
     private void initialize() {
         welcomeLabel.setText("Witaj " + UsersTable.getLoginName() + " " + UsersTable.getLoginSurname() + "!");
         gridMyTasks.toFront();
         myTask();
     }
-
-    private ObservableList<TasksTable> taskTable;
 
     //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
     public void buttonsHandlerPane(ActionEvent event) throws IOException {
@@ -183,7 +183,6 @@ public class EmployeeController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        myTaskID.setCellValueFactory(new PropertyValueFactory<>("idTask"));
         myTaskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         myTaskPlannedDate.setCellValueFactory(new PropertyValueFactory<>("data"));
         myTaskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));

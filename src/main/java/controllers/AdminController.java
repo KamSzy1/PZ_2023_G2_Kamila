@@ -89,8 +89,6 @@ public class AdminController {
     @FXML
     private TableColumn<?, ?> employeeGroup;
     @FXML
-    private TableColumn<?, ?> employeeID;
-    @FXML
     private TableColumn<?, ?> employeeMail;
     @FXML
     private TableColumn<?, ?> employeeName;
@@ -105,8 +103,6 @@ public class AdminController {
     @FXML
     private TableColumn<?, ?> myTaskEdit;
     @FXML
-    private TableColumn<?, ?> myTaskID;
-    @FXML
     private TableColumn<?, ?> myTaskPlannedDate;
     @FXML
     private TableColumn<?, ?> myTaskStatus;
@@ -120,8 +116,6 @@ public class AdminController {
     private TableColumn<?, ?> taskEdit;
     @FXML
     private TableColumn<?, ?> taskEmployee;
-    @FXML
-    private TableColumn<?, ?> taskID;
     @FXML
     private TableColumn<?, ?> taskPlannedDate;
     @FXML
@@ -292,7 +286,6 @@ public class AdminController {
             while (result.next()) {
                 TasksTable task = new TasksTable();
                 HistoryTaskTable historyTaskTable = new HistoryTaskTable();
-                task.setIdTask(result.getInt("id_task"));
                 task.setTitle(result.getString("title"));
                 task.setDescription(result.getString("description"));
                 task.setData(result.getDate("tasks_history.planned_end"));
