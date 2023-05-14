@@ -86,7 +86,6 @@ public class EmployeeController {
         task();
     }
 
-    UsersTable usersTable = new UsersTable();
     private ObservableList<TasksTable> taskTable;
 
     //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
@@ -164,21 +163,19 @@ public class EmployeeController {
         try {
             DatabaseConnector.connect();
             taskTable = FXCollections.observableArrayList();
-            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks INNER JOIN statuses ON tasks.status_id = statuses.id_status WHERE user_id = " + usersTable.getLoginIdUser());
-
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks INNER JOIN statuses ON tasks.status_id = statuses.id_status " +
+                                                                    "WHERE user_id = " + UsersTable.getLoginIdUser());
             while (result.next()) {
                 TasksTable task = new TasksTable();
 
-                task.setIdTask(result.getInt("id_task"));
                 task.setTitle(result.getString("title"));
                 task.setDescription(result.getString("description"));
                 task.setNameStatus(result.getString("name"));
                 taskTable.add(task);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        myTaskID.setCellValueFactory(new PropertyValueFactory<>("idTask"));
         myTaskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         myTaskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         myTaskStatus.setCellValueFactory(new PropertyValueFactory<>("nameStatus"));

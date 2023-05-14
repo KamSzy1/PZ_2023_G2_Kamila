@@ -25,6 +25,8 @@ public class AddTaskController {
     @FXML
     private ListView<String> personView;
     @FXML
+    private ListView<String> statusView;
+    @FXML
     private TextArea descriptionArea;
     @FXML
     private Button cancelButton;
@@ -73,7 +75,7 @@ public class AddTaskController {
         historyTaskTable.setPlannedEnd(Date.valueOf(date));
         historyTaskTable.setStartDate(Date.valueOf(formattedDate));
         tasksTable.setStatusId(2);
-        tasksTable.setUserId(Integer.parseInt(personView.getSelectionModel().getSelectedItem()));
+        tasksTable.setUserId(personView.getSelectionModel().getSelectedIndex());
         System.out.println(timePicker);
 
         try {
@@ -98,12 +100,13 @@ public class AddTaskController {
         try {
             DatabaseConnector.connect();
             names = FXCollections.observableArrayList();
+            names.add("Wybierz osobę");
             ResultSet rs = QExecutor.executeSelect("SELECT * FROM users");
             while (rs.next()) {
                 names.add(rs.getString(2));
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         personView.setItems(names);
     }
