@@ -25,6 +25,8 @@ public class AddTaskController {
     @FXML
     private ListView<String> personView;
     @FXML
+    private ListView<String> statusView;
+    @FXML
     private TextArea descriptionArea;
     @FXML
     private Button cancelButton;
@@ -103,8 +105,8 @@ public class AddTaskController {
             while (rs.next()) {
                 names.add(rs.getString(2));
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         personView.setItems(names);
     }

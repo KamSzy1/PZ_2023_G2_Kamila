@@ -98,8 +98,6 @@ public class ManagerController {
     @FXML
     private TableColumn<?, ?> myTaskEdit;
     @FXML
-    private TableColumn<TasksTable, Integer> myTaskID;
-    @FXML
     private TableColumn<?, ?> myTaskPlannedDate;
     @FXML
     private TableColumn<?, ?> myTaskStatus;
@@ -116,13 +114,12 @@ public class ManagerController {
     @FXML
     private TableColumn<TasksTable, Integer> taskEmployee;
     @FXML
-    private TableColumn<TasksTable, Integer> taskID;
-    @FXML
     private TableColumn<TasksTable, ?> taskPlannedDate;
     @FXML
     private TableColumn<TasksTable, Integer> taskStatus;
     @FXML
     private TableColumn<TasksTable, String> taskTitle;
+
     private ObservableList<TasksTable> myTaskTable;
     private ObservableList<TasksTable> taskTable;
     private ObservableList<UsersTable> userTable;
@@ -208,7 +205,6 @@ public class ManagerController {
             while (result.next()) {
                 TasksTable task = new TasksTable();
                 HistoryTaskTable htask = new HistoryTaskTable();
-                task.setIdTask(result.getInt("id_task"));
                 task.setTitle(result.getString("title"));
                 task.setData(result.getDate("planned_end"));
                 task.setDescription(result.getString("description"));
@@ -218,7 +214,7 @@ public class ManagerController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        myTaskID.setCellValueFactory(new PropertyValueFactory<>("idTask"));
+
         myTaskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         myTaskPlannedDate.setCellValueFactory(new PropertyValueFactory<>("data"));
         myTaskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -258,12 +254,14 @@ public class ManagerController {
             DatabaseConnector.connect();
             taskTable = FXCollections.observableArrayList();
 
-            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks JOIN statuses ON tasks.status_id = statuses.id_status JOIN users ON tasks.user_id=users.id_user JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task");
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks " +
+                                                                    "JOIN statuses ON tasks.status_id = statuses.id_status " +
+                                                                    "JOIN users ON tasks.user_id=users.id_user " +
+                                                                    "JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task");
 
             while (result.next()) {
                 TasksTable task = new TasksTable();
                 HistoryTaskTable historyTaskTable = new HistoryTaskTable();
-                task.setIdTask(result.getInt("id_task"));
                 task.setTitle(result.getString("title"));
                 task.setDescription(result.getString("description"));
                 task.setData(result.getDate("tasks_history.planned_end"));
@@ -274,7 +272,6 @@ public class ManagerController {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        taskID.setCellValueFactory(new PropertyValueFactory<>("idTask"));
         taskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         taskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         taskPlannedDate.setCellValueFactory(new PropertyValueFactory<>("data"));
@@ -289,12 +286,13 @@ public class ManagerController {
             DatabaseConnector.connect();
             userTable = FXCollections.observableArrayList();
 
-            ResultSet result = QExecutor.executeSelect("SELECT * FROM users JOIN positions ON users.position_id = positions.id_position JOIN login ON users.token=login.token;");
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM users " +
+                                                                    "JOIN positions ON users.position_id = positions.id_position " +
+                                                                    "JOIN login ON users.token=login.token;");
 
             while (result.next()) {
                 UsersTable user = new UsersTable();
 
-                user.setIdUser(result.getInt("id_user"));
                 user.setName(result.getString("name"));
                 user.setSurname(result.getString("surname"));
                 user.setEmail(result.getString("email"));
@@ -308,7 +306,6 @@ public class ManagerController {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        employeeID.setCellValueFactory(new PropertyValueFactory<>("idUser"));
         employeeName.setCellValueFactory(new PropertyValueFactory<>("name"));
         employeeSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
         employeePosition.setCellValueFactory(new PropertyValueFactory<>("namePosition"));

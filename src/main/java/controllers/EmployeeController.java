@@ -79,6 +79,7 @@ public class EmployeeController {
     private TableColumn<?, ?> myTaskTitle;
     @FXML
     private TableView<TasksTable> myTaskTableView;
+
     private ObservableList<TasksTable> myTaskTable;
 
     @FXML
@@ -87,9 +88,6 @@ public class EmployeeController {
         gridMyTasks.toFront();
         myTask();
     }
-
-    UsersTable usersTable = new UsersTable();
-    private ObservableList<TasksTable> taskTable;
 
     //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
     public void buttonsHandlerPane(ActionEvent event) throws IOException {
@@ -161,7 +159,7 @@ public class EmployeeController {
         }
     }
 
-    //Wyświetlanie moich zadań
+    //Wyświetlanie "Moich Zadań"
     public void myTask() {
         try {
             DatabaseConnector.connect();
@@ -174,8 +172,8 @@ public class EmployeeController {
             System.out.println(UsersTable.getLoginIdUser());
             while (result.next()) {
                 TasksTable task = new TasksTable();
+
                 HistoryTaskTable htask = new HistoryTaskTable();
-                task.setIdTask(result.getInt("id_task"));
                 task.setTitle(result.getString("title"));
                 task.setData(result.getDate("planned_end"));
                 task.setDescription(result.getString("description"));
@@ -185,7 +183,6 @@ public class EmployeeController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        myTaskID.setCellValueFactory(new PropertyValueFactory<>("idTask"));
         myTaskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         myTaskPlannedDate.setCellValueFactory(new PropertyValueFactory<>("data"));
         myTaskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));

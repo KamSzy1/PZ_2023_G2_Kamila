@@ -12,7 +12,6 @@ import javafx.scene.input.ClipboardContent;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import other.ValidateData;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Random;

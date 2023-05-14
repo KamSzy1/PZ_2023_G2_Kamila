@@ -89,8 +89,6 @@ public class AdminController {
     @FXML
     private TableColumn<?, ?> employeeGroup;
     @FXML
-    private TableColumn<?, ?> employeeID;
-    @FXML
     private TableColumn<?, ?> employeeMail;
     @FXML
     private TableColumn<?, ?> employeeName;
@@ -105,8 +103,6 @@ public class AdminController {
     @FXML
     private TableColumn<?, ?> myTaskEdit;
     @FXML
-    private TableColumn<?, ?> myTaskID;
-    @FXML
     private TableColumn<?, ?> myTaskPlannedDate;
     @FXML
     private TableColumn<?, ?> myTaskStatus;
@@ -120,8 +116,6 @@ public class AdminController {
     private TableColumn<?, ?> taskEdit;
     @FXML
     private TableColumn<?, ?> taskEmployee;
-    @FXML
-    private TableColumn<?, ?> taskID;
     @FXML
     private TableColumn<?, ?> taskPlannedDate;
     @FXML
@@ -205,7 +199,7 @@ public class AdminController {
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/addEmployee.fxml")));
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(addTaskButton.getScene().getWindow());
+            stage.initOwner(addEmployeeButton.getScene().getWindow());
             stage.showAndWait();
         } else if (source == mailEditButton) {
             stage = new Stage();
@@ -262,7 +256,6 @@ public class AdminController {
             while (result.next()) {
                 TasksTable task = new TasksTable();
                 HistoryTaskTable htask = new HistoryTaskTable();
-                task.setIdTask(result.getInt("id_task"));
                 task.setTitle(result.getString("title"));
                 task.setData(result.getDate("planned_end"));
                 task.setDescription(result.getString("description"));
@@ -272,7 +265,6 @@ public class AdminController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        myTaskID.setCellValueFactory(new PropertyValueFactory<>("idTask"));
         myTaskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         myTaskPlannedDate.setCellValueFactory(new PropertyValueFactory<>("data"));
         myTaskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -294,7 +286,6 @@ public class AdminController {
             while (result.next()) {
                 TasksTable task = new TasksTable();
                 HistoryTaskTable historyTaskTable = new HistoryTaskTable();
-                task.setIdTask(result.getInt("id_task"));
                 task.setTitle(result.getString("title"));
                 task.setDescription(result.getString("description"));
                 task.setData(result.getDate("tasks_history.planned_end"));
@@ -305,7 +296,6 @@ public class AdminController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        taskID.setCellValueFactory(new PropertyValueFactory<>("idTask"));
         taskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         taskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         taskPlannedDate.setCellValueFactory(new PropertyValueFactory<>("data"));
@@ -327,7 +317,6 @@ public class AdminController {
             while (result.next()) {
                 UsersTable user = new UsersTable();
 
-                user.setIdUser(result.getInt("id_user"));
                 user.setName(result.getString("name"));
                 user.setSurname(result.getString("surname"));
                 user.setEmail(result.getString("email"));
@@ -341,7 +330,6 @@ public class AdminController {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        employeeID.setCellValueFactory(new PropertyValueFactory<>("idUser"));
         employeeName.setCellValueFactory(new PropertyValueFactory<>("name"));
         employeeSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
         employeePosition.setCellValueFactory(new PropertyValueFactory<>("namePosition"));
