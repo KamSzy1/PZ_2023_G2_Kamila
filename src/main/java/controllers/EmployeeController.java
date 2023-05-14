@@ -3,6 +3,7 @@ package controllers;
 import com.example.system.StageChanger;
 import database.DatabaseConnector;
 import database.QExecutor;
+import database_classes.HistoryTaskTable;
 import database_classes.TasksTable;
 import database_classes.UsersTable;
 import javafx.collections.FXCollections;
@@ -78,12 +79,13 @@ public class EmployeeController {
     private TableColumn<?, ?> myTaskTitle;
     @FXML
     private TableView<TasksTable> myTaskTableView;
+    private ObservableList<TasksTable> myTaskTable;
 
     @FXML
     private void initialize() {
         welcomeLabel.setText("Witaj " + UsersTable.getLoginName() + " " + UsersTable.getLoginSurname() + "!");
         gridMyTasks.toFront();
-        task();
+        myTask();
     }
 
     UsersTable usersTable = new UsersTable();
@@ -159,29 +161,35 @@ public class EmployeeController {
         }
     }
 
-    //Wyświetlanie "Moich Zadań"
-    public void task() {
+    //Wyświetlanie moich zadań
+    public void myTask() {
         try {
             DatabaseConnector.connect();
-            taskTable = FXCollections.observableArrayList();
-            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks INNER JOIN statuses ON tasks.status_id = statuses.id_status WHERE user_id = " + usersTable.getLoginIdUser());
+            myTaskTable = FXCollections.observableArrayList();
 
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks " +
+                    "JOIN statuses ON tasks.status_id = statuses.id_status " +
+                    "JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task " +
+                    "WHERE user_id = " + UsersTable.getLoginIdUser());
+            System.out.println(UsersTable.getLoginIdUser());
             while (result.next()) {
                 TasksTable task = new TasksTable();
-
+                HistoryTaskTable htask = new HistoryTaskTable();
                 task.setIdTask(result.getInt("id_task"));
                 task.setTitle(result.getString("title"));
+                task.setData(result.getDate("planned_end"));
                 task.setDescription(result.getString("description"));
                 task.setNameStatus(result.getString("name"));
-                taskTable.add(task);
+                myTaskTable.add(task);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         myTaskID.setCellValueFactory(new PropertyValueFactory<>("idTask"));
         myTaskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        myTaskPlannedDate.setCellValueFactory(new PropertyValueFactory<>("data"));
         myTaskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         myTaskStatus.setCellValueFactory(new PropertyValueFactory<>("nameStatus"));
-        myTaskTableView.setItems(taskTable);
+        myTaskTableView.setItems(myTaskTable);
     }
 }

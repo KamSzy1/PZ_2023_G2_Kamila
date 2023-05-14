@@ -1,5 +1,7 @@
 package controllers_popup;
 
+import database.DatabaseConnector;
+import database.QExecutor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,6 +12,7 @@ import javafx.stage.Stage;
 import other.ValidateData;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class EditEmailInSettingsController {
@@ -38,7 +41,7 @@ public class EditEmailInSettingsController {
     private Label wrongLabel;
 
     @FXML
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize() {
         tokenGrid.toFront();
     }
 
@@ -61,10 +64,25 @@ public class EditEmailInSettingsController {
             Stage stage = (Stage) cancel2Button.getScene().getWindow();
             stage.close();
         } else if (source == saveButton) {
+            //Zmiana adresu Email
             emailActualField.getText();
             emailNewField.getText();
             emailRepeatField.getText();
 
+            try {
+                ValidateData.goodEmail(emailActualField.getText());
+                ValidateData.goodEmail(emailNewField.getText());
+                ValidateData.goodEmail(emailRepeatField.getText());
+                ValidateData.goodAddress(emailActualField.getText());
+                ValidateData.goodAddress(emailNewField.getText());
+                ValidateData.goodAddress(emailRepeatField.getText());
+
+                DatabaseConnector.connect();
+                QExecutor.executeQuery("UPDATE login SET email='"+emailNewField.getText() +
+                        "' WHERE token='"+ tokenField.getText()+"'");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else if (source == cancelButton) {
             //Zamykanie okienka
             Stage stage = (Stage) cancelButton.getScene().getWindow();
