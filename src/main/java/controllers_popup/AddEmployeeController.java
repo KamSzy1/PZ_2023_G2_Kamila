@@ -131,7 +131,7 @@ public class AddEmployeeController {
 
             QExecutor.executeQuery("INSERT INTO login (token) VALUES ('"
                     + loginTable.getToken() + "')");
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
             wrongLabel.setText(e.getMessage());
