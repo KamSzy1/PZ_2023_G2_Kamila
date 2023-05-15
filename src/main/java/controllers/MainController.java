@@ -150,7 +150,7 @@ public class MainController {
             result.next();
             UsersTable.setLoginName(result.getString("name"));
             UsersTable.setLoginSurname(result.getString("surname"));
-            UsersTable.setLoginIdUser(result.getInt("id_user"));
+            UsersTable.setIdLoginUser(result.getInt("id_user"));
             if (result.getInt("position_id") == 1) {
                 stageChanger.changeScene("/admin.fxml");
                 stageChanger.changeSize(1215, 630);

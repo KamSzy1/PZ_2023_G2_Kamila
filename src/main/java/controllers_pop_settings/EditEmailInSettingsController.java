@@ -1,4 +1,4 @@
-package controllers_popup;
+package controllers_pop_settings;
 
 import database.DatabaseConnector;
 import database.QExecutor;
@@ -9,36 +9,30 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import other.PasswordHash;
 import other.ValidateData;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class EditPasswordInSettingsController {
-
-    @FXML
-    private Button cancel2Button;
+public class EditEmailInSettingsController {
 
     @FXML
     private Button cancelButton;
     @FXML
+    private Button cancel2Button;
+    @FXML
     private Button continueButton;
-    @FXML
-    private GridPane passwordGrid;
-    @FXML
-    private TextField passwordActualField;
-    @FXML
-    private TextField passwordNewField;
-    @FXML
-    private TextField passwordRepeatField;
     @FXML
     private Button saveButton;
     @FXML
-    private TextField tokenField;
+    private GridPane emailGrid;
     @FXML
     private GridPane tokenGrid;
+    @FXML
+    private TextField emailActualField;
+    @FXML
+    private TextField emailNewField;
+    @FXML
+    private TextField emailRepeatField;
+    @FXML
+    private TextField tokenField;
     @FXML
     private Label wrongLabel;
 
@@ -48,7 +42,7 @@ public class EditPasswordInSettingsController {
     }
 
     //To jest do obsługi buttonów
-    public void buttonsHandler(ActionEvent event) throws IOException {
+    public void buttonsHandler(ActionEvent event) {
         Object source = event.getSource();
 
         if (source == continueButton) {
@@ -59,29 +53,32 @@ public class EditPasswordInSettingsController {
                 wrongLabel.setText(e.getMessage());
             }
 
-            passwordGrid.toFront();
+            emailGrid.toFront();
 
         } else if (source == cancel2Button) {
             //Zamykanie okienka
             Stage stage = (Stage) cancel2Button.getScene().getWindow();
             stage.close();
         } else if (source == saveButton) {
-            //Zmiana hasła
-            passwordActualField.getText();
-            passwordNewField.getText();
-            passwordRepeatField.getText();
+            //Zmiana adresu Email
+            emailActualField.getText();
+            emailNewField.getText();
+            emailRepeatField.getText();
 
             try {
-                ValidateData.samePassword(passwordNewField.getText(),passwordRepeatField.getText());
+                ValidateData.goodEmail(emailActualField.getText());
+                ValidateData.goodEmail(emailNewField.getText());
+                ValidateData.goodEmail(emailRepeatField.getText());
+                ValidateData.goodAddress(emailActualField.getText());
+                ValidateData.goodAddress(emailNewField.getText());
+                ValidateData.goodAddress(emailRepeatField.getText());
 
-                String hashedPassword = PasswordHash.hashedPassword(passwordNewField.getText());
                 DatabaseConnector.connect();
-                QExecutor.executeQuery("UPDATE login SET password='"+hashedPassword +
-                                        "' WHERE token='"+ tokenField.getText()+"'");
+                QExecutor.executeQuery("UPDATE login SET email='"+emailNewField.getText() +
+                        "' WHERE token='"+ tokenField.getText()+"'");
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         } else if (source == cancelButton) {
             //Zamykanie okienka
             Stage stage = (Stage) cancelButton.getScene().getWindow();

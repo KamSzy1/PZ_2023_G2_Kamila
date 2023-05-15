@@ -1,4 +1,4 @@
-package controllers_popup;
+package controllers_pop_employee;
 
 import database.DatabaseConnector;
 import database.QExecutor;
@@ -47,7 +47,7 @@ public class AddEmployeeController {
     @FXML
     private Label wrongLabel;
 
-    public static boolean bool;
+    public static boolean isRefreshed;
     UsersTable addEmployee = new UsersTable();
     LoginTable loginTable = new LoginTable();
 
@@ -73,7 +73,7 @@ public class AddEmployeeController {
         } else if (source == addButton) {
             //Dodawanie pracownika
             addPerson();
-            bool = true;
+            isRefreshed = true;
 
             //Zamykanie okienka
             Stage stage = (Stage) addButton.getScene().getWindow();
@@ -150,7 +150,7 @@ public class AddEmployeeController {
     }
 
     public static boolean refBool() {
-        return bool;
+        return isRefreshed;
     }
 
 }
