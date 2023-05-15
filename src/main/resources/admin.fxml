@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -19,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="600.0" maxWidth="1200.0" minHeight="600.0" minWidth="1200.0" prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminController">
+<AnchorPane fx:id="mainAnchorPane" maxHeight="600.0" maxWidth="1200.0" minHeight="600.0" minWidth="1200.0" prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminController">
    <children>
       <VBox maxHeight="600.0" maxWidth="265.0" minHeight="600.0" minWidth="265.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="600.0" prefWidth="265.0" style="-fx-background-color: #554994;">
          <children>
@@ -86,20 +87,6 @@
       </Pane>
       <StackPane layoutX="273.0" layoutY="79.0">
          <children>
-            <GridPane fx:id="gridReport" maxHeight="507.0" maxWidth="920.0" minHeight="507.0" minWidth="920.0" prefHeight="507.0" prefWidth="920.0" style="-fx-background-color: #ffffff;">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label text="Raporty" GridPane.rowIndex="1" />
-               </children>
-            </GridPane>
             <GridPane fx:id="gridSettings" maxHeight="507.0" maxWidth="920.0" minHeight="507.0" minWidth="920.0" prefHeight="507.0" prefWidth="920.0" style="-fx-background-color: #ffffff;">
               <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -301,6 +288,40 @@
                         </Button>
                      </children>
                   </HBox>
+               </children>
+            </GridPane>
+            <GridPane fx:id="gridReport" maxHeight="507.0" maxWidth="920.0" minHeight="507.0" minWidth="920.0" prefHeight="507.0" prefWidth="920.0" style="-fx-background-color: #ffffff;">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <TextField fx:id="pdfPathField" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" promptText="Ścieżka do zapisu" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="1" />
+                  <Button fx:id="pdfPathButton" maxHeight="30.0" minHeight="30.0" mnemonicParsing="false" onAction="#buttonReports" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: #554994;" text="Wybierz" textFill="WHITE" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+                  <ListView fx:id="pdfChooseDataListView" maxHeight="30.0" maxWidth="184.0" minHeight="30.0" minWidth="184.0" prefHeight="30.0" prefWidth="184.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <Button fx:id="pdfGenerateButton" maxHeight="30.0" minHeight="30.0" mnemonicParsing="false" onAction="#buttonReports" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: #554994;" text="Generuj" textFill="WHITE" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+                  <ListView fx:id="pdfChooseReportListView" maxHeight="30.0" maxWidth="270.0" minHeight="30.0" minWidth="138.0" prefHeight="30.0" prefWidth="138.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
             </GridPane>
          </children>

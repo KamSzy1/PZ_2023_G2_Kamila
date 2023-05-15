@@ -1,21 +1,21 @@
-package controllers_popup;
+package controllers_pop_task;
 
-        import database.DatabaseConnector;
-        import database.QExecutor;
-        import database_classes.HistoryTaskTable;
-        import database_classes.TasksTable;
-        import javafx.collections.FXCollections;
-        import javafx.collections.ObservableList;
-        import javafx.event.ActionEvent;
-        import javafx.fxml.FXML;
-        import javafx.scene.control.*;
-        import javafx.stage.Stage;
-        import java.io.IOException;
-        import java.sql.Date;
-        import java.sql.ResultSet;
-        import java.sql.SQLException;
-        import java.time.LocalDate;
-        import java.time.format.DateTimeFormatter;
+import database.DatabaseConnector;
+import database.QExecutor;
+import database_classes.HistoryTaskTable;
+import database_classes.TasksTable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+import java.io.IOException;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class AddTaskController {
     @FXML
@@ -33,13 +33,12 @@ public class AddTaskController {
     @FXML
     private Button addButton;
 
-    private ListView<String> list;
-    TasksTable tasksTable = new TasksTable();
-    HistoryTaskTable historyTaskTable = new HistoryTaskTable();
+    private final TasksTable tasksTable = new TasksTable();
+    private final HistoryTaskTable historyTaskTable = new HistoryTaskTable();
     private ObservableList<String> names;
-    LocalDate currentDate = LocalDate.now();
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    String formattedDate = currentDate.format(formatter);
+    private final LocalDate currentDate = LocalDate.now();
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private final String formattedDate = currentDate.format(formatter);
 
     @FXML
     public void initialize() {
@@ -49,7 +48,7 @@ public class AddTaskController {
                 super.updateItem(date, empty);
                 LocalDate today = LocalDate.now();
 
-                setDisable(empty || date.compareTo(today) < 0 );
+                setDisable(empty || date.isBefore(today));
             }
         });
     }
@@ -64,6 +63,9 @@ public class AddTaskController {
 
         } else if (source == addButton) {
             addTask();
+
+            Stage stage = (Stage) addButton.getScene().getWindow();
+            stage.close();
         }
     }
 
@@ -110,5 +112,4 @@ public class AddTaskController {
         }
         personView.setItems(names);
     }
-
 }

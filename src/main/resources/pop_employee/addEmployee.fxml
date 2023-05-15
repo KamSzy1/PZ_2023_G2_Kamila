@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="550.0" maxWidth="600.0" minHeight="550.0" minWidth="600.0" prefHeight="550.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers_popup.AddEmployeeController">
+<AnchorPane fx:id="mainAnchorPane" maxHeight="550.0" maxWidth="600.0" minHeight="550.0" minWidth="600.0" prefHeight="550.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers_pop_employee.AddEmployeeController">
    <children>
       <Pane prefHeight="65.0" prefWidth="600.0" style="-fx-background-color: #554994;">
          <children>

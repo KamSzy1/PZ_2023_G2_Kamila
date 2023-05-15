@@ -1,4 +1,4 @@
-package controllers_popup;
+package controllers_pop_employee;
 
 public class AddEmployeeControllerTest {
 }

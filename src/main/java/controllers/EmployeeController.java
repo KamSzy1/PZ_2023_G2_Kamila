@@ -13,15 +13,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -41,6 +41,10 @@ public class EmployeeController {
     private Button mailEditButton;
     @FXML
     private Button passwordEditButton;
+    @FXML
+    private Button pdfPathButton;
+    @FXML
+    private Button pdfGenerateButton;
     @FXML
     private GridPane gridMyTasks;
     @FXML
@@ -79,6 +83,12 @@ public class EmployeeController {
     private TableColumn<?, ?> myTaskTitle;
     @FXML
     private TableView<TasksTable> myTaskTableView;
+    @FXML
+    private TextField pdfPathField;
+    @FXML
+    private ListView<?> pdfChooseStatusListView;
+    @FXML
+    private AnchorPane mainAnchorPane;
 
     private ObservableList<TasksTable> myTaskTable;
 
@@ -100,6 +110,7 @@ public class EmployeeController {
             gridReport.toFront();
             textLabel.setText("Generowanie raportów");
         } else if (source == settingsButton) {
+            pdfPathField.clear();
             gridSettings.toFront();
             textLabel.setText("Ustawienia");
             data();
@@ -118,14 +129,14 @@ public class EmployeeController {
             stageChanger.changeScene("/main.fxml");
         } else if (source == mailEditButton) {
             stage = new Stage();
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/editEmailInSettings.fxml")));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/pop_settings/editEmailInSettings.fxml")));
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(mailEditButton.getScene().getWindow());
             stage.showAndWait();
         } else if (source == passwordEditButton) {
             stage = new Stage();
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/editPasswordInSettings.fxml")));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/pop_settings/editPasswordInSettings.fxml")));
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(passwordEditButton.getScene().getWindow());
@@ -133,10 +144,27 @@ public class EmployeeController {
         }
     }
 
+    public void buttonReports(ActionEvent event) {
+        Object source = event.getSource();
+        if (source == pdfPathButton) {
+            final DirectoryChooser dirChooser = new DirectoryChooser();
+            Stage stage = (Stage) mainAnchorPane.getScene().getWindow();
+            File file = dirChooser.showDialog(stage);
+
+            if(file != null){
+                System.out.println("Ścieżka" + file.getAbsolutePath());
+                pdfPathField.setText(file.getAbsolutePath());
+            }
+
+        } else if (source == pdfGenerateButton) {
+
+        }
+    }
+
     public void data() {
         try {
             DatabaseConnector.connect();
-            ResultSet rs = QExecutor.executeSelect("SELECT * FROM users where id_user=" + UsersTable.getLoginIdUser());
+            ResultSet rs = QExecutor.executeSelect("SELECT * FROM users where id_user=" + UsersTable.getIdLoginUser());
             while (rs.next()) {
                 UsersTable user = new UsersTable();
                 user.setName(rs.getString("name"));
@@ -168,8 +196,8 @@ public class EmployeeController {
             ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks " +
                     "JOIN statuses ON tasks.status_id = statuses.id_status " +
                     "JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task " +
-                    "WHERE user_id = " + UsersTable.getLoginIdUser());
-            System.out.println(UsersTable.getLoginIdUser());
+                    "WHERE user_id = " + UsersTable.getIdLoginUser());
+            System.out.println(UsersTable.getIdLoginUser());
             while (result.next()) {
                 TasksTable task = new TasksTable();
 
