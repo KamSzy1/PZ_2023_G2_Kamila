@@ -16,36 +16,36 @@ public class HistoryTaskTable {
         return idTaskHistory;
     }
 
-    public void setIdTaskHistory(int idTaskHistory) {
-        this.idTaskHistory = idTaskHistory;
-    }
-
     public Date getStartDate() {
         return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
     }
 
     public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
     public int getTasksId() {
         return tasksId;
     }
 
-    public void setTasksId(int tasksId) {
-        this.tasksId = tasksId;
-    }
-
     public Date getPlannedEnd() {
         return plannedEnd;
+    }
+
+    public void setIdTaskHistory(int idTaskHistory) {
+        this.idTaskHistory = idTaskHistory;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setTasksId(int tasksId) {
+        this.tasksId = tasksId;
     }
 
     public void setPlannedEnd(Date plannedEnd) {
