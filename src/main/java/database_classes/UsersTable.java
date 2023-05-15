@@ -4,15 +4,6 @@ public class UsersTable {
 
     private static int idLoginUser;
     private int idUser;
-
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
-    }
-
     private String name;
     private String surname;
     private String address;
@@ -29,133 +20,7 @@ public class UsersTable {
     private String namePosition;
     private String token;
 
-    public String getNamePosition() {
-        return namePosition;
-    }
-
-    public void setNamePosition(String namePosition) {
-        this.namePosition = namePosition;
-    }
-
-    public static String getLoginName() {
-        return loginName;
-    }
-
-    public static void setLoginName(String loginName) {
-        UsersTable.loginName = loginName;
-    }
-
-    public static String getLoginSurname() {
-        return loginSurname;
-    }
-
-    public static void setLoginSurname(String loginSurname) {
-        UsersTable.loginSurname = loginSurname;
-    }
-
-    public static int getLoginIdUser() {
-        return idLoginUser;
-    }
-
-    public static void setLoginIdUser(int idLoginUser) {
-        UsersTable.idLoginUser = idLoginUser;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getZip() {
-        return zip;
-    }
-
-    public void setZip(String zip) {
-        this.zip = zip;
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
-    }
-
-    public int getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(int phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getPositionId() {
-        return positionId;
-    }
-
-    public void setPositionId(int positionId) {
-        this.positionId = positionId;
-    }
-
-    public int getLogin() {
-        return login;
-    }
-
-    public void setLogin(int login) {
-        this.login = login;
-    }
-
-    public int getGroups() {
-        return groups;
-    }
-
-    public void setGroups(int groups) {
-        this.groups = groups;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
+    public UsersTable() {}
 
     public UsersTable(int idUser, String name, String surname, String address, String zip, String place, int phoneNumber, int positionId, int login, int groups){
         this.idUser = idUser;
@@ -170,10 +35,140 @@ public class UsersTable {
         this.groups = groups;
     }
 
-    public UsersTable() {
-
+    public static int getIdLoginUser() {
+        return idLoginUser;
     }
 
+    public int getIdUser() {
+        return idUser;
+    }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public int getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public int getPositionId() {
+        return positionId;
+    }
+
+    public int getLogin() {
+        return login;
+    }
+
+    public int getGroups() {
+        return groups;
+    }
+
+    public static String getLoginName() {
+        return loginName;
+    }
+
+    public static String getLoginSurname() {
+        return loginSurname;
+    }
+
+    public String getNamePosition() {
+        return namePosition;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public static void setIdLoginUser(int idLoginUser) {
+        UsersTable.idLoginUser = idLoginUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public void setPhoneNumber(int phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setPositionId(int positionId) {
+        this.positionId = positionId;
+    }
+
+    public void setLogin(int login) {
+        this.login = login;
+    }
+
+    public void setGroups(int groups) {
+        this.groups = groups;
+    }
+
+    public static void setLoginName(String loginName) {
+        UsersTable.loginName = loginName;
+    }
+
+    public static void setLoginSurname(String loginSurname) {
+        UsersTable.loginSurname = loginSurname;
+    }
+
+    public void setNamePosition(String namePosition) {
+        this.namePosition = namePosition;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }
 

@@ -9,20 +9,20 @@ public class PositionsTable {
         return idPosition;
     }
 
-    public void setIdPosition(int idPosition) {
-        this.idPosition = idPosition;
-    }
-
     public String getPositionName() {
         return positionName;
     }
 
-    public void setPositionName(String positionName) {
-        this.positionName = positionName;
-    }
-
     public String getDescription() {
         return description;
+    }
+
+    public void setIdPosition(int idPosition) {
+        this.idPosition = idPosition;
+    }
+
+    public void setPositionName(String positionName) {
+        this.positionName = positionName;
     }
 
     public void setDescription(String description) {
