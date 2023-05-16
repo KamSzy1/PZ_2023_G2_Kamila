@@ -4,6 +4,8 @@ import database.DatabaseConnector;
 import database.QExecutor;
 import database_classes.LoginTable;
 import database_classes.UsersTable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -13,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import other.ValidateData;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
 
@@ -35,7 +38,7 @@ public class AddEmployeeController {
     @FXML
     private TextField placeField;
     @FXML
-    private TextField positionField;
+    private ComboBox<String> positionView;
     @FXML
     private TextField surnameField;
     @FXML
@@ -50,6 +53,7 @@ public class AddEmployeeController {
     public static boolean isRefreshed;
     UsersTable addEmployee = new UsersTable();
     LoginTable loginTable = new LoginTable();
+    private ObservableList<String> positions;
 
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
@@ -73,6 +77,7 @@ public class AddEmployeeController {
         } else if (source == addButton) {
             //Dodawanie pracownika
             addPerson();
+            positionList();
             isRefreshed = true;
 
             //Zamykanie okienka
@@ -136,6 +141,25 @@ public class AddEmployeeController {
             wrongLabel.setText(e.getMessage());
         }
     }
+
+    //wyświetlanie pozycji
+    public void positionList() {
+        try {
+            DatabaseConnector.connect();
+            positions = FXCollections.observableArrayList();
+            positions.add("Wybierz stanowisko");
+            ResultSet rs = QExecutor.executeSelect("SELECT * FROM postions");
+            while (rs.next()) {
+                positions.add(rs.getString(2));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        positionView.setItems(positions);
+    }
+
+
+
 
     //Generowanie tokenu
     public static String generateToken() {

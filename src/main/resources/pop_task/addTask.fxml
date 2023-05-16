@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.ComboBox?>
 
 <AnchorPane fx:id="mainAnchorPane" maxHeight="500.0" maxWidth="600.0" minHeight="500.0" minWidth="600.0" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers_pop_task.AddTaskController">
    <children>
@@ -46,7 +47,7 @@
             <TextField fx:id="titleField" promptText="Tytuł" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <DatePicker fx:id="timePicker" prefHeight="25.0" prefWidth="253.0" GridPane.columnIndex="2" GridPane.rowIndex="7" />
             <TextArea fx:id="descriptionArea" prefHeight="200.0" prefWidth="200.0" promptText="Opis" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <ListView fx:id="personView" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="250.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <ComboBox fx:id="personView" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="250.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
             <Button fx:id="cancelButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#buttonsHandler" prefHeight="31.0" prefWidth="109.0" style="-fx-background-color: #7a6fb9;" text="Anuluj" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="11">
                <font>
                   <Font size="15.0" />
