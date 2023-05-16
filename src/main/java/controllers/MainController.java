@@ -15,7 +15,6 @@ import other.PasswordHash;
 import other.ValidateData;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -24,11 +23,17 @@ public class MainController {
     @FXML
     private Button backButton;
     @FXML
+    private Button resetSetNewPasswordButton;
+    @FXML
+    private Button resetPasswordButton;
+    @FXML
     private GridPane gridLogin;
     @FXML
     private GridPane gridToken;
     @FXML
     private GridPane gridRegistration;
+    @FXML
+    private GridPane gridResetPassword;
     @FXML
     private TextField emailField;
     @FXML
@@ -42,6 +47,10 @@ public class MainController {
     @FXML
     private TextField tokenField;
     @FXML
+    private TextField resetPasswordField;
+    @FXML
+    private TextField resetRepeatPasswordField;
+    @FXML
     private Button loginButton;
     @FXML
     private Button tokenButton;
@@ -50,27 +59,31 @@ public class MainController {
     @FXML
     private Button regChangeButton;
     @FXML
-    public Label wrongLogin;
+    private Label wrongLogin;
     @FXML
     private Label wrongRegistration;
     @FXML
     private Label wrongTokenLabel;
     @FXML
     private Label logRegLabel;
+    @FXML
+    private Label resetWelcomeLabel;
+    @FXML
+    private Label regWelcomeLabel;
 
-    public static int id_user;
-    String email;
-    String password;
-    String repeat_password;
-    String token;
-    StageChanger stageChanger = new StageChanger();
-    UsersTable usersTable = new UsersTable();
+    private static int USER_CHOICE;
+    private String token;
+    private final StageChanger stageChanger = new StageChanger();
 
-    public MainController(Connection connection) {
+    @FXML
+    public void initialize() {
+        gridLogin.toFront();
     }
 
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
+        String password;
+        String email;
 
         if (source == loginButton) {
             //Logowanie
@@ -89,52 +102,29 @@ public class MainController {
             logRegLabel.setText("Rejestracja");
             tokenField.clear();
             gridToken.toFront();
-        } else if (source == tokenButton) {
-            //Sprawdzenie tokenu i przejście dalej
-
-            try {
-                if (tokenField.getText().isEmpty()) {
-                    wrongTokenLabel.setText("Pusty token!");
-                } else {
-                    ResultSet result = QExecutor.executeSelect("SELECT * FROM login WHERE token ='" + tokenField.getText() + "'");
-                    result.next();
-                    if (result.getString("email") == null) {
-                        token = tokenField.getText();
-                        gridRegistration.toFront();
-                    } else {
-                        wrongTokenLabel.setText("Taki użytkownik już istnieje!");
-                    }
-                }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-
+            USER_CHOICE = 1;
         } else if (source == registrationButton) {
             // Rejestracja użytkownika
-
-            boolean isEverythingOk = false;
-
-            //Pobranie wszystkich danych
             email = regEmailField.getText();
             password = regPasswordField.getText();
-            repeat_password = regRepeatPasswordField.getText();
+            String repeat_password = regRepeatPasswordField.getText();
 
-            //Te metody znajdują się w klasie ValidateData w package "other"
             try {
                 ValidateData.goodEmail(email);
                 ValidateData.samePassword(password, repeat_password);
-                isEverythingOk = true;
+
+                registration(email, password, token);
+                stageChanger.changeScene("/main.fxml");
             } catch (Exception e) {
                 wrongRegistration.setText(e.getMessage());
             }
-
-            //Jeśli wszyskie dane są poprawne, to doda się do bazy danych wszystko
-            if (isEverythingOk) {
-                registration(email, password, token);
-                stageChanger.changeScene("/main.fxml");
-            } else {
-                wrongRegistration.setText("Coś poszło nie tak. Spróbuj później");
-            }
+        } else if (source == resetPasswordButton) {
+            backButton.setVisible(true);
+            gridToken.toFront();
+            USER_CHOICE = 2;
+        } else if (source == tokenButton) {
+            //Sprawdzenie tokenu i odesłanie użytkownika w dobre miejsce
+            tokenCheck();
         } else if (source == backButton) {
             //Powrót z rejestracji do loginu
             emailField.clear();
@@ -151,16 +141,16 @@ public class MainController {
     }
 
     //Metoda do logowania
-    public UsersTable login(String email, String password) throws IOException {
-        DatabaseConnector.connect();
-
+    private void login(String email, String password) {
         try {
+            DatabaseConnector.connect();
             String hashedPassword = PasswordHash.hashedPassword(password);
-            ResultSet result = QExecutor.executeSelect("SELECT * FROM users inner join login ON login.token = users.token WHERE email = '" + email + "' and password = '" + hashedPassword + "'");
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM users inner join login ON login.token = users.token " +
+                                                                    "WHERE email = '" + email + "' and password = '" + hashedPassword + "'");
             result.next();
-            usersTable.setLoginName(result.getString("name"));
-            usersTable.setLoginSurname(result.getString("surname"));
-            usersTable.setLoginIdUser(result.getInt("id_user"));
+            UsersTable.setLoginName(result.getString("name"));
+            UsersTable.setLoginSurname(result.getString("surname"));
+            UsersTable.setIdLoginUser(result.getInt("id_user"));
             if (result.getInt("position_id") == 1) {
                 stageChanger.changeScene("/admin.fxml");
                 stageChanger.changeSize(1215, 630);
@@ -172,21 +162,54 @@ public class MainController {
                 stageChanger.changeSize(1215, 630);
             }
 
-        } catch (SQLException throwables) {
+        } catch (SQLException | IOException e) {
             wrongLogin.setText("Zły email bądź hasło");
-            throwables.printStackTrace();
+            e.printStackTrace();
         }
-
-        return null;
     }
 
-    //Metoda do rejestrowania użytkowników
-    public void registration(String mail, String password, String token) {
+    private void tokenCheck() {
+        try {
+            token = tokenField.getText();
+            if (token.isEmpty()) {
+                wrongTokenLabel.setText("Pusty token!");
+            } else {
+                getUserFromToken(token);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void getUserFromToken(String token) throws SQLException {
+        ResultSet result = QExecutor.executeSelect("SELECT * FROM login WHERE token ='" + token + "'");
+        result.next();
+
+        ResultSet person = QExecutor.executeSelect("SELECT name, surname FROM users WHERE token ='" + token + "'");
+        person.next();
+
+        UsersTable user = new UsersTable();
+        user.setName(person.getString("name"));
+        user.setSurname(person.getString("surname"));
+        if (USER_CHOICE == 1) {
+            if (result.getString("email") == null) {
+                regWelcomeLabel.setText("Witaj " + user.getName() + " " + user.getSurname() + "! W poniższe pola wpisz dane, którymi będziesz logował się do systemu");
+                gridRegistration.toFront();
+            } else {
+                wrongTokenLabel.setText("Taki użytkownik już istnieje!");
+            }
+        } else if (USER_CHOICE == 2) {
+            resetWelcomeLabel.setText("Witaj " + user.getName() + " " + user.getSurname() + "! Wpisz swoje nowe hasło");
+            gridResetPassword.toFront();
+        }
+    }
+
+
+    //Metoda do rejestrowania użytkowników
+    private void registration(String mail, String password, String token) throws SQLException {
         String hashedPassword = PasswordHash.hashedPassword(password);
 
         DatabaseConnector.connect();
         QExecutor.executeQuery("UPDATE login set email = '" + mail + "', password = '" + hashedPassword + "' where token= '" + token + "'");
-
     }
 }

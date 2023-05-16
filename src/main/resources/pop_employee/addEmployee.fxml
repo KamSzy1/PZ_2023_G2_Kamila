@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.control.ComboBox?>
-<AnchorPane maxHeight="500.0" maxWidth="600.0" minHeight="500.0" minWidth="600.0" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddEmployeeController">
+<AnchorPane fx:id="mainAnchorPane" maxHeight="550.0" maxWidth="600.0" minHeight="550.0" minWidth="600.0" prefHeight="550.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers_pop_employee.AddEmployeeController">
    <children>
       <Pane prefHeight="65.0" prefWidth="600.0" style="-fx-background-color: #554994;">
          <children>
@@ -22,7 +21,7 @@
             </Label>
          </children>
       </Pane>
-      <GridPane fx:id="addEmployeeGrid" layoutY="65.0" maxHeight="430.0" maxWidth="600.0" minHeight="430.0" minWidth="600.0" prefHeight="430.0" prefWidth="600.0" style="-fx-background-color: #ffffff;">
+      <GridPane fx:id="addEmployeeGrid" layoutY="65.0" maxHeight="480.0" maxWidth="600.0" minHeight="480.0" minWidth="600.0" prefHeight="480.0" prefWidth="600.0" style="-fx-background-color: #ffffff;">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
@@ -36,6 +35,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -62,21 +62,26 @@
             <TextField fx:id="zipCodeField" promptText="12-123" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="4" />
             <TextField fx:id="placeField" promptText="Miejscowość" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="5" />
             <TextField fx:id="numberField" promptText="123456789" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="6" />
-            <ComboBox fx:id="positionBox" promptText="Stanowisko" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="7" />
+            <TextField fx:id="positionField" promptText="Stanowisko" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="7" />
             <TextField fx:id="tokenField" disable="true" promptText="Token" GridPane.columnIndex="2" GridPane.rowIndex="9" />
             <Button fx:id="copyButton" mnemonicParsing="false" onAction="#buttonsHandler" prefHeight="25.0" prefWidth="105.0" text="Kopiuj" GridPane.columnIndex="4" GridPane.rowIndex="9" />
-            <Button fx:id="cancelButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#buttonsHandler" prefHeight="31.0" prefWidth="109.0" style="-fx-background-color: #7a6fb9;" text="Anuluj" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="11">
+            <Button fx:id="cancelButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#buttonsHandler" prefHeight="31.0" prefWidth="109.0" style="-fx-background-color: #7a6fb9;" text="Anuluj" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="12">
                <font>
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button fx:id="addButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#buttonsHandler" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #f55c7a;" text="Dodaj" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="11">
+            <Button fx:id="addButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#buttonsHandler" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: #f55c7a;" text="Dodaj" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="12">
                <font>
                   <Font size="15.0" />
                </font>
             </Button>
             <Button fx:id="generateButton" mnemonicParsing="false" onAction="#buttonsHandler" prefHeight="25.0" prefWidth="105.0" text="Generuj" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="9" />
             <Label text="Grupa" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <Label fx:id="wrongLabel" prefHeight="17.0" prefWidth="276.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="10">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
          </children>
       </GridPane>
    </children>

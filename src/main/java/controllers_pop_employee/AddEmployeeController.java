@@ -1,11 +1,9 @@
-package controllers;
+package controllers_pop_employee;
 
 import database.DatabaseConnector;
 import database.QExecutor;
 import database_classes.LoginTable;
 import database_classes.UsersTable;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -13,9 +11,8 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
-
+import other.ValidateData;
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
 
@@ -38,7 +35,7 @@ public class AddEmployeeController {
     @FXML
     private TextField placeField;
     @FXML
-    private ComboBox positionBox;
+    private TextField positionField;
     @FXML
     private TextField surnameField;
     @FXML
@@ -47,9 +44,10 @@ public class AddEmployeeController {
     private TextField groupField;
     @FXML
     private TextField zipCodeField;
+    @FXML
+    private Label wrongLabel;
 
-    private ObservableList<String> positionName;
-    public static boolean bool;
+    public static boolean isRefreshed;
     UsersTable addEmployee = new UsersTable();
     LoginTable loginTable = new LoginTable();
 
@@ -75,8 +73,7 @@ public class AddEmployeeController {
         } else if (source == addButton) {
             //Dodawanie pracownika
             addPerson();
-            bool = true;
-            positionList();
+            isRefreshed = true;
 
             //Zamykanie okienka
             Stage stage = (Stage) addButton.getScene().getWindow();
@@ -86,52 +83,59 @@ public class AddEmployeeController {
 
     //Dodawanie pracownika
     void addPerson() {
-        addEmployee.setName(nameField.getText());
-        addEmployee.setSurname(surnameField.getText());
-        addEmployee.setAddress(addressField.getText());
-        addEmployee.setZip(zipCodeField.getText());
-        addEmployee.setPlace(placeField.getText());
-        addEmployee.setPhoneNumber(Integer.parseInt(numberField.getText()));
-        addEmployee.setPositionId((Integer) positionBox.getSelectionModel().getSelectedItem());
-        addEmployee.setToken(tokenField.getText());
-        addEmployee.setGroups(Integer.parseInt(groupField.getText()));
+        String name = nameField.getText();
+        String surname = surnameField.getText();
+        String address = addressField.getText();
+        String zipCode = zipCodeField.getText();
+        String place = placeField.getText();
+        String number = numberField.getText();
+        String token = tokenField.getText();
+        String group = groupField.getText();
 
-        loginTable.setToken(tokenField.getText());
-
-        //Utwórzenie połączenia z bazą danych
-        DatabaseConnector.connect();
-
-        //Utwórz zapytanie SQL do wstawienia nowego rekordu
-        QExecutor.executeQuery("INSERT INTO users (name, surname, address, zip, place, phone_num, position_id, token, groups) VALUES ('"
-                + addEmployee.getName() + "','"
-                + addEmployee.getSurname() + "','"
-                + addEmployee.getAddress() + "','"
-                + addEmployee.getZip() + "','"
-                + addEmployee.getPlace() + "','"
-                + addEmployee.getPhoneNumber() + "','"
-                + addEmployee.getPositionId() + "','"
-                + addEmployee.getToken() + "','"
-                + addEmployee.getGroups() + "')");
-
-        QExecutor.executeQuery("INSERT INTO login (token) VALUES ('"
-                + loginTable.getToken() + "')");
-    }
-    //wyświetlanie pozycji
-    public void positionList(){
-        DatabaseConnector.connect();
-        positionName = FXCollections.observableArrayList();
         try {
-            ResultSet rs = QExecutor.executeSelect("SELECT * FROM  postions");
-            while (rs.next()) {
-                positionName.add(rs.getString(2));
-            }
-            }catch(SQLException throwables){
-                throwables.printStackTrace();
-            }
-            positionBox.setItems(positionName);
-            }
+            ValidateData.goodName(name);
+            ValidateData.goodSurname(surname);
+            ValidateData.goodAddress(address);
+            ValidateData.goodZipCode(zipCode);
+            ValidateData.goodPlace(place);
+            ValidateData.goodPhoneNumber(number);
+            ValidateData.goodToken(token);
+            ValidateData.goodGroup(group);
 
+            addEmployee.setSurname(surname);
+            addEmployee.setAddress(address);
+            addEmployee.setZip(zipCode);
+            addEmployee.setPlace(place);
+            addEmployee.setPhoneNumber(Integer.parseInt(number));
+            addEmployee.setPositionId(2);
+            addEmployee.setToken(token);
+            addEmployee.setGroups(Integer.parseInt(group));
 
+            loginTable.setToken(tokenField.getText());
+
+            //Utwórzenie połączenia z bazą danych
+            DatabaseConnector.connect();
+
+            //Utwórz zapytanie SQL do wstawienia nowego rekordu
+            QExecutor.executeQuery("INSERT INTO users (name, surname, address, zip, place, phone_num, position_id, token, groups) VALUES ('"
+                    + addEmployee.getName() + "','"
+                    + addEmployee.getSurname() + "','"
+                    + addEmployee.getAddress() + "','"
+                    + addEmployee.getZip() + "','"
+                    + addEmployee.getPlace() + "','"
+                    + addEmployee.getPhoneNumber() + "','"
+                    + addEmployee.getPositionId() + "','"
+                    + addEmployee.getToken() + "','"
+                    + addEmployee.getGroups() + "')");
+
+            QExecutor.executeQuery("INSERT INTO login (token) VALUES ('"
+                    + loginTable.getToken() + "')");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            wrongLabel.setText(e.getMessage());
+        }
+    }
 
     //Generowanie tokenu
     public static String generateToken() {
@@ -144,8 +148,9 @@ public class AddEmployeeController {
         }
         return stringBuilder.toString();
     }
-    public static boolean refBool(){
-        return bool;
+
+    public static boolean refBool() {
+        return isRefreshed;
     }
 
 }

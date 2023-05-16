@@ -13,15 +13,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
+import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -46,6 +45,10 @@ public class ManagerController {
     @FXML
     private Button mailEditButton;
     @FXML
+    private Button pdfPathButton;
+    @FXML
+    private Button pdfGenerateButton;
+    @FXML
     private Button passwordEditButton;
     @FXML
     private GridPane gridTasks;
@@ -53,8 +56,6 @@ public class ManagerController {
     private TableColumn<?, ?> employeeAddress;
     @FXML
     private TableColumn<?, ?> employeeGroup;
-    @FXML
-    private TableColumn<?, ?> employeeID;
     @FXML
     private TableColumn<?, ?> employeeMail;
     @FXML
@@ -70,7 +71,7 @@ public class ManagerController {
     @FXML
     private GridPane gridEmployee;
     @FXML
-    private GridPane gridRaport;
+    private GridPane gridReport;
     @FXML
     private GridPane gridSettings;
     @FXML
@@ -98,8 +99,6 @@ public class ManagerController {
     @FXML
     private TableColumn<?, ?> myTaskEdit;
     @FXML
-    private TableColumn<TasksTable, Integer> myTaskID;
-    @FXML
     private TableColumn<?, ?> myTaskPlannedDate;
     @FXML
     private TableColumn<?, ?> myTaskStatus;
@@ -116,58 +115,145 @@ public class ManagerController {
     @FXML
     private TableColumn<TasksTable, Integer> taskEmployee;
     @FXML
-    private TableColumn<TasksTable, Integer> taskID;
-    @FXML
     private TableColumn<TasksTable, ?> taskPlannedDate;
     @FXML
     private TableColumn<TasksTable, Integer> taskStatus;
     @FXML
     private TableColumn<TasksTable, String> taskTitle;
+    @FXML
+    private TextField pdfPathField;
+    @FXML
+    private ListView<?> pdfChooseReportListView;
+    @FXML
+    private ListView<?> pdfChooseDataListView;
+    @FXML
+    private AnchorPane mainAnchorPane;
+
     private ObservableList<TasksTable> myTaskTable;
     private ObservableList<TasksTable> taskTable;
     private ObservableList<UsersTable> userTable;
 
-    UsersTable usersTable = new UsersTable();
-
     @FXML
     private void initialize() {
-        welcomeLabel.setText("Witaj " + usersTable.getLoginName() + " " + usersTable.getLoginSurname() + "!");
+        welcomeLabel.setText("Witaj " + UsersTable.getLoginName() + " " + UsersTable.getLoginSurname() + "!");
         gridMyTasks.toFront();
         myTask();
     }
 
+    //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
+    public void buttonsHandlerPane(ActionEvent event) throws IOException {
+        Object source = event.getSource();
+
+        if (source == myTasksButton) {
+            gridMyTasks.toFront();
+            textLabel.setText("Moje zadania");
+            myTask();
+        } else if (source == tasksButton) {
+            gridTasks.toFront();
+            textLabel.setText("Zadania");
+            task();
+        } else if (source == employeeButton) {
+            gridEmployee.toFront();
+            textLabel.setText("Pracownicy");
+            employee();
+        } else if (source == raportButton) {
+            pdfPathField.clear();
+            gridReport.toFront();
+            textLabel.setText("Generowanie raportów");
+        } else if (source == settingsButton) {
+            gridSettings.toFront();
+            textLabel.setText("Ustawienia");
+            data();
+        }
+    }
+
+    //To jest do obsługi wszystkich buttonów, które zmieniają cały panel (Stage) i PopupWindow
+    public void buttonsHandlerStages(ActionEvent event) throws IOException {
+        Object source = event.getSource();
+        Stage stage;
+        Parent root;
+        StageChanger stageChanger = new StageChanger();
+
+        if (source == logoutButton) {
+            stageChanger.changeSize(915, 630);
+            stageChanger.changeScene("/main.fxml");
+        } else if (source == addTaskButton) {
+            stage = new Stage();
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/pop_task/addTask.fxml")));
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(addTaskButton.getScene().getWindow());
+            stage.showAndWait();
+        } else if (source == mailEditButton) {
+            stage = new Stage();
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/pop_settings/editEmailInSettings.fxml")));
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(mailEditButton.getScene().getWindow());
+            stage.showAndWait();
+        } else if (source == passwordEditButton) {
+            stage = new Stage();
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/pop_settings/editPasswordInSettings.fxml")));
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(passwordEditButton.getScene().getWindow());
+            stage.showAndWait();
+        }
+    }
+
+    public void buttonReports(ActionEvent event) {
+        Object source = event.getSource();
+        if (source == pdfPathButton) {
+            final DirectoryChooser dirChooser = new DirectoryChooser();
+            Stage stage = (Stage) mainAnchorPane.getScene().getWindow();
+            File file = dirChooser.showDialog(stage);
+
+            if(file != null){
+                System.out.println("Ścieżka" + file.getAbsolutePath());
+                pdfPathField.setText(file.getAbsolutePath());
+            }
+
+        } else if (source == pdfGenerateButton) {
+
+        }
+
+    }
+
     //Wyświetlanie moich zadań
     public void myTask() {
-        DatabaseConnector.connect();
         try {
+            DatabaseConnector.connect();
             myTaskTable = FXCollections.observableArrayList();
 
-            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks INNER JOIN statuses ON tasks.status_id = statuses.id_status WHERE user_id = " + usersTable.getLoginIdUser());
-            System.out.println(usersTable.getLoginIdUser());
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks " +
+                                                                "JOIN statuses ON tasks.status_id = statuses.id_status " +
+                                                                "JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task " +
+                                                                "WHERE user_id = " + UsersTable.getIdLoginUser());
+            System.out.println(UsersTable.getIdLoginUser());
             while (result.next()) {
                 TasksTable task = new TasksTable();
-
-                task.setIdTask(result.getInt("id_task"));
+                HistoryTaskTable htask = new HistoryTaskTable();
                 task.setTitle(result.getString("title"));
+                task.setData(result.getDate("planned_end"));
                 task.setDescription(result.getString("description"));
                 task.setNameStatus(result.getString("name"));
                 myTaskTable.add(task);
-
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        myTaskID.setCellValueFactory(new PropertyValueFactory<>("idTask"));
+
         myTaskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        myTaskPlannedDate.setCellValueFactory(new PropertyValueFactory<>("data"));
         myTaskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         myTaskStatus.setCellValueFactory(new PropertyValueFactory<>("nameStatus"));
         myTaskTableView.setItems(myTaskTable);
     }
 
     public void data() {
-        DatabaseConnector.connect();
         try {
-            ResultSet rs = QExecutor.executeSelect("SELECT * FROM users where id_user=" + UsersTable.getLoginIdUser());
+            DatabaseConnector.connect();
+            ResultSet rs = QExecutor.executeSelect("SELECT * FROM users where id_user=" + UsersTable.getIdLoginUser());
             while (rs.next()) {
                 UsersTable user = new UsersTable();
                 user.setName(rs.getString("name"));
@@ -192,16 +278,18 @@ public class ManagerController {
 
     //Wyświetlanie zadań
     public void task() {
-        DatabaseConnector.connect();
         try {
+            DatabaseConnector.connect();
             taskTable = FXCollections.observableArrayList();
 
-            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks JOIN statuses ON tasks.status_id = statuses.id_status JOIN users ON tasks.user_id=users.id_user JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task");
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks " +
+                                                                    "JOIN statuses ON tasks.status_id = statuses.id_status " +
+                                                                    "JOIN users ON tasks.user_id=users.id_user " +
+                                                                    "JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task");
 
             while (result.next()) {
                 TasksTable task = new TasksTable();
                 HistoryTaskTable historyTaskTable = new HistoryTaskTable();
-                task.setIdTask(result.getInt("id_task"));
                 task.setTitle(result.getString("title"));
                 task.setDescription(result.getString("description"));
                 task.setData(result.getDate("tasks_history.planned_end"));
@@ -212,7 +300,6 @@ public class ManagerController {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        taskID.setCellValueFactory(new PropertyValueFactory<>("idTask"));
         taskTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         taskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         taskPlannedDate.setCellValueFactory(new PropertyValueFactory<>("data"));
@@ -223,16 +310,17 @@ public class ManagerController {
 
     //Wyświetlanie pracowników
     public void employee() {
-        DatabaseConnector.connect();
         try {
+            DatabaseConnector.connect();
             userTable = FXCollections.observableArrayList();
 
-            ResultSet result = QExecutor.executeSelect("SELECT * FROM users JOIN positions ON users.position_id = positions.id_position JOIN login ON users.token=login.token;");
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM users " +
+                                                                    "JOIN positions ON users.position_id = positions.id_position " +
+                                                                    "JOIN login ON users.token=login.token;");
 
             while (result.next()) {
                 UsersTable user = new UsersTable();
 
-                user.setIdUser(result.getInt("id_user"));
                 user.setName(result.getString("name"));
                 user.setSurname(result.getString("surname"));
                 user.setEmail(result.getString("email"));
@@ -246,7 +334,6 @@ public class ManagerController {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        employeeID.setCellValueFactory(new PropertyValueFactory<>("idUser"));
         employeeName.setCellValueFactory(new PropertyValueFactory<>("name"));
         employeeSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
         employeePosition.setCellValueFactory(new PropertyValueFactory<>("namePosition"));
@@ -255,55 +342,5 @@ public class ManagerController {
         employeePhone.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
         employeeGroup.setCellValueFactory(new PropertyValueFactory<>("groups"));
         employeeTableView.setItems(userTable);
-    }
-
-    //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
-    public void buttonsHandlerPane(ActionEvent event) throws IOException {
-        Object source = event.getSource();
-
-        if (source == myTasksButton) {
-            gridMyTasks.toFront();
-            textLabel.setText("Moje zadania");
-            myTask();
-        } else if (source == tasksButton) {
-            gridTasks.toFront();
-            textLabel.setText("Zadania");
-            task();
-        } else if (source == employeeButton) {
-            gridEmployee.toFront();
-            textLabel.setText("Pracownicy");
-            employee();
-        } else if (source == raportButton) {
-            gridRaport.toFront();
-            textLabel.setText("Generowanie raportów");
-        } else if (source == settingsButton) {
-            gridSettings.toFront();
-            textLabel.setText("Ustawienia");
-            data();
-        }
-    }
-
-    //To jest do obsługi wszystkich buttonów, które zmieniają cały panel (Stage) i PopupWindow
-    public void buttonsHandlerStages(ActionEvent event) throws IOException {
-        Object source = event.getSource();
-        Stage stage;
-        Parent root;
-        StageChanger stageChanger = new StageChanger();
-
-        if (source == logoutButton) {
-            stageChanger.changeSize(915, 630);
-            stageChanger.changeScene("/main.fxml");
-        } else if (source == addTaskButton) {
-            stage = new Stage();
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/addTask.fxml")));
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(addTaskButton.getScene().getWindow());
-            stage.showAndWait();
-        } else if (source == mailEditButton) {
-            System.out.println("A");
-        } else if (source == passwordEditButton) {
-            System.out.println("B");
-        }
     }
 }

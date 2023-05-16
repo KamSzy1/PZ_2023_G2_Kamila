@@ -9,13 +9,14 @@ public class ValidateData {
     //Nie pytajcie co to robi, uwierzcie w Jasną Stronę Javy
     private static String regex_zipCode = "^[0-9]{2}(?:-[0-9]{3})?$"; //98-145
     private final static String regex_number = "^[0-9]{9}$"; //123 123 123
-    private final static String regex_address = "^\\S.*$"; //ul. Strażakca 9/10
+    private final static String regex_address = "^\\S.*$"; //ul. Strażacka 9/10
     private final static String regex_place = "^[\\p{L}\\p{M}]+([ -][\\p{L}\\p{M}]+)?$"; //Rzeszów // Nowa Sarzyna // Bielsko-Biała
     // Zapasowy regex, jakby coś się zepsuło
     // ^(?!\d)[\p{L}\p{M}]+(?:[-\s][\p{L}\p{M}]+)*$
-    private final static String regex_name = "^[\\p{L}]+$"; //
+    private final static String regex_name = "^[\\p{L}]+$"; //Nie pozwala na spację przed imieniem i nazwiskiem
     //Zapasowy regex
     //[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+
+    private final static String number = "-?\\d+(\\.\\d+)?"; //0-9
 
     //Sprawdzenie czy imię jest takie jak powinno -> tzn. żeby ktoś Kasia2000 nie wpisał
     public static void goodName(String name) throws Exception {
@@ -114,5 +115,23 @@ public class ValidateData {
         }
     }
 
+    //Sprawdzenie czy token jest wygenerowany
+    public static void goodToken(String token) throws Exception {
+        if (token.equals("") || token.isBlank() || token.equals(" ")) {
+            throw new Exception("Wygeneruj token");
+        }
+    }
 
+    //Sprawdzenie czy grupa jest numeryczna
+    public static void goodGroup(String strNum) throws Exception {
+        if (strNum == null) {
+            throw new Exception("Wpisz numer grupy");
+        } else {
+            Pattern pattern_number = Pattern.compile(number);
+            Matcher number = pattern_number.matcher(strNum);
+            if (!number.matches()) {
+                throw new Exception("Numer grupy musi być liczbą");
+            }
+        }
+    }
 }
