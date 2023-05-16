@@ -9,12 +9,12 @@ public class StatusesTable {
         return idStatus;
     }
 
-    public void setIdStatus(int idStatus) {
-        this.idStatus = idStatus;
-    }
-
     public String getName() {
         return name;
+    }
+
+    public void setIdStatus(int idStatus) {
+        this.idStatus = idStatus;
     }
 
     public void setName(String name) {

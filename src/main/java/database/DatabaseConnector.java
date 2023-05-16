@@ -8,16 +8,11 @@ public class DatabaseConnector {
     private final static String user = "root";
     private final static String pass = "";
 
-    public static Connection connect() {
-        Connection connection = null;
+    public static Connection connect() throws SQLException{
 
-        try {
-            connection = DriverManager.getConnection(url, user, pass);
-            System.out.println("Connected");
+        Connection connection = DriverManager.getConnection(url, user, pass);
+        System.out.println("Connected");
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         return connection;
     }
 }
