@@ -23,7 +23,7 @@ public class AddTaskController {
     @FXML
     private TextField titleField;
     @FXML
-    private ListView<String> personView;
+    private ComboBox<String> personView;
     @FXML
     private ListView<String> statusView;
     @FXML
