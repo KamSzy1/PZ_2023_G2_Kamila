@@ -54,6 +54,10 @@ public class AddEmployeeController {
     UsersTable addEmployee = new UsersTable();
     LoginTable loginTable = new LoginTable();
     private ObservableList<String> positions;
+    @FXML
+    public void initialize (){
+        positionList();
+    }
 
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
@@ -77,7 +81,7 @@ public class AddEmployeeController {
         } else if (source == addButton) {
             //Dodawanie pracownika
             addPerson();
-            positionList();
+
             isRefreshed = true;
 
             //Zamykanie okienka
@@ -148,7 +152,7 @@ public class AddEmployeeController {
             DatabaseConnector.connect();
             positions = FXCollections.observableArrayList();
             positions.add("Wybierz stanowisko");
-            ResultSet rs = QExecutor.executeSelect("SELECT * FROM postions");
+            ResultSet rs = QExecutor.executeSelect("SELECT * FROM positions");
             while (rs.next()) {
                 positions.add(rs.getString(2));
             }
