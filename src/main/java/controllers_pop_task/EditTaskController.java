@@ -40,27 +40,10 @@ public class EditTaskController {
     private final LocalDate currentDate = LocalDate.now();
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final String formattedDate = currentDate.format(formatter);
-    private int idTask;
 
     @FXML
     public void initialize() {
-        try {
-            DatabaseConnector.connect();
-//SELECT t.title, t.description, u.name, u.surname, s.name, tk.planned_end FROM tasks AS t JOIN statuses AS s ON t.status_id = s.id_status JOIN users AS u ON t.user_id=u.id_user JOIN tasks_history AS tk ON tk.tasks_id=t.id_task WHERE t.id_task = 8
-            ResultSet result = QExecutor.executeSelect("SELECT t.title, t.description, u.name, u.surname, s.name, tk.planned_end FROM tasks AS t " +
-                    "JOIN statuses AS s ON t.status_id = s.id_status " +
-                    "JOIN users AS u ON t.user_id=u.id_user " +
-                    "JOIN tasks_history AS tk ON tk.tasks_id=t.id_task " +
-                    "WHERE t.id_task = " + idTask);
-            result.next();
-            System.out.println(idTask);
 
-            titleField.setText(result.getString("title"));
-            descriptionArea.setText(result.getString("description"));
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public void buttonsHandler(ActionEvent event) throws IOException {
@@ -74,8 +57,9 @@ public class EditTaskController {
         }
     }
 
-    public void setIdTask(int idTask){
-        this.idTask = idTask;
+    public void setData(String title, String description, String name, String surname, String status, String planned_end){
+        titleField.setText(title);
+        descriptionArea.setText(description);
     }
 
     //Zamykanie okienka

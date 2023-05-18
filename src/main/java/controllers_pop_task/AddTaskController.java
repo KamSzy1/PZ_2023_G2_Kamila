@@ -10,6 +10,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import validate.ValidateTask;
+
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -32,6 +34,8 @@ public class AddTaskController {
     private Button cancelButton;
     @FXML
     private Button addButton;
+    @FXML
+    private Label wrongLabel;
 
     private final TasksTable tasksTable = new TasksTable();
     private final HistoryTaskTable historyTaskTable = new HistoryTaskTable();
@@ -39,6 +43,8 @@ public class AddTaskController {
     private final LocalDate currentDate = LocalDate.now();
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final String formattedDate = currentDate.format(formatter);
+    private LocalDate date;
+
 
     @FXML
     public void initialize() {
@@ -51,6 +57,8 @@ public class AddTaskController {
                 setDisable(empty || date.isBefore(today));
             }
         });
+
+        timePicker.getEditor().setDisable(true);
     }
 
     public void buttonsHandler(ActionEvent event) throws IOException {
@@ -63,24 +71,13 @@ public class AddTaskController {
 
         } else if (source == addButton) {
             addTask();
-
-            Stage stage = (Stage) addButton.getScene().getWindow();
-            stage.close();
         }
     }
 
     public void addTask() {
         // Dodawanie nowych zadań
-        LocalDate date = timePicker.getValue();
-        tasksTable.setTitle(titleField.getText());
-        tasksTable.setDescription(descriptionArea.getText());
-        historyTaskTable.setPlannedEnd(Date.valueOf(date));
-        historyTaskTable.setStartDate(Date.valueOf(formattedDate));
-        tasksTable.setStatusId(2);
-        tasksTable.setUserId(personView.getSelectionModel().getSelectedIndex());
-        System.out.println(timePicker);
-
         try {
+            tryGetData();
             DatabaseConnector.connect();
             QExecutor.executeQuery("insert into tasks (title, description, status_id, user_id) values ('"
                     + tasksTable.getTitle() + "','"
@@ -92,9 +89,16 @@ public class AddTaskController {
                     + historyTaskTable.getPlannedEnd() + "','"
                     + historyTaskTable.getStartDate() + "',"
                     + "(SELECT MAX(id_task) FROM tasks))");
-        }
-        catch(SQLException e){
+
+            Stage stage = (Stage) addButton.getScene().getWindow();
+            stage.close();
+
+        } catch (SQLException e) {
             e.printStackTrace();
+        } catch (NullPointerException e) {
+            wrongLabel.setText("Ustaw czas zakończenia zadania");
+        } catch(Exception e){
+            wrongLabel.setText(e.getMessage());
         }
     }
 
@@ -111,5 +115,22 @@ public class AddTaskController {
             e.printStackTrace();
         }
         personView.setItems(names);
+    }
+
+    private void tryGetData() throws Exception{ //Do tego trzeba dodać walidację, czy data jest poprawna + dodać wybiranie stanowiska praocwnika
+        String title = titleField.getText();
+        String description = descriptionArea.getText();
+        String status = "2"; //Trzeba dodać pobieranie od użytkownika
+
+        ValidateTask.checkTitle(title);
+        ValidateTask.checkDescription(description);
+
+        date = timePicker.getValue();
+        tasksTable.setTitle(title);
+        tasksTable.setDescription(description);
+        historyTaskTable.setPlannedEnd(Date.valueOf(date));
+        historyTaskTable.setStartDate(Date.valueOf(formattedDate));
+        tasksTable.setStatusId(Integer.parseInt(status));
+        tasksTable.setUserId(personView.getSelectionModel().getSelectedIndex());
     }
 }

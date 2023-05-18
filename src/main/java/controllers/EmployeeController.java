@@ -1,6 +1,7 @@
 package controllers;
 
 import com.example.system.StageChanger;
+import controllers_pop_task.EditTaskController;
 import database.DatabaseConnector;
 import database.QExecutor;
 import database_classes.HistoryTaskTable;
@@ -15,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
@@ -120,27 +122,17 @@ public class EmployeeController {
     //To jest do obsługi wszystkich buttonów, które zmieniają cały panel (Stage) i PopupWindow
     public void buttonsHandlerStages(ActionEvent event) throws IOException {
         Object source = event.getSource();
-        Stage stage; //Wiem, że nie używamy tych dwóch zmiennych na razie,
-        Parent root; //ale jak się doda edycje maila i hasła, to nam będą potrzebne
         StageChanger stageChanger = new StageChanger();
 
         if (source == logoutButton) {
             stageChanger.changeSize(915, 630);
             stageChanger.changeScene("/main.fxml");
         } else if (source == mailEditButton) {
-            stage = new Stage();
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/pop_settings/editEmailInSettings.fxml")));
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(mailEditButton.getScene().getWindow());
-            stage.showAndWait();
+            String fxmlPath = "/pop_settings/editEmailInSettings.fxml";
+            openWindow(mailEditButton, fxmlPath);
         } else if (source == passwordEditButton) {
-            stage = new Stage();
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/pop_settings/editPasswordInSettings.fxml")));
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(passwordEditButton.getScene().getWindow());
-            stage.showAndWait();
+            String fxmlPath = "/pop_settings/editPasswordInSettings.fxml";
+            openWindow(passwordEditButton, fxmlPath);
         }
     }
 
@@ -151,7 +143,7 @@ public class EmployeeController {
             Stage stage = (Stage) mainAnchorPane.getScene().getWindow();
             File file = dirChooser.showDialog(stage);
 
-            if(file != null){
+            if (file != null) {
                 System.out.println("Ścieżka" + file.getAbsolutePath());
                 pdfPathField.setText(file.getAbsolutePath());
             }
@@ -161,26 +153,18 @@ public class EmployeeController {
         }
     }
 
-    public void data() {
+    private void data() {
         try {
             DatabaseConnector.connect();
             ResultSet rs = QExecutor.executeSelect("SELECT * FROM users where id_user=" + UsersTable.getIdLoginUser());
             while (rs.next()) {
-                UsersTable user = new UsersTable();
-                user.setName(rs.getString("name"));
-                user.setSurname(rs.getString("surname"));
-                user.setAddress(rs.getString("address"));
-                user.setPlace(rs.getString("place"));
-                user.setZip(rs.getString("zip"));
-                user.setPhoneNumber(rs.getInt("phone_num"));
-                user.setGroups(rs.getInt("groups"));
-                nameLabel.setText(user.getName());
-                surnameLabel.setText(user.getSurname());
-                addressLabel.setText(user.getAddress());
-                zipLabel.setText(user.getZip());
-                placeLabel.setText(user.getPlace());
-                phoneLabel.setText(String.valueOf(user.getPhoneNumber()));
-                groupLabel.setText(String.valueOf(user.getGroups()));
+                nameLabel.setText(rs.getString("name"));
+                surnameLabel.setText(rs.getString("surname"));
+                addressLabel.setText(rs.getString("address"));
+                zipLabel.setText(rs.getString("zip"));
+                placeLabel.setText(rs.getString("place"));
+                phoneLabel.setText(String.valueOf(rs.getInt("phone_num")));
+                groupLabel.setText(String.valueOf(rs.getInt("groups")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -188,7 +172,7 @@ public class EmployeeController {
     }
 
     //Wyświetlanie "Moich Zadań"
-    public void myTask() {
+    private void myTask() {
         try {
             DatabaseConnector.connect();
             myTaskTable = FXCollections.observableArrayList();
@@ -201,11 +185,18 @@ public class EmployeeController {
             while (result.next()) {
                 TasksTable task = new TasksTable();
 
+                Button editButton = new Button("Edycja");
+                String idTask = result.getString("id_task");
+                editButton.setOnAction(event -> {
+                    preparePopUpWindowEditTask(idTask);
+                });
+
                 HistoryTaskTable htask = new HistoryTaskTable();
                 task.setTitle(result.getString("title"));
                 task.setData(result.getDate("planned_end"));
                 task.setDescription(result.getString("description"));
                 task.setNameStatus(result.getString("name"));
+                task.setEditTaskButton(editButton);
                 myTaskTable.add(task);
             }
         } catch (SQLException e) {
@@ -215,6 +206,58 @@ public class EmployeeController {
         myTaskPlannedDate.setCellValueFactory(new PropertyValueFactory<>("data"));
         myTaskDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         myTaskStatus.setCellValueFactory(new PropertyValueFactory<>("nameStatus"));
+        myTaskEdit.setCellValueFactory(new PropertyValueFactory<>("editTaskButton"));
+
         myTaskTableView.setItems(myTaskTable);
+    }
+
+    private void openWindow(Button button, String fxml) {
+        try {
+            Stage stage = new Stage();
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxml)));
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(button.getScene().getWindow());
+            stage.setResizable(false);
+            stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/ICON.png"))));
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void preparePopUpWindowEditTask(String idTask) {
+        try {
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/pop_task/editTask.fxml"));
+            AnchorPane anchorPane = loader.load();
+            EditTaskController editTaskController = loader.getController();
+
+            DatabaseConnector.connect();
+            //SELECT t.title, t.description, u.name, u.surname, s.name, tk.planned_end FROM tasks AS t JOIN statuses AS s ON t.status_id = s.id_status JOIN users AS u ON t.user_id=u.id_user JOIN tasks_history AS tk ON tk.tasks_id=t.id_task WHERE t.id_task = 8
+            ResultSet result = QExecutor.executeSelect("SELECT t.title, t.description, u.name, u.surname, s.name AS status, tk.planned_end FROM tasks AS t " +
+                    "JOIN statuses AS s ON t.status_id = s.id_status " +
+                    "JOIN users AS u ON t.user_id=u.id_user " +
+                    "JOIN tasks_history AS tk ON tk.tasks_id=t.id_task " +
+                    "WHERE t.id_task = " + idTask);
+            result.next();
+
+            editTaskController.setData(
+                    result.getString("title"),
+                    result.getString("description"),
+                    result.getString("name"),
+                    result.getString("surname"),
+                    result.getString("status"),
+                    result.getString("planned_end"));
+
+            Scene scene = new Scene(anchorPane);
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/ICON.png"))));
+            stage.show();
+
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

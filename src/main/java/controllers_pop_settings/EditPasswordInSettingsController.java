@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import other.PasswordHash;
-import other.ValidateData;
+import validate.ValidateEmployee;
 
 import java.io.IOException;
 
@@ -37,8 +37,10 @@ public class EditPasswordInSettingsController {
     private TextField tokenField;
     @FXML
     private GridPane tokenGrid;
+//    @FXML
+//    private Label wrongLabel;
     @FXML
-    private Label wrongLabel;
+    private Label wrongTokenLabel;
 
     @FXML
     public void initialize() {
@@ -52,40 +54,40 @@ public class EditPasswordInSettingsController {
         if (source == continueButton) {
             //Sprawdzenie tokenu
             try {
-                ValidateData.goodToken(tokenField.getText());
+                ValidateEmployee.goodToken(tokenField.getText());
             } catch (Exception e) {
-                wrongLabel.setText(e.getMessage());
+                wrongTokenLabel.setText(e.getMessage());
             }
-
             passwordGrid.toFront();
 
+        } else if (source == saveButton) {
+            resetPassword();
         } else if (source == cancel2Button) {
             //Zamykanie okienka
             Stage stage = (Stage) cancel2Button.getScene().getWindow();
             stage.close();
-        } else if (source == saveButton) {
-            //Zmiana hasła
-            passwordActualField.getText();
-            passwordNewField.getText();
-            passwordRepeatField.getText();
-
-            try {
-                ValidateData.samePassword(passwordNewField.getText(),passwordRepeatField.getText());
-
-                String hashedPassword = PasswordHash.hashedPassword(passwordNewField.getText());
-                DatabaseConnector.connect();
-                QExecutor.executeQuery("UPDATE login SET password='"+hashedPassword +
-                                        "' WHERE token='"+ tokenField.getText()+"'");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
         } else if (source == cancelButton) {
             //Zamykanie okienka
             Stage stage = (Stage) cancelButton.getScene().getWindow();
             stage.close();
 
         }
+    }
 
+    private void resetPassword() {
+        //Zmiana hasła
+        String newPassword = passwordNewField.getText();
+        String repeatNewPassword = passwordRepeatField.getText();
+
+        try {
+            ValidateEmployee.samePassword(newPassword, repeatNewPassword);
+            String hashedPassword = PasswordHash.hashedPassword(newPassword);
+
+            DatabaseConnector.connect();
+            QExecutor.executeQuery("UPDATE login SET password='" + hashedPassword +
+                    "' WHERE token='" + tokenField.getText() + "'");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

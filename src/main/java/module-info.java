@@ -2,7 +2,6 @@ module com.example.system {
     requires javafx.controls;
     requires javafx.fxml;
     requires commons.validator;
-    requires lombok;
     requires java.sql;
     requires de.jensd.fx.glyphs.fontawesome;
 
