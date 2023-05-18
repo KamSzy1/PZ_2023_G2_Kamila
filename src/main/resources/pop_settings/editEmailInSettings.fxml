@@ -93,6 +93,11 @@
                         <Font size="15.0" />
                      </font>
                   </Button>
+                  <Label fx:id="wrongTokenLabel" alignment="CENTER" prefHeight="17.0" prefWidth="344.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
                </children>
             </GridPane>
          </children>

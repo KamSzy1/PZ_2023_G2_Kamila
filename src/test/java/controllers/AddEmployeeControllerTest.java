@@ -1,29 +1,20 @@
 package controllers;
 
-import com.example.system.*;
 import database.DatabaseConnector;
 import database_classes.UsersTable;
-import org.junit.Before;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import java.sql.*;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class AddEmployeeControllerTest {
-    @Before
-    public void setUp() throws Exception {
-    }
 
     @Test
     public void addUser() throws SQLException {
         // Tworzenie połączenia testowego z bazą danych
         Connection connection = DatabaseConnector.connect();
 
-
-
-       UsersTable user = new UsersTable(22, "Lidia", "Pacynaaa", "Kolbuszowska 11", "36-122", "Dzikowiec", 530188983, 1,"haha", 1);
-
+        UsersTable user = new UsersTable(22, "Lidia", "Pacynaaa", "Kolbuszowska 11", "36-122", "Dzikowiec", 530188983, 1, "haha", 1);
 
         String query =
                 "INSERT INTO users (id_user, name, surname, address, zip, place, phone_num, position_id, token, groups)" +

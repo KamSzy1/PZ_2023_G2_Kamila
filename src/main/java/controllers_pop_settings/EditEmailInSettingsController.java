@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import other.ValidateData;
+import validate.ValidateEmployee;
 
 public class EditEmailInSettingsController {
 
@@ -33,8 +33,10 @@ public class EditEmailInSettingsController {
     private TextField emailRepeatField;
     @FXML
     private TextField tokenField;
+//    @FXML
+//    private Label wrongLabel;
     @FXML
-    private Label wrongLabel;
+    private Label wrongTokenLabel;
 
     @FXML
     public void initialize() {
@@ -48,9 +50,9 @@ public class EditEmailInSettingsController {
         if (source == continueButton) {
             //Sprawdzenie tokenu
             try {
-                ValidateData.goodToken(tokenField.getText());
+                ValidateEmployee.goodToken(tokenField.getText());
             } catch (Exception e) {
-                wrongLabel.setText(e.getMessage());
+                wrongTokenLabel.setText(e.getMessage());
             }
 
             emailGrid.toFront();
@@ -66,12 +68,12 @@ public class EditEmailInSettingsController {
             emailRepeatField.getText();
 
             try {
-                ValidateData.goodEmail(emailActualField.getText());
-                ValidateData.goodEmail(emailNewField.getText());
-                ValidateData.goodEmail(emailRepeatField.getText());
-                ValidateData.goodAddress(emailActualField.getText());
-                ValidateData.goodAddress(emailNewField.getText());
-                ValidateData.goodAddress(emailRepeatField.getText());
+                ValidateEmployee.goodEmail(emailActualField.getText());
+                ValidateEmployee.goodEmail(emailNewField.getText());
+                ValidateEmployee.goodEmail(emailRepeatField.getText());
+                ValidateEmployee.goodAddress(emailActualField.getText());
+                ValidateEmployee.goodAddress(emailNewField.getText());
+                ValidateEmployee.goodAddress(emailRepeatField.getText());
 
                 DatabaseConnector.connect();
                 QExecutor.executeQuery("UPDATE login SET email='"+emailNewField.getText() +

@@ -12,7 +12,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import other.PasswordHash;
-import other.ValidateData;
+import validate.ValidateEmployee;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -74,6 +74,8 @@ public class MainController {
     private static int USER_CHOICE;
     private String token;
     private final StageChanger stageChanger = new StageChanger();
+    private String password;
+    private String email;
 
     @FXML
     public void initialize() {
@@ -82,20 +84,9 @@ public class MainController {
 
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
-        String password;
-        String email;
 
         if (source == loginButton) {
-            //Logowanie
-            email = emailField.getText();
-            password = passwordField.getText();
-
-            if (email.isEmpty() || password.isEmpty()) {
-                wrongLogin.setText("Uzupełnij wszystkie pola!");
-            } else {
-                login(email, password);
-            }
-
+            tryLoginUser();
         } else if (source == regChangeButton) {
             //Przejście do gridu z panelem tokenu
             backButton.setVisible(true);
@@ -104,20 +95,7 @@ public class MainController {
             gridToken.toFront();
             USER_CHOICE = 1;
         } else if (source == registrationButton) {
-            // Rejestracja użytkownika
-            email = regEmailField.getText();
-            password = regPasswordField.getText();
-            String repeat_password = regRepeatPasswordField.getText();
-
-            try {
-                ValidateData.goodEmail(email);
-                ValidateData.samePassword(password, repeat_password);
-
-                registration(email, password, token);
-                stageChanger.changeScene("/main.fxml");
-            } catch (Exception e) {
-                wrongRegistration.setText(e.getMessage());
-            }
+            tryRegisterEmployee();
         } else if (source == resetPasswordButton) {
             backButton.setVisible(true);
             gridToken.toFront();
@@ -137,6 +115,18 @@ public class MainController {
             backButton.setVisible(false);
             wrongLogin.setText("");
             gridLogin.toFront();
+        }
+    }
+
+    private void tryLoginUser() {
+        //Logowanie
+        email = emailField.getText();
+        password = passwordField.getText();
+
+        if (email.isEmpty() || password.isEmpty()) {
+            wrongLogin.setText("Uzupełnij wszystkie pola!");
+        } else {
+            login(email, password);
         }
     }
 
@@ -204,6 +194,22 @@ public class MainController {
         }
     }
 
+    private void tryRegisterEmployee() {
+        // Rejestracja użytkownika
+        email = regEmailField.getText();
+        password = regPasswordField.getText();
+        String repeat_password = regRepeatPasswordField.getText();
+
+        try {
+            ValidateEmployee.goodEmail(email);
+            ValidateEmployee.samePassword(password, repeat_password);
+
+            registration(email, password, token);
+            stageChanger.changeScene("/main.fxml");
+        } catch (Exception e) {
+            wrongRegistration.setText(e.getMessage());
+        }
+    }
 
     //Metoda do rejestrowania użytkowników
     private void registration(String mail, String password, String token) throws SQLException {

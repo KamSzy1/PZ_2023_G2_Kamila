@@ -1,5 +1,7 @@
 package database_classes;
 
+import javafx.scene.control.Button;
+
 public class UsersTable {
 
     private static int idLoginUser;
@@ -19,6 +21,7 @@ public class UsersTable {
     private static String loginSurname;
     private String namePosition;
     private String token;
+    private Button editEmployeeButton;
 
     public UsersTable() {}
 
@@ -33,6 +36,7 @@ public class UsersTable {
         this.positionId = positionId;
         this.token = token;
         this.groups = groups;
+        this.editEmployeeButton = new Button();
     }
 
     public static int getIdLoginUser() {
@@ -103,6 +107,10 @@ public class UsersTable {
         return token;
     }
 
+    public Button getEditEmployeeButton() {
+        return editEmployeeButton;
+    }
+
     public static void setIdLoginUser(int idLoginUser) {
         UsersTable.idLoginUser = idLoginUser;
     }
@@ -169,6 +177,10 @@ public class UsersTable {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public void setEditEmployeeButton(Button editEmployeeButton) {
+        this.editEmployeeButton = editEmployeeButton;
     }
 }
 

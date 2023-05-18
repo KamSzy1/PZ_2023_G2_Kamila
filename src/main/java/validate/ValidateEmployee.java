@@ -1,10 +1,11 @@
-package other;
+package validate;
 
 import org.apache.commons.validator.routines.EmailValidator;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ValidateData {
+public class ValidateEmployee {
 
     //Nie pytajcie co to robi, uwierzcie w Jasną Stronę Javy
     private static String regex_zipCode = "^[0-9]{2}(?:-[0-9]{3})?$"; //98-145
@@ -132,6 +133,12 @@ public class ValidateData {
             if (!number.matches()) {
                 throw new Exception("Numer grupy musi być liczbą");
             }
+        }
+    }
+
+    public static void goodPosition(int position) throws Exception {
+        if (position <= 0 || position > 3) {
+            throw new Exception("Wybierz poprawne stanowisko z listy");
         }
     }
 }

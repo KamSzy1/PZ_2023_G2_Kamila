@@ -13,11 +13,12 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
-import other.ValidateData;
+import other.GenerateToken;
+import validate.ValidateEmployee;
+
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Random;
 
 public class AddEmployeeController {
 
@@ -54,8 +55,13 @@ public class AddEmployeeController {
     UsersTable addEmployee = new UsersTable();
     LoginTable loginTable = new LoginTable();
     private ObservableList<String> positions;
+
+    public static boolean refBool() {
+        return isRefreshed;
+    }
+
     @FXML
-    public void initialize (){
+    public void initialize() {
         positionList();
     }
 
@@ -64,7 +70,9 @@ public class AddEmployeeController {
 
         if (source == generateButton) {
             //Generowanie tokena
-            tokenField.setText(generateToken());
+            GenerateToken generateToken = new GenerateToken();
+            String generatedToken = generateToken.generateToken();
+            tokenField.setText(generatedToken);
 
         } else if (source == copyButton) {
             //Kopiowanie tokena do schowka
@@ -81,17 +89,12 @@ public class AddEmployeeController {
         } else if (source == addButton) {
             //Dodawanie pracownika
             addPerson();
-
             isRefreshed = true;
-
-            //Zamykanie okienka
-            Stage stage = (Stage) addButton.getScene().getWindow();
-            stage.close();
         }
     }
 
     //Dodawanie pracownika
-    void addPerson() {
+    private void addPerson() {
         String name = nameField.getText();
         String surname = surnameField.getText();
         String address = addressField.getText();
@@ -100,29 +103,32 @@ public class AddEmployeeController {
         String number = numberField.getText();
         String token = tokenField.getText();
         String group = groupField.getText();
+        int position = positionView.getSelectionModel().getSelectedIndex() + 1;
 
         try {
-            ValidateData.goodName(name);
-            ValidateData.goodSurname(surname);
-            ValidateData.goodAddress(address);
-            ValidateData.goodZipCode(zipCode);
-            ValidateData.goodPlace(place);
-            ValidateData.goodPhoneNumber(number);
-            ValidateData.goodToken(token);
-            ValidateData.goodGroup(group);
+            ValidateEmployee.goodName(name);
+            ValidateEmployee.goodSurname(surname);
+            ValidateEmployee.goodAddress(address);
+            ValidateEmployee.goodZipCode(zipCode);
+            ValidateEmployee.goodPlace(place);
+            ValidateEmployee.goodPhoneNumber(number);
+            ValidateEmployee.goodToken(token);
+            ValidateEmployee.goodGroup(group);
+            ValidateEmployee.goodPosition(position);
 
+            addEmployee.setName(name);
             addEmployee.setSurname(surname);
             addEmployee.setAddress(address);
             addEmployee.setZip(zipCode);
             addEmployee.setPlace(place);
             addEmployee.setPhoneNumber(Integer.parseInt(number));
-            addEmployee.setPositionId(2);
+            addEmployee.setPositionId(position);
             addEmployee.setToken(token);
             addEmployee.setGroups(Integer.parseInt(group));
 
             loginTable.setToken(tokenField.getText());
 
-            //Utwórzenie połączenia z bazą danych
+            //Utworzenie połączenia z bazą danych
             DatabaseConnector.connect();
 
             //Utwórz zapytanie SQL do wstawienia nowego rekordu
@@ -139,6 +145,10 @@ public class AddEmployeeController {
 
             QExecutor.executeQuery("INSERT INTO login (token) VALUES ('"
                     + loginTable.getToken() + "')");
+
+            //Zamykanie okienka
+            Stage stage = (Stage) addButton.getScene().getWindow();
+            stage.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -147,11 +157,10 @@ public class AddEmployeeController {
     }
 
     //wyświetlanie pozycji
-    public void positionList() {
+    private void positionList() {
         try {
             DatabaseConnector.connect();
             positions = FXCollections.observableArrayList();
-            positions.add("Wybierz stanowisko");
             ResultSet rs = QExecutor.executeSelect("SELECT * FROM positions");
             while (rs.next()) {
                 positions.add(rs.getString(2));
@@ -161,24 +170,4 @@ public class AddEmployeeController {
         }
         positionView.setItems(positions);
     }
-
-
-
-
-    //Generowanie tokenu
-    public static String generateToken() {
-        String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuwxyz1234567890";
-        StringBuilder stringBuilder = new StringBuilder();
-        Random random = new Random();
-        while (stringBuilder.length() < 6) {
-            int i = (int) (random.nextFloat() * CHARS.length());
-            stringBuilder.append(CHARS.charAt(i));
-        }
-        return stringBuilder.toString();
-    }
-
-    public static boolean refBool() {
-        return isRefreshed;
-    }
-
 }
