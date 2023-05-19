@@ -1,6 +1,6 @@
 # Projekt zaliczeniowy z przedmiotu: _**Programowanie zespołowe**_ 
  
-# Temat projektu: System do zarządzania zadaniami w firmie informatycznej.
+### Temat projektu: System do zarządzania zadaniami w firmie informatycznej.
 
 ## Skład grupy:
 * Lidia Pacyna
@@ -10,7 +10,7 @@
 * Patryk Wyczawski
 
 ## Specyfikacja projektu:
-### Cel projektu : Zaprojektowanie i wykonanie oprogramowania umożliwiającego planowanie i organizację zadań wykonywanych w firmie informatycznej. 
+#### Cel projektu : Zaprojektowanie i wykonanie oprogramowania umożliwiającego planowanie i organizację zadań wykonywanych w firmie informatycznej. 
 
 ## Wykorzystane technologie:
 * Język Java 18 - język, w którym została napisana aplikacja 
