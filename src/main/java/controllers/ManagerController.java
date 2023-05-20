@@ -278,7 +278,6 @@ public class ManagerController {
 
             while (result.next()) {
                 TasksTable task = new TasksTable();
-                HistoryTaskTable historyTaskTable = new HistoryTaskTable();
                 task.setTitle(result.getString("title"));
                 task.setDescription(result.getString("description"));
                 task.setData(result.getDate("tasks_history.planned_end"));
@@ -305,7 +304,7 @@ public class ManagerController {
 
             ResultSet result = QExecutor.executeSelect("SELECT * FROM users " +
                                                                     "JOIN positions ON users.position_id = positions.id_position " +
-                                                                    "JOIN login ON users.token=login.token;");
+                                                                    "JOIN login ON users.login_id=login.id_login");
 
             while (result.next()) {
                 UsersTable user = new UsersTable();
@@ -357,7 +356,8 @@ public class ManagerController {
 
             DatabaseConnector.connect();
             //SELECT t.title, t.description, u.name, u.surname, s.name, tk.planned_end FROM tasks AS t JOIN statuses AS s ON t.status_id = s.id_status JOIN users AS u ON t.user_id=u.id_user JOIN tasks_history AS tk ON tk.tasks_id=t.id_task WHERE t.id_task = 8
-            ResultSet result = QExecutor.executeSelect("SELECT t.title, t.description, u.name, u.surname, s.name AS status, tk.planned_end FROM tasks AS t " +
+            ResultSet result = QExecutor.executeSelect(
+                    "SELECT t.title, t.description, u.name, u.surname, s.name AS status, tk.planned_end FROM tasks AS t " +
                     "JOIN statuses AS s ON t.status_id = s.id_status " +
                     "JOIN users AS u ON t.user_id=u.id_user " +
                     "JOIN tasks_history AS tk ON tk.tasks_id=t.id_task " +

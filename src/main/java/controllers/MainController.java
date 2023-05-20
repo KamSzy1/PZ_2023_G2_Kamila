@@ -135,8 +135,9 @@ public class MainController {
         try {
             DatabaseConnector.connect();
             String hashedPassword = PasswordHash.hashedPassword(password);
-            ResultSet result = QExecutor.executeSelect("SELECT * FROM users inner join login ON login.token = users.token " +
-                                                                    "WHERE email = '" + email + "' and password = '" + hashedPassword + "'");
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM users " +
+                    "                                           INNER JOIN login ON login.id_login = users.login_id " +
+                                                                "WHERE email = '" + email + "' and password = '" + hashedPassword + "'");
             result.next();
             UsersTable.setLoginName(result.getString("name"));
             UsersTable.setLoginSurname(result.getString("surname"));
@@ -168,19 +169,21 @@ public class MainController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            wrongTokenLabel.setText("Błędny token");
         }
     }
 
     private void getUserFromToken(String token) throws SQLException {
-        ResultSet result = QExecutor.executeSelect("SELECT * FROM login WHERE token ='" + token + "'");
+        ResultSet result = QExecutor.executeSelect("SELECT u.name, u.surname, u.token, l.email FROM login AS l " +
+                                                        "INNER JOIN users AS u ON u.login_id = l.id_login " +
+                                                        "WHERE token = '" + token + "'");
         result.next();
-
-        ResultSet person = QExecutor.executeSelect("SELECT name, surname FROM users WHERE token ='" + token + "'");
-        person.next();
+        System.out.println(token);
 
         UsersTable user = new UsersTable();
-        user.setName(person.getString("name"));
-        user.setSurname(person.getString("surname"));
+        user.setName(result.getString("name"));
+        user.setSurname(result.getString("surname"));
+
         if (USER_CHOICE == 1) {
             if (result.getString("email") == null) {
                 regWelcomeLabel.setText("Witaj " + user.getName() + " " + user.getSurname() + "! W poniższe pola wpisz dane, którymi będziesz logował się do systemu");
@@ -216,6 +219,9 @@ public class MainController {
         String hashedPassword = PasswordHash.hashedPassword(password);
 
         DatabaseConnector.connect();
-        QExecutor.executeQuery("UPDATE login set email = '" + mail + "', password = '" + hashedPassword + "' where token= '" + token + "'");
+        QExecutor.executeQuery("UPDATE login " +
+                                "INNER JOIN user ON users.login_id = login.id_login" +
+                                "SET email = " + mail + ", password = " + hashedPassword + " " +
+                                "WHERE users.token = '" + token + "'");
     }
 }

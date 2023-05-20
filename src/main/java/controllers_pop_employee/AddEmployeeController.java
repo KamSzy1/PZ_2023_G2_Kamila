@@ -143,9 +143,6 @@ public class AddEmployeeController {
                     + addEmployee.getToken() + "','"
                     + addEmployee.getGroups() + "')");
 
-            QExecutor.executeQuery("INSERT INTO login (token) VALUES ('"
-                    + loginTable.getToken() + "')");
-
             //Zamykanie okienka
             Stage stage = (Stage) addButton.getScene().getWindow();
             stage.close();

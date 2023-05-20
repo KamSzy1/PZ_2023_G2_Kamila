@@ -248,9 +248,9 @@ public class AdminController {
             myTaskTable = FXCollections.observableArrayList();
 
             ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks " +
-                    "JOIN statuses ON tasks.status_id = statuses.id_status " +
-                    "JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task " +
-                    "WHERE user_id = " + UsersTable.getIdLoginUser());
+                                            "JOIN statuses ON tasks.status_id = statuses.id_status " +
+                                            "JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task " +
+                                            "WHERE user_id = " + UsersTable.getIdLoginUser());
             System.out.println(UsersTable.getIdLoginUser());
             while (result.next()) {
                 TasksTable task = new TasksTable();
@@ -330,7 +330,7 @@ public class AdminController {
 
             ResultSet result = QExecutor.executeSelect("SELECT * FROM users " +
                     "JOIN positions ON users.position_id = positions.id_position " +
-                    "JOIN login ON users.token=login.token;");
+                    "JOIN login ON users.login_id=login.id_login");
 
             while (result.next()) {
                 UsersTable user = new UsersTable();
@@ -451,5 +451,6 @@ public class AdminController {
             System.out.println("Ścieżka" + file.getAbsolutePath());
             pdfPathField.setText(file.getAbsolutePath());
         }
+
     }
 }

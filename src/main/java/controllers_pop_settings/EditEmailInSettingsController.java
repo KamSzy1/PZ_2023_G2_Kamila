@@ -11,6 +11,9 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import validate.ValidateEmployee;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class EditEmailInSettingsController {
 
     @FXML
@@ -33,10 +36,12 @@ public class EditEmailInSettingsController {
     private TextField emailRepeatField;
     @FXML
     private TextField tokenField;
-//    @FXML
+    //    @FXML
 //    private Label wrongLabel;
     @FXML
     private Label wrongTokenLabel;
+
+    String token;
 
     @FXML
     public void initialize() {
@@ -48,45 +53,58 @@ public class EditEmailInSettingsController {
         Object source = event.getSource();
 
         if (source == continueButton) {
-            //Sprawdzenie tokenu
-            try {
-                ValidateEmployee.goodToken(tokenField.getText());
-            } catch (Exception e) {
-                wrongTokenLabel.setText(e.getMessage());
-            }
+            checkIfTokenIsEmpty();
+        } else if (source == saveButton) {
+            changeEmail();
+        } else if (source == cancelButton) {
+            closeWindow(cancelButton);
+        } else if (source == cancel2Button) {
+            closeWindow(cancel2Button);
+        }
+    }
 
+    private void checkIfTokenIsEmpty() {
+        token = tokenField.getText();
+
+        if (token.isEmpty()) {
+            wrongTokenLabel.setText("Pusty token!");
+        } else {
+            checkToken();
+        }
+    }
+
+    //Sprawdzenie tokenu
+    private void checkToken() {
+        try {
+            DatabaseConnector.connect();
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM login WHERE token ='" + token + "'");
+            result.next();
             emailGrid.toFront();
 
-        } else if (source == cancel2Button) {
-            //Zamykanie okienka
-            Stage stage = (Stage) cancel2Button.getScene().getWindow();
-            stage.close();
-        } else if (source == saveButton) {
-            //Zmiana adresu Email
-            emailActualField.getText();
-            emailNewField.getText();
-            emailRepeatField.getText();
-
-            try {
-                ValidateEmployee.goodEmail(emailActualField.getText());
-                ValidateEmployee.goodEmail(emailNewField.getText());
-                ValidateEmployee.goodEmail(emailRepeatField.getText());
-                ValidateEmployee.goodAddress(emailActualField.getText());
-                ValidateEmployee.goodAddress(emailNewField.getText());
-                ValidateEmployee.goodAddress(emailRepeatField.getText());
-
-                DatabaseConnector.connect();
-                QExecutor.executeQuery("UPDATE login SET email='"+emailNewField.getText() +
-                        "' WHERE token='"+ tokenField.getText()+"'");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if (source == cancelButton) {
-            //Zamykanie okienka
-            Stage stage = (Stage) cancelButton.getScene().getWindow();
-            stage.close();
-
+        } catch (SQLException e) {
+            e.printStackTrace();
+            wrongTokenLabel.setText("Błędny token");
         }
-
     }
+
+    //Zmiana adresu Email
+    private void changeEmail() {
+        try {
+            ValidateEmployee.goodEmail(emailActualField.getText());
+            ValidateEmployee.goodEmail(emailNewField.getText());
+            ValidateEmployee.goodEmail(emailRepeatField.getText());
+
+            DatabaseConnector.connect();
+            QExecutor.executeQuery("UPDATE login SET email='" + emailNewField.getText() +
+                    "' WHERE token='" + tokenField.getText() + "'");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void closeWindow(Button button) {
+        Stage stage = (Stage) button.getScene().getWindow();
+        stage.close();
+    }
+
 }
