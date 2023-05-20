@@ -86,12 +86,19 @@ public class ValidateEmployee {
         }
     }
 
+    //Sprawdzenie czy emaile są takie same
+    public static void sameEmail(String email, String repeatEmail) throws Exception {
+        if (!email.equals(repeatEmail)) {
+            throw new Exception("Emaile nie są takie same!");
+        }
+    }
+
     //Sprawdzenie czy 2 hasła są takie same
-    public static void samePassword(String password, String repeat_password) throws Exception {
+    public static void samePassword(String password, String repeatPassword) throws Exception {
         if (password.length() > 50) {
             throw new Exception("Hasło powinno mieć mniej niż 50 znaków");
         }
-        if (!password.equals(repeat_password)) {
+        if (!password.equals(repeatPassword)) {
             throw new Exception("Hasła nie są takie same!");
         }
     }

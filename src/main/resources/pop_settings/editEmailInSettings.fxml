@@ -58,6 +58,11 @@
                   <TextField fx:id="emailActualField" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1" />
                   <TextField fx:id="emailNewField" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2" />
                   <TextField fx:id="emailRepeatField" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                  <Label fx:id="wrongLabel" alignment="CENTER" prefHeight="17.0" prefWidth="348.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
                </children>
             </GridPane>
             <GridPane fx:id="tokenGrid" style="-fx-background-color: #ffffff;">
