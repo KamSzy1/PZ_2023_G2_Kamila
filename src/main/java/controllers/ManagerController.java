@@ -304,7 +304,7 @@ public class ManagerController {
 
             ResultSet result = QExecutor.executeSelect("SELECT * FROM users " +
                                                                     "JOIN positions ON users.position_id = positions.id_position " +
-                                                                    "JOIN login ON users.login_id=login.id_login");
+                                                                    "JOIN login ON users.id_user = login.user_id");
 
             while (result.next()) {
                 UsersTable user = new UsersTable();

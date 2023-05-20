@@ -13,6 +13,7 @@ import other.PasswordHash;
 import validate.ValidateEmployee;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class EditPasswordInSettingsController {
 
@@ -37,8 +38,8 @@ public class EditPasswordInSettingsController {
     private TextField tokenField;
     @FXML
     private GridPane tokenGrid;
-//    @FXML
-//    private Label wrongLabel;
+    @FXML
+    private Label wrongLabel;
     @FXML
     private Label wrongTokenLabel;
 
@@ -84,10 +85,14 @@ public class EditPasswordInSettingsController {
             String hashedPassword = PasswordHash.hashedPassword(newPassword);
 
             DatabaseConnector.connect();
-            QExecutor.executeQuery("UPDATE login SET password='" + hashedPassword +
-                    "' WHERE token='" + tokenField.getText() + "'");
-        } catch (Exception e) {
+            QExecutor.executeQuery("UPDATE login " +
+                    "INNER JOIN users ON users.id_user = login.user_id " +
+                    "SET password = '" + hashedPassword + "' " +
+                    "WHERE users.token = '" + tokenField.getText() + "'");
+        } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            wrongLabel.setText(e.getMessage());
         }
     }
 }

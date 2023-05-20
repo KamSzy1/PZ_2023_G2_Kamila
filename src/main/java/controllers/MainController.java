@@ -136,7 +136,7 @@ public class MainController {
             DatabaseConnector.connect();
             String hashedPassword = PasswordHash.hashedPassword(password);
             ResultSet result = QExecutor.executeSelect("SELECT * FROM users " +
-                    "                                           INNER JOIN login ON login.id_login = users.login_id " +
+                                                                "INNER JOIN login ON login.user_id = users.id_user " +
                                                                 "WHERE email = '" + email + "' and password = '" + hashedPassword + "'");
             result.next();
             UsersTable.setLoginName(result.getString("name"));
@@ -175,7 +175,7 @@ public class MainController {
 
     private void getUserFromToken(String token) throws SQLException {
         ResultSet result = QExecutor.executeSelect("SELECT u.name, u.surname, u.token, l.email FROM login AS l " +
-                                                        "INNER JOIN users AS u ON u.login_id = l.id_login " +
+                                                        "INNER JOIN users AS u ON u.id_user = l.user_id " +
                                                         "WHERE token = '" + token + "'");
         result.next();
         System.out.println(token);
@@ -220,8 +220,9 @@ public class MainController {
 
         DatabaseConnector.connect();
         QExecutor.executeQuery("UPDATE login " +
-                                "INNER JOIN user ON users.login_id = login.id_login" +
+                                "INNER JOIN user ON users.id_user = login.user_id" +
                                 "SET email = " + mail + ", password = " + hashedPassword + " " +
                                 "WHERE users.token = '" + token + "'");
+
     }
 }

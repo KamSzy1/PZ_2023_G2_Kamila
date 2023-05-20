@@ -36,12 +36,10 @@ public class EditEmailInSettingsController {
     private TextField emailRepeatField;
     @FXML
     private TextField tokenField;
-    //    @FXML
-//    private Label wrongLabel;
+    @FXML
+    private Label wrongLabel;
     @FXML
     private Label wrongTokenLabel;
-
-    String token;
 
     @FXML
     public void initialize() {
@@ -64,22 +62,29 @@ public class EditEmailInSettingsController {
     }
 
     private void checkIfTokenIsEmpty() {
-        token = tokenField.getText();
+        String token = tokenField.getText();
 
         if (token.isEmpty()) {
             wrongTokenLabel.setText("Pusty token!");
         } else {
-            checkToken();
+            checkToken(token);
         }
     }
 
     //Sprawdzenie tokenu
-    private void checkToken() {
+    private void checkToken(String token) {
         try {
             DatabaseConnector.connect();
-            ResultSet result = QExecutor.executeSelect("SELECT * FROM login WHERE token ='" + token + "'");
+            ResultSet result = QExecutor.executeSelect("SELECT login.email FROM login " +
+                    "INNER JOIN users on users.id_user = login.user_id " +
+                    "WHERE users.token ='" + token + "'");
             result.next();
-            emailGrid.toFront();
+
+            if (result.getString("email").isEmpty()) {
+                wrongTokenLabel.setText("Błędny token");
+            } else {
+                emailGrid.toFront();
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,15 +95,20 @@ public class EditEmailInSettingsController {
     //Zmiana adresu Email
     private void changeEmail() {
         try {
-            ValidateEmployee.goodEmail(emailActualField.getText());
-            ValidateEmployee.goodEmail(emailNewField.getText());
-            ValidateEmployee.goodEmail(emailRepeatField.getText());
+            String oldEmail = emailActualField.getText();
+            String newEmail = emailNewField.getText();
+            String newRepeatEmail = emailRepeatField.getText();
+
+            ValidateEmployee.goodEmail(newEmail);
+            ValidateEmployee.sameEmail(newEmail, newRepeatEmail);
 
             DatabaseConnector.connect();
-            QExecutor.executeQuery("UPDATE login SET email='" + emailNewField.getText() +
-                    "' WHERE token='" + tokenField.getText() + "'");
-        } catch (Exception e) {
+            QExecutor.executeQuery("UPDATE login SET email='" + newEmail +
+                    "' WHERE email = '" + oldEmail + "'");
+        } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            wrongLabel.setText(e.getMessage());
         }
     }
 
