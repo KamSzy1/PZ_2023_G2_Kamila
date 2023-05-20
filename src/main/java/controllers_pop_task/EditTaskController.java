@@ -40,6 +40,7 @@ public class EditTaskController {
     private final LocalDate currentDate = LocalDate.now();
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final String formattedDate = currentDate.format(formatter);
+    int idTask;
 
     @FXML
     public void initialize() {

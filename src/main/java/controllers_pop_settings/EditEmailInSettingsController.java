@@ -11,6 +11,9 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import validate.ValidateEmployee;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class EditEmailInSettingsController {
 
     @FXML
@@ -33,8 +36,8 @@ public class EditEmailInSettingsController {
     private TextField emailRepeatField;
     @FXML
     private TextField tokenField;
-//    @FXML
-//    private Label wrongLabel;
+    @FXML
+    private Label wrongLabel;
     @FXML
     private Label wrongTokenLabel;
 
@@ -48,45 +51,70 @@ public class EditEmailInSettingsController {
         Object source = event.getSource();
 
         if (source == continueButton) {
-            //Sprawdzenie tokenu
-            try {
-                ValidateEmployee.goodToken(tokenField.getText());
-            } catch (Exception e) {
-                wrongTokenLabel.setText(e.getMessage());
-            }
-
-            emailGrid.toFront();
-
-        } else if (source == cancel2Button) {
-            //Zamykanie okienka
-            Stage stage = (Stage) cancel2Button.getScene().getWindow();
-            stage.close();
+            checkIfTokenIsEmpty();
         } else if (source == saveButton) {
-            //Zmiana adresu Email
-            emailActualField.getText();
-            emailNewField.getText();
-            emailRepeatField.getText();
-
-            try {
-                ValidateEmployee.goodEmail(emailActualField.getText());
-                ValidateEmployee.goodEmail(emailNewField.getText());
-                ValidateEmployee.goodEmail(emailRepeatField.getText());
-                ValidateEmployee.goodAddress(emailActualField.getText());
-                ValidateEmployee.goodAddress(emailNewField.getText());
-                ValidateEmployee.goodAddress(emailRepeatField.getText());
-
-                DatabaseConnector.connect();
-                QExecutor.executeQuery("UPDATE login SET email='"+emailNewField.getText() +
-                        "' WHERE token='"+ tokenField.getText()+"'");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            changeEmail();
         } else if (source == cancelButton) {
-            //Zamykanie okienka
-            Stage stage = (Stage) cancelButton.getScene().getWindow();
-            stage.close();
-
+            closeWindow(cancelButton);
+        } else if (source == cancel2Button) {
+            closeWindow(cancel2Button);
         }
-
     }
+
+    private void checkIfTokenIsEmpty() {
+        String token = tokenField.getText();
+
+        if (token.isEmpty()) {
+            wrongTokenLabel.setText("Pusty token!");
+        } else {
+            checkToken(token);
+        }
+    }
+
+    //Sprawdzenie tokenu
+    private void checkToken(String token) {
+        try {
+            DatabaseConnector.connect();
+            ResultSet result = QExecutor.executeSelect("SELECT login.email FROM login " +
+                    "INNER JOIN users on users.id_user = login.user_id " +
+                    "WHERE users.token ='" + token + "'");
+            result.next();
+
+            if (result.getString("email").isEmpty()) {
+                wrongTokenLabel.setText("Błędny token");
+            } else {
+                emailGrid.toFront();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            wrongTokenLabel.setText("Błędny token");
+        }
+    }
+
+    //Zmiana adresu Email
+    private void changeEmail() {
+        try {
+            String oldEmail = emailActualField.getText();
+            String newEmail = emailNewField.getText();
+            String newRepeatEmail = emailRepeatField.getText();
+
+            ValidateEmployee.goodEmail(newEmail);
+            ValidateEmployee.sameEmail(newEmail, newRepeatEmail);
+
+            DatabaseConnector.connect();
+            QExecutor.executeQuery("UPDATE login SET email='" + newEmail +
+                    "' WHERE email = '" + oldEmail + "'");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            wrongLabel.setText(e.getMessage());
+        }
+    }
+
+    private void closeWindow(Button button) {
+        Stage stage = (Stage) button.getScene().getWindow();
+        stage.close();
+    }
+
 }
