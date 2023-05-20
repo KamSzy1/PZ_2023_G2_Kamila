@@ -27,7 +27,7 @@ public class AddTaskController {
     @FXML
     private ComboBox<String> personView;
     @FXML
-    private ListView<String> statusView;
+    private ComboBox<String> statusView;
     @FXML
     private TextArea descriptionArea;
     @FXML
@@ -40,15 +40,16 @@ public class AddTaskController {
     private final TasksTable tasksTable = new TasksTable();
     private final HistoryTaskTable historyTaskTable = new HistoryTaskTable();
     private ObservableList<String> names;
+    private ObservableList<String> statuses;
     private final LocalDate currentDate = LocalDate.now();
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final String formattedDate = currentDate.format(formatter);
     private LocalDate date;
 
-
     @FXML
     public void initialize() {
         userList();
+        statusList();
         timePicker.setDayCellFactory(picker -> new DateCell() {
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
@@ -106,10 +107,9 @@ public class AddTaskController {
         try {
             DatabaseConnector.connect();
             names = FXCollections.observableArrayList();
-            names.add("Wybierz osobę");
             ResultSet rs = QExecutor.executeSelect("SELECT * FROM users");
             while (rs.next()) {
-                names.add(rs.getString(2));
+                names.addAll(rs.getString(2) + " " + rs.getString(3));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -117,10 +117,23 @@ public class AddTaskController {
         personView.setItems(names);
     }
 
+    public void statusList() {
+        try {
+            DatabaseConnector.connect();
+            statuses = FXCollections.observableArrayList();
+            ResultSet rs = QExecutor.executeSelect("Select * from statuses");
+            while (rs.next()) {
+                statuses.add(rs.getString("name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        statusView.setItems(statuses);
+    }
+
     private void tryGetData() throws Exception{ //Do tego trzeba dodać walidację, czy data jest poprawna + dodać wybiranie stanowiska praocwnika
         String title = titleField.getText();
         String description = descriptionArea.getText();
-        String status = "2"; //Trzeba dodać pobieranie od użytkownika
 
         ValidateTask.checkTitle(title);
         ValidateTask.checkDescription(description);
@@ -130,7 +143,7 @@ public class AddTaskController {
         tasksTable.setDescription(description);
         historyTaskTable.setPlannedEnd(Date.valueOf(date));
         historyTaskTable.setStartDate(Date.valueOf(formattedDate));
-        tasksTable.setStatusId(Integer.parseInt(status));
-        tasksTable.setUserId(personView.getSelectionModel().getSelectedIndex());
+        tasksTable.setStatusId(statusView.getSelectionModel().getSelectedIndex()+1);
+        tasksTable.setUserId(personView.getSelectionModel().getSelectedIndex()+1);
     }
 }
