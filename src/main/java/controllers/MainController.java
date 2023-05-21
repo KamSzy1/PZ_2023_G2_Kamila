@@ -63,6 +63,8 @@ public class MainController {
     @FXML
     private Label wrongRegistration;
     @FXML
+    private Label wrongResetLabel;
+    @FXML
     private Label wrongTokenLabel;
     @FXML
     private Label logRegLabel;
@@ -100,6 +102,10 @@ public class MainController {
             backButton.setVisible(true);
             gridToken.toFront();
             USER_CHOICE = 2;
+        } else if (source == resetSetNewPasswordButton) {
+            password = resetPasswordField.getText();
+            String repeatPassword = resetRepeatPasswordField.getText();
+            changePassword(password, repeatPassword, token);
         } else if (source == tokenButton) {
             //Sprawdzenie tokenu i odesłanie użytkownika w dobre miejsce
             tokenCheck();
@@ -136,8 +142,8 @@ public class MainController {
             DatabaseConnector.connect();
             String hashedPassword = PasswordHash.hashedPassword(password);
             ResultSet result = QExecutor.executeSelect("SELECT * FROM users " +
-                                                                "INNER JOIN login ON login.user_id = users.id_user " +
-                                                                "WHERE email = '" + email + "' and password = '" + hashedPassword + "'");
+                    "INNER JOIN login ON login.user_id = users.id_user " +
+                    "WHERE email = '" + email + "' and password = '" + hashedPassword + "'");
             result.next();
             UsersTable.setLoginName(result.getString("name"));
             UsersTable.setLoginSurname(result.getString("surname"));
@@ -175,8 +181,8 @@ public class MainController {
 
     private void getUserFromToken(String token) throws SQLException {
         ResultSet result = QExecutor.executeSelect("SELECT u.name, u.surname, u.token, l.email FROM login AS l " +
-                                                        "INNER JOIN users AS u ON u.id_user = l.user_id " +
-                                                        "WHERE token = '" + token + "'");
+                "INNER JOIN users AS u ON u.id_user = l.user_id " +
+                "WHERE token = '" + token + "'");
         result.next();
         System.out.println(token);
 
@@ -220,9 +226,30 @@ public class MainController {
 
         DatabaseConnector.connect();
         QExecutor.executeQuery("UPDATE login " +
-                                "INNER JOIN user ON users.id_user = login.user_id" +
-                                "SET email = " + mail + ", password = " + hashedPassword + " " +
-                                "WHERE users.token = '" + token + "'");
+                "INNER JOIN user ON users.id_user = login.user_id" +
+                "SET email = " + mail + ", password = " + hashedPassword + " " +
+                "WHERE users.token = '" + token + "'");
 
     }
+
+    //Zmiana hasła (Zapomniałem hasło)
+    private void changePassword(String password, String repeatPassword, String token) {
+        try {
+
+            ValidateEmployee.samePassword(password, repeatPassword);
+            String hashedPassword = PasswordHash.hashedPassword(password);
+            DatabaseConnector.connect();
+            QExecutor.executeQuery("UPDATE login " +
+                    "INNER JOIN users ON users.id_user = login.user_id " +
+                    "SET password = '" + hashedPassword + "' " +
+                    "WHERE users.token = '" + token + "'");
+        } catch
+        (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (Exception e) {
+            wrongResetLabel.setText(e.getMessage());
+        }
+
+    }
+
 }

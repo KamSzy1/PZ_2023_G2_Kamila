@@ -242,7 +242,7 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Label fx:id="wrongRegistration1" alignment="CENTER" prefHeight="17.0" prefWidth="274.0" GridPane.columnIndex="2" GridPane.rowIndex="10">
+                  <Label fx:id="wrongResetLabel" alignment="CENTER" prefHeight="17.0" prefWidth="274.0" GridPane.columnIndex="2" GridPane.rowIndex="10">
                      <font>
                         <Font name="Arial" size="15.0" />
                      </font>
