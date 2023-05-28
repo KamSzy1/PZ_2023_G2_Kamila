@@ -278,11 +278,19 @@ public class ManagerController {
 
             while (result.next()) {
                 TasksTable task = new TasksTable();
+
+                Button editButton = new Button("Edycja");
+                String idTask = result.getString("id_task");
+                editButton.setOnAction(event -> {
+                    preparePopUpWindowEditTask(idTask);
+                });
+
                 task.setTitle(result.getString("title"));
                 task.setDescription(result.getString("description"));
                 task.setData(result.getDate("tasks_history.planned_end"));
                 task.setNameStatus(result.getString("name"));
                 task.setNameUser(result.getString("users.name"));
+                task.setEditTaskButton(editButton);
                 taskTable.add(task);
             }
         } catch (SQLException throwables) {
@@ -293,6 +301,7 @@ public class ManagerController {
         taskPlannedDate.setCellValueFactory(new PropertyValueFactory<>("data"));
         taskStatus.setCellValueFactory(new PropertyValueFactory<>("nameStatus"));
         taskEmployee.setCellValueFactory(new PropertyValueFactory<>("nameUser"));
+        taskEdit.setCellValueFactory(new PropertyValueFactory<>("editTaskButton"));
         taskTableView.setItems(taskTable);
     }
 
@@ -356,8 +365,7 @@ public class ManagerController {
 
             DatabaseConnector.connect();
             //SELECT t.title, t.description, u.name, u.surname, s.name, tk.planned_end FROM tasks AS t JOIN statuses AS s ON t.status_id = s.id_status JOIN users AS u ON t.user_id=u.id_user JOIN tasks_history AS tk ON tk.tasks_id=t.id_task WHERE t.id_task = 8
-            ResultSet result = QExecutor.executeSelect(
-                    "SELECT t.title, t.description, u.name, u.surname, s.name AS status, tk.planned_end FROM tasks AS t " +
+            ResultSet result = QExecutor.executeSelect("SELECT t.id_task, t.title, t.description, u.name, u.surname, s.name AS status, tk.planned_end FROM tasks AS t " +
                     "JOIN statuses AS s ON t.status_id = s.id_status " +
                     "JOIN users AS u ON t.user_id=u.id_user " +
                     "JOIN tasks_history AS tk ON tk.tasks_id=t.id_task " +
@@ -365,6 +373,7 @@ public class ManagerController {
             result.next();
 
             editTaskController.setData(
+                    result.getInt("id_task"),
                     result.getString("title"),
                     result.getString("description"),
                     result.getString("name"),

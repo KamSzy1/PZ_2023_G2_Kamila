@@ -15,6 +15,7 @@ public class TasksTable {
     private Date data;
     private String nameUser;
     private Button editTaskButton;
+    private static int editIdTask;
 
     public TasksTable() {}
 
@@ -98,6 +99,15 @@ public class TasksTable {
     public void setEditTaskButton(Button editTaskButton) {
         this.editTaskButton = editTaskButton;
     }
+
+    public static int getEditIdTask() {
+        return editIdTask;
+    }
+
+    public static void setEditIdTask(int editIdTask) {
+        TasksTable.editIdTask = editIdTask;
+    }
+
 }
 
 
