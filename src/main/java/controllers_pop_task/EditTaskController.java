@@ -1,19 +1,20 @@
 package controllers_pop_task;
 
+import controllers.EmployeeController;
 import database.DatabaseConnector;
 import database.QExecutor;
 import database_classes.HistoryTaskTable;
 import database_classes.TasksTable;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -42,8 +43,15 @@ public class EditTaskController {
     private final LocalDate currentDate = LocalDate.now();
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final String formattedDate = currentDate.format(formatter);
+    int oldId_task;
+    String oldTitle;
+    String oldDescription;
+    String oldName;
+    String oldSurname;
+    String oldStatus;
+    String oldPlanned_end;
+    TasksTable task = new TasksTable();
     int idTask;
-
     @FXML
     public void initialize() {
         userList();
@@ -67,13 +75,48 @@ public class EditTaskController {
             closeWindow(cancelButton);
 
         } else if (source == saveButton) {
+            updateData();
             closeWindow(saveButton);
+            System.out.println(task.getEditIdTask());
         }
     }
 
-    public void setData(String title, String description, String name, String surname, String status, String planned_end){
+    public void setData(int id_task, String title, String description, String name, String surname, String status, String planned_end){
         titleField.setText(title);
         descriptionArea.setText(description);
+        personView.setValue(name + " " + surname);
+        statusView.setValue(status);
+        timePicker.setValue(LocalDate.parse(planned_end));
+
+        task.setEditIdTask(id_task);
+        oldTitle = title;
+        oldDescription = description;
+        oldName = name;
+        oldSurname = surname;
+        oldStatus = status;
+        oldPlanned_end = planned_end;
+    }
+
+    public void updateData(){
+        String newTitle = titleField.getText();
+        String newDescription = descriptionArea.getText();
+        int newName = personView.getSelectionModel().getSelectedIndex();
+        int newStatus = statusView.getSelectionModel().getSelectedIndex();
+        LocalDate data = timePicker.getValue();
+        try {
+            DatabaseConnector.connect();
+            QExecutor.executeQuery("UPDATE tasks SET " +
+                    " title = '"+ newTitle +  "' ," +
+                    " description = '"+ newDescription +  "' ," +
+                    " user_id = "+ newName + " ," +
+                    " status_id = "+ newStatus + " WHERE " +
+                    " id_task = " + task.getEditIdTask()
+            );
+            QExecutor.executeQuery("UPDATE tasks_history SET planned_end= '"+data+"' WHERE tasks_id="+ task.getEditIdTask());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     //Zamykanie okienka

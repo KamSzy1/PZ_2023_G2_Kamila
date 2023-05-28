@@ -10,7 +10,6 @@ CREATE TABLE positions(
 
 CREATE TABLE login(
     id_login int(11) primary key not null auto_increment,
-    token varchar(250) not null UNIQUE,
     email varchar(128) DEFAULT null UNIQUE,
     password varchar(255) DEFAULT null
 );
@@ -25,7 +24,8 @@ CREATE TABLE users(
     phone_num int(9) not null UNIQUE,
     position_id int(11) REFERENCES positions.id_position,
     token varchar(250) not null UNIQUE,
-    groups int(11) not null
+    groups int(11) not null,
+    login_id int(11) UNIQUE REFERENCES login.id_login
 );
 
 CREATE TABLE tasks_history(
@@ -52,4 +52,5 @@ CREATE TABLE tasks(
 ALTER TABLE tasks add CONSTRAINT user_id FOREIGN KEY (user_id) REFERENCES users(id_user);
 ALTER TABLE tasks_history add CONSTRAINT tasks_id FOREIGN KEY (tasks_id) REFERENCES tasks(id_task);
 ALTER TABLE users add CONSTRAINT position_id FOREIGN KEY (position_id) REFERENCES positions(id_position);
+ALTER TABLE users add CONSTRAINT login_id FOREIGN KEY (login_id) REFERENCES login(id_login);
 ALTER TABLE tasks add CONSTRAINT status_id FOREIGN KEY (status_id) REFERENCES statuses(id_status);
