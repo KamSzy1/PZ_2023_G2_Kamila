@@ -3,6 +3,7 @@ package controllers;
 import com.example.system.StageChanger;
 import controllers_pop_employee.AddEmployeeController;
 import controllers_pop_employee.EditEmployeeController;
+import controllers_pop_task.AddTaskController;
 import controllers_pop_task.EditTaskController;
 import database.DatabaseConnector;
 import database.QExecutor;
@@ -151,6 +152,7 @@ public class AdminController {
         welcomeLabel.setText("Witaj " + UsersTable.getLoginName() + " " + UsersTable.getLoginSurname() + "!");
         gridMyTasks.toFront();
         myTask();
+        task();
     }
 
     //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
@@ -191,12 +193,24 @@ public class AdminController {
         } else if (source == addTaskButton) {
             String fxmlPath = "/pop_task/addTask.fxml";
             openWindow(addTaskButton, fxmlPath);
+            time = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    if (AddTaskController.refBool()) {
+                        refreshTask();
+                        time.stop();
+                        AddTaskController.isRefreshed = false;
+                    }
+                }
+            }));
+            time.setCycleCount(Timeline.INDEFINITE);
+            time.play();
         } else if (source == addEmployeeButton) {
             time = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
                     if (AddEmployeeController.refBool()) {
-                        refresh();
+                        refreshUser();
                         time.stop();
                         AddEmployeeController.isRefreshed = false;
                     }
@@ -216,6 +230,7 @@ public class AdminController {
         }
     }
 
+
     public void buttonReports(ActionEvent event) {
         Object source = event.getSource();
         if (source == pdfPathButton) {
@@ -224,6 +239,7 @@ public class AdminController {
 
         }
     }
+
     private void data() {
         try {
             DatabaseConnector.connect();
@@ -248,9 +264,9 @@ public class AdminController {
             myTaskTable = FXCollections.observableArrayList();
 
             ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks " +
-                                            "JOIN statuses ON tasks.status_id = statuses.id_status " +
-                                            "JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task " +
-                                            "WHERE user_id = " + UsersTable.getIdLoginUser());
+                    "JOIN statuses ON tasks.status_id = statuses.id_status " +
+                    "JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task " +
+                    "WHERE user_id = " + UsersTable.getIdLoginUser());
             System.out.println(UsersTable.getIdLoginUser());
             while (result.next()) {
                 TasksTable task = new TasksTable();
@@ -368,10 +384,24 @@ public class AdminController {
         employeeTableView.setItems(userTable);
     }
 
-    private void refresh() {
+    private void refreshUser() {
         userTable.clear();
         employee();
     }
+
+    private void refreshTask() {
+        taskTable.clear();
+        task();
+
+    }
+
+    private void refreshEditTask() {
+        myTaskTable.clear();
+        myTask();
+        taskTable.clear();
+        task();
+    }
+
 
     private void preparePopUpWindowEditTask(String idTask) {
         try {
@@ -397,6 +427,18 @@ public class AdminController {
                     result.getString("surname"),
                     result.getString("status"),
                     result.getString("planned_end"));
+            time = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    if (EditTaskController.refBool()) {
+                        refreshEditTask();
+                        time.stop();
+                        EditTaskController.isRefreshed = false;
+                    }
+                }
+            }));
+            time.setCycleCount(Timeline.INDEFINITE);
+            time.play();
 
             Scene scene = new Scene(anchorPane);
             stage.setScene(scene);
@@ -444,7 +486,7 @@ public class AdminController {
         }
     }
 
-    private void setPathPdfGenerator(){
+    private void setPathPdfGenerator() {
         final DirectoryChooser dirChooser = new DirectoryChooser();
         Stage stage = (Stage) mainAnchorPane.getScene().getWindow();
         File file = dirChooser.showDialog(stage);

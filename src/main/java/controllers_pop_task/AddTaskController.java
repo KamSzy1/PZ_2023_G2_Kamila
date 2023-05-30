@@ -44,7 +44,14 @@ public class AddTaskController {
     private final LocalDate currentDate = LocalDate.now();
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final String formattedDate = currentDate.format(formatter);
+    public static boolean isRefreshed;
+    TasksTable addTask = new TasksTable();
+    public static boolean refBool() {
+        return isRefreshed;
+    }
     private LocalDate date;
+
+
 
     @FXML
     public void initialize() {
@@ -72,6 +79,7 @@ public class AddTaskController {
 
         } else if (source == addButton) {
             addTask();
+            isRefreshed = true;
         }
     }
 

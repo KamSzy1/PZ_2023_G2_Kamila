@@ -87,7 +87,6 @@ public class AddEmployeeController {
             stage.close();
 
         } else if (source == addButton) {
-            //Dodawanie pracownika
             addPerson();
             isRefreshed = true;
         }
