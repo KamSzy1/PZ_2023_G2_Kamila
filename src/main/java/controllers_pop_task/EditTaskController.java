@@ -35,7 +35,11 @@ public class EditTaskController {
     private Button cancelButton;
     @FXML
     private Button saveButton;
-
+    public static boolean isRefreshed;
+    public static boolean refBool() {
+        return isRefreshed;
+    }
+    private ObservableList<String> positions;
     private final TasksTable tasksTable = new TasksTable();
     private final HistoryTaskTable historyTaskTable = new HistoryTaskTable();
     private ObservableList<String> names;
@@ -77,6 +81,7 @@ public class EditTaskController {
         } else if (source == saveButton) {
             updateData();
             closeWindow(saveButton);
+            isRefreshed= true;
             System.out.println(task.getEditIdTask());
         }
     }
