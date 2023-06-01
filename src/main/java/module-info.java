@@ -4,6 +4,7 @@ module com.example.system {
     requires commons.validator;
     requires java.sql;
     requires de.jensd.fx.glyphs.fontawesome;
+    requires itextpdf;
 
     opens com.example.system to javafx.fxml;
     exports com.example.system;

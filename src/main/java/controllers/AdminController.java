@@ -29,6 +29,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import pdf_generate.PdfGenerate;
 
 import java.io.File;
 import java.io.IOException;
@@ -89,6 +90,8 @@ public class AdminController {
     @FXML
     private Label phoneLabel;
     @FXML
+    private Label wrongPdfLabel;
+    @FXML
     private TableColumn<?, ?> employeeAddress;
     @FXML
     private TableView<UsersTable> employeeTableView;
@@ -135,17 +138,16 @@ public class AdminController {
     @FXML
     private TextField pdfPathField;
     @FXML
-    private ListView<?> pdfChooseDataListView;
+    private ComboBox pdfChooseReportComboBox;
     @FXML
-    private ListView<?> pdfChooseReportListView;
+    private ComboBox pdfChooseDataComboBox;
     @FXML
     private AnchorPane mainAnchorPane;
 
-    Timeline time;
+    private Timeline time;
     private ObservableList<TasksTable> myTaskTable;
     private ObservableList<TasksTable> taskTable;
     private ObservableList<UsersTable> userTable;
-
 
     @FXML
     public void initialize() {
@@ -175,6 +177,8 @@ public class AdminController {
             pdfPathField.clear();
             gridReport.toFront();
             textLabel.setText("Generowanie raportów");
+            wrongPdfLabel.setText("");
+            pdfChooseReportToGenerate();
         } else if (source == settingsButton) {
             gridSettings.toFront();
             textLabel.setText("Ustawienia");
@@ -236,7 +240,16 @@ public class AdminController {
         if (source == pdfPathButton) {
             setPathPdfGenerator();
         } else if (source == pdfGenerateButton) {
-
+            if (!pdfPathField.getText().isEmpty()) {
+                PdfGenerate.generateForAdmin(
+                        pdfPathField.getText(),
+                        pdfChooseReportComboBox.getSelectionModel().getSelectedItem().toString(),
+                        pdfChooseDataComboBox.getSelectionModel().getSelectedItem().toString()
+                );
+                wrongPdfLabel.setText("PDF został wygenerowany");
+            } else {
+                wrongPdfLabel.setText("Ustaw ścieżkę zapisu PDF");
+            }
         }
     }
 
@@ -270,7 +283,7 @@ public class AdminController {
             System.out.println(UsersTable.getIdLoginUser());
             while (result.next()) {
                 TasksTable task = new TasksTable();
-                HistoryTaskTable htask = new HistoryTaskTable();
+
                 Button editButton = new Button("Edycja");
                 int idTask = result.getInt("id_task");
                 task.setEditIdTask(idTask);
@@ -495,6 +508,47 @@ public class AdminController {
             System.out.println("Ścieżka" + file.getAbsolutePath());
             pdfPathField.setText(file.getAbsolutePath());
         }
+    }
 
+    private void pdfChooseReportToGenerate() {
+        ObservableList<String> pdfReport = FXCollections.observableArrayList();
+
+        pdfReport.add("Zadania");
+        pdfReport.add("Pracownicy");
+        pdfChooseReportComboBox.setItems(pdfReport);
+        pdfChooseReportComboBox.setOnAction(e -> pdfChooseDataToGenerate());
+    }
+
+    private void pdfChooseDataToGenerate() {
+        ObservableList<String> pdfData = FXCollections.observableArrayList();
+
+        if (pdfChooseReportComboBox.getSelectionModel().getSelectedItem().equals("Zadania")) {
+            pdfData.clear();
+            try {
+                DatabaseConnector.connect();
+                ResultSet rs = QExecutor.executeSelect("SELECT name FROM statuses");
+                pdfData.add("Wszystko");
+                while (rs.next()) {
+                    pdfData.add(rs.getString(1));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else if (pdfChooseReportComboBox.getSelectionModel().getSelectedItem().equals("Pracownicy")) {
+            pdfData.clear();
+            try {
+                DatabaseConnector.connect();
+                ResultSet rs = QExecutor.executeSelect("SELECT position_name FROM positions");
+                pdfData.add("Wszystko");
+                while (rs.next()) {
+                    pdfData.add(rs.getString(1));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        pdfChooseDataComboBox.setItems(pdfData);
+        pdfChooseDataComboBox.setPromptText("Wybierz rodzaj");
     }
 }

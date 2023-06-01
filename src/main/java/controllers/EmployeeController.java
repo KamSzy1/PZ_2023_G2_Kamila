@@ -22,6 +22,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import pdf_generate.PdfGenerate;
 
 import java.io.File;
 import java.io.IOException;
@@ -72,6 +73,8 @@ public class EmployeeController {
     @FXML
     private Label groupLabel;
     @FXML
+    private Label wrongPdfLabel;
+    @FXML
     private TableColumn<?, ?> myTaskDescription;
     @FXML
     private TableColumn<?, ?> myTaskEdit;
@@ -88,7 +91,7 @@ public class EmployeeController {
     @FXML
     private TextField pdfPathField;
     @FXML
-    private ListView<?> pdfChooseStatusListView;
+    private ComboBox pdfChooseStatusComboBox;
     @FXML
     private AnchorPane mainAnchorPane;
 
@@ -111,6 +114,8 @@ public class EmployeeController {
         } else if (source == reportButton) {
             gridReport.toFront();
             textLabel.setText("Generowanie raportów");
+            wrongPdfLabel.setText("");
+            pdfChooseDataToGenerate();
         } else if (source == settingsButton) {
             pdfPathField.clear();
             gridSettings.toFront();
@@ -139,17 +144,18 @@ public class EmployeeController {
     public void buttonReports(ActionEvent event) {
         Object source = event.getSource();
         if (source == pdfPathButton) {
-            final DirectoryChooser dirChooser = new DirectoryChooser();
-            Stage stage = (Stage) mainAnchorPane.getScene().getWindow();
-            File file = dirChooser.showDialog(stage);
-
-            if (file != null) {
-                System.out.println("Ścieżka" + file.getAbsolutePath());
-                pdfPathField.setText(file.getAbsolutePath());
-            }
-
+            setPathPdfGenerator();
         } else if (source == pdfGenerateButton) {
-
+            if (!pdfPathField.getText().isEmpty()) {
+                PdfGenerate.generateForEmployee(
+                        pdfPathField.getText(),
+                        pdfChooseStatusComboBox.getSelectionModel().getSelectedItem().toString(),
+                        UsersTable.getIdLoginUser()
+                );
+                wrongPdfLabel.setText("PDF został wygenerowany");
+            } else {
+                wrongPdfLabel.setText("Ustaw ścieżkę zapisu PDF");
+            }
         }
     }
 
@@ -168,6 +174,17 @@ public class EmployeeController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void setPathPdfGenerator() {
+        final DirectoryChooser dirChooser = new DirectoryChooser();
+        Stage stage = (Stage) mainAnchorPane.getScene().getWindow();
+        File file = dirChooser.showDialog(stage);
+
+        if (file != null) {
+            System.out.println("Ścieżka" + file.getAbsolutePath());
+            pdfPathField.setText(file.getAbsolutePath());
         }
     }
 
@@ -260,5 +277,23 @@ public class EmployeeController {
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void pdfChooseDataToGenerate() {
+        ObservableList<String> pdfData = FXCollections.observableArrayList();
+
+        try {
+            DatabaseConnector.connect();
+            ResultSet rs = QExecutor.executeSelect("SELECT name FROM statuses");
+            pdfData.add("Wszystko");
+            while (rs.next()) {
+                pdfData.add(rs.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        pdfChooseStatusComboBox.setItems(pdfData);
+        pdfChooseStatusComboBox.setPromptText("Wybierz rodzaj");
     }
 }

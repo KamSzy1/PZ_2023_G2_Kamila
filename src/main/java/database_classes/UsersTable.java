@@ -5,6 +5,8 @@ import javafx.scene.control.Button;
 public class UsersTable {
 
     private static int idLoginUser;
+    private static String loginName;
+    private static String loginSurname;
     private int idUser;
     private String name;
     private String surname;
@@ -17,8 +19,6 @@ public class UsersTable {
     private int positionId;
     private int login;
     private int groups;
-    private static String loginName;
-    private static String loginSurname;
     private String namePosition;
     private String token;
     private Button editEmployeeButton;
