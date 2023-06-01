@@ -218,17 +218,20 @@ public class ManagerController {
             openWindow(passwordEditButton, fxmlPath);
         }
     }
+
     private void refreshTask() {
         taskTable.clear();
         task();
 
     }
+
     private void refreshEditTask() {
         myTaskTable.clear();
         myTask();
         taskTable.clear();
         task();
     }
+
     public void buttonReports(ActionEvent event) {
         Object source = event.getSource();
         if (source == pdfPathButton) {
@@ -240,7 +243,7 @@ public class ManagerController {
                         pdfChooseReportComboBox.getSelectionModel().getSelectedItem().toString(),
                         pdfChooseDataComboBox.getSelectionModel().getSelectedItem().toString(),
                         groupNumber()
-                        );
+                );
                 wrongPdfLabel.setText("PDF został wygenerowany");
             } else {
                 wrongPdfLabel.setText("Ustaw ścieżkę zapisu PDF");
@@ -267,13 +270,10 @@ public class ManagerController {
         Stage stage = (Stage) mainAnchorPane.getScene().getWindow();
         File file = dirChooser.showDialog(stage);
 
-            if (file != null) {
-                System.out.println("Ścieżka" + file.getAbsolutePath());
-                pdfPathField.setText(file.getAbsolutePath());
-            }
-
-        } else if (source == pdfGenerateButton) {
-
+        if (file != null) {
+            System.out.println("Ścieżka" + file.getAbsolutePath());
+            pdfPathField.setText(file.getAbsolutePath());
+        }
     }
 
     //Wyświetlanie moich zadań
@@ -442,6 +442,7 @@ public class ManagerController {
             result.next();
 
             editTaskController.setData(
+                    result.getInt("id_task"),
                     result.getString("title"),
                     result.getString("description"),
                     result.getString("name"),
