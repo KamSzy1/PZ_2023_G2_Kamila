@@ -43,6 +43,7 @@ public class EditTaskController {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final String formattedDate = currentDate.format(formatter);
     int idTask;
+    String oldTitle;
 
     @FXML
     public void initialize() {
@@ -74,6 +75,7 @@ public class EditTaskController {
     public void setData(String title, String description, String name, String surname, String status, String planned_end){
         titleField.setText(title);
         descriptionArea.setText(description);
+
     }
 
     //Zamykanie okienka
