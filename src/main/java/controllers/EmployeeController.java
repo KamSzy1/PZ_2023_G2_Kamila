@@ -235,7 +235,7 @@ public class EmployeeController {
 
             DatabaseConnector.connect();
             //SELECT t.title, t.description, u.name, u.surname, s.name, tk.planned_end FROM tasks AS t JOIN statuses AS s ON t.status_id = s.id_status JOIN users AS u ON t.user_id=u.id_user JOIN tasks_history AS tk ON tk.tasks_id=t.id_task WHERE t.id_task = 8
-            ResultSet result = QExecutor.executeSelect("SELECT t.title, t.description, u.name, u.surname, s.name AS status, tk.planned_end FROM tasks AS t " +
+            ResultSet result = QExecutor.executeSelect("SELECT t.id_task, t.title, t.description, u.name, u.surname, s.name AS status, tk.planned_end FROM tasks AS t " +
                     "JOIN statuses AS s ON t.status_id = s.id_status " +
                     "JOIN users AS u ON t.user_id=u.id_user " +
                     "JOIN tasks_history AS tk ON tk.tasks_id=t.id_task " +
@@ -243,6 +243,7 @@ public class EmployeeController {
             result.next();
 
             editTaskController.setData(
+                    result.getInt("id_task"),
                     result.getString("title"),
                     result.getString("description"),
                     result.getString("name"),
