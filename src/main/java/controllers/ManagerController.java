@@ -1,14 +1,20 @@
 package controllers;
 
 import com.example.system.StageChanger;
+import controllers_pop_employee.EditEmployeeController;
+import controllers_pop_task.AddTaskController;
 import controllers_pop_task.EditTaskController;
 import database.DatabaseConnector;
 import database.QExecutor;
+import database_classes.HistoryTaskTable;
 import database_classes.TasksTable;
 import database_classes.UsersTable;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,6 +27,8 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import pdf_generate.PdfGenerate;
 
 import java.io.File;
@@ -28,6 +36,8 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
+
+import static java.time.zone.ZoneRulesProvider.refresh;
 
 public class ManagerController {
 
@@ -134,6 +144,7 @@ public class ManagerController {
     @FXML
     private ComboBox pdfChooseDataComboBox;
 
+    Timeline time;
     private ObservableList<TasksTable> myTaskTable;
     private ObservableList<TasksTable> taskTable;
     private ObservableList<UsersTable> userTable;
@@ -143,6 +154,7 @@ public class ManagerController {
         welcomeLabel.setText("Witaj " + UsersTable.getLoginName() + " " + UsersTable.getLoginSurname() + "!");
         gridMyTasks.toFront();
         myTask();
+        task();
     }
 
     //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
@@ -185,6 +197,19 @@ public class ManagerController {
         } else if (source == addTaskButton) {
             String fxmlPath = "/pop_task/addTask.fxml";
             openWindow(addTaskButton, fxmlPath);
+            time = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    if (AddTaskController.refBool()) {
+                        refreshTask();
+                        time.stop();
+                        AddTaskController.isRefreshed = false;
+                    }
+                }
+            }));
+            time.setCycleCount(Timeline.INDEFINITE);
+            time.play();
+
         } else if (source == mailEditButton) {
             String fxmlPath = "/pop_settings/editEmailInSettings.fxml";
             openWindow(mailEditButton, fxmlPath);
@@ -193,7 +218,17 @@ public class ManagerController {
             openWindow(passwordEditButton, fxmlPath);
         }
     }
+    private void refreshTask() {
+        taskTable.clear();
+        task();
 
+    }
+    private void refreshEditTask() {
+        myTaskTable.clear();
+        myTask();
+        taskTable.clear();
+        task();
+    }
     public void buttonReports(ActionEvent event) {
         Object source = event.getSource();
         if (source == pdfPathButton) {
@@ -232,10 +267,13 @@ public class ManagerController {
         Stage stage = (Stage) mainAnchorPane.getScene().getWindow();
         File file = dirChooser.showDialog(stage);
 
-        if (file != null) {
-            System.out.println("Ścieżka" + file.getAbsolutePath());
-            pdfPathField.setText(file.getAbsolutePath());
-        }
+            if (file != null) {
+                System.out.println("Ścieżka" + file.getAbsolutePath());
+                pdfPathField.setText(file.getAbsolutePath());
+            }
+
+        } else if (source == pdfGenerateButton) {
+
     }
 
     //Wyświetlanie moich zadań
@@ -307,11 +345,19 @@ public class ManagerController {
 
             while (result.next()) {
                 TasksTable task = new TasksTable();
+
+                Button editButton = new Button("Edycja");
+                String idTask = result.getString("id_task");
+                editButton.setOnAction(event -> {
+                    preparePopUpWindowEditTask(idTask);
+                });
+
                 task.setTitle(result.getString("title"));
                 task.setDescription(result.getString("description"));
                 task.setData(result.getDate("tasks_history.planned_end"));
                 task.setNameStatus(result.getString("name"));
                 task.setNameUser(result.getString("users.name"));
+                task.setEditTaskButton(editButton);
                 taskTable.add(task);
             }
         } catch (SQLException throwables) {
@@ -322,8 +368,10 @@ public class ManagerController {
         taskPlannedDate.setCellValueFactory(new PropertyValueFactory<>("data"));
         taskStatus.setCellValueFactory(new PropertyValueFactory<>("nameStatus"));
         taskEmployee.setCellValueFactory(new PropertyValueFactory<>("nameUser"));
+        taskEdit.setCellValueFactory(new PropertyValueFactory<>("editTaskButton"));
         taskTableView.setItems(taskTable);
     }
+
 
     //Wyświetlanie pracowników
     private void employee() {
@@ -400,7 +448,18 @@ public class ManagerController {
                     result.getString("surname"),
                     result.getString("status"),
                     result.getString("planned_end"));
-
+            time = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    if (EditTaskController.refBool()) {
+                        refreshEditTask();
+                        time.stop();
+                        EditTaskController.isRefreshed = false;
+                    }
+                }
+            }));
+            time.setCycleCount(Timeline.INDEFINITE);
+            time.play();
             Scene scene = new Scene(anchorPane);
             stage.setScene(scene);
             stage.setResizable(false);

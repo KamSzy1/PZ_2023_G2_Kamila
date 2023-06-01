@@ -3,9 +3,11 @@ package controllers;
 import com.example.system.StageChanger;
 import controllers_pop_employee.AddEmployeeController;
 import controllers_pop_employee.EditEmployeeController;
+import controllers_pop_task.AddTaskController;
 import controllers_pop_task.EditTaskController;
 import database.DatabaseConnector;
 import database.QExecutor;
+import database_classes.HistoryTaskTable;
 import database_classes.TasksTable;
 import database_classes.UsersTable;
 import javafx.animation.KeyFrame;
@@ -152,6 +154,7 @@ public class AdminController {
         welcomeLabel.setText("Witaj " + UsersTable.getLoginName() + " " + UsersTable.getLoginSurname() + "!");
         gridMyTasks.toFront();
         myTask();
+        task();
     }
 
     //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
@@ -194,12 +197,24 @@ public class AdminController {
         } else if (source == addTaskButton) {
             String fxmlPath = "/pop_task/addTask.fxml";
             openWindow(addTaskButton, fxmlPath);
+            time = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    if (AddTaskController.refBool()) {
+                        refreshTask();
+                        time.stop();
+                        AddTaskController.isRefreshed = false;
+                    }
+                }
+            }));
+            time.setCycleCount(Timeline.INDEFINITE);
+            time.play();
         } else if (source == addEmployeeButton) {
             time = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
                     if (AddEmployeeController.refBool()) {
-                        refresh();
+                        refreshUser();
                         time.stop();
                         AddEmployeeController.isRefreshed = false;
                     }
@@ -218,6 +233,7 @@ public class AdminController {
             openWindow(passwordEditButton, fxmlPath);
         }
     }
+
 
     public void buttonReports(ActionEvent event) {
         Object source = event.getSource();
@@ -269,11 +285,13 @@ public class AdminController {
                 TasksTable task = new TasksTable();
 
                 Button editButton = new Button("Edycja");
-                String idTask = result.getString("id_task");
+                int idTask = result.getInt("id_task");
+                task.setEditIdTask(idTask);
                 editButton.setOnAction(event -> {
-                    preparePopUpWindowEditTask(idTask);
+                    preparePopUpWindowEditTask(String.valueOf(idTask));
+                    System.out.println(task.getEditIdTask());
                 });
-
+                task.setIdTask(result.getInt("id_task"));
                 task.setTitle(result.getString("title"));
                 task.setData(result.getDate("planned_end"));
                 task.setDescription(result.getString("description"));
@@ -312,7 +330,7 @@ public class AdminController {
                 editButton.setOnAction(event -> {
                     preparePopUpWindowEditTask(idTask);
                 });
-
+                task.setIdTask(result.getInt("id_task"));
                 task.setTitle(result.getString("title"));
                 task.setDescription(result.getString("description"));
                 task.setData(result.getDate("tasks_history.planned_end"));
@@ -379,10 +397,24 @@ public class AdminController {
         employeeTableView.setItems(userTable);
     }
 
-    private void refresh() {
+    private void refreshUser() {
         userTable.clear();
         employee();
     }
+
+    private void refreshTask() {
+        taskTable.clear();
+        task();
+
+    }
+
+    private void refreshEditTask() {
+        myTaskTable.clear();
+        myTask();
+        taskTable.clear();
+        task();
+    }
+
 
     private void preparePopUpWindowEditTask(String idTask) {
         try {
@@ -393,7 +425,7 @@ public class AdminController {
 
             DatabaseConnector.connect();
             //SELECT t.title, t.description, u.name, u.surname, s.name, tk.planned_end FROM tasks AS t JOIN statuses AS s ON t.status_id = s.id_status JOIN users AS u ON t.user_id=u.id_user JOIN tasks_history AS tk ON tk.tasks_id=t.id_task WHERE t.id_task = 8
-            ResultSet result = QExecutor.executeSelect("SELECT t.title, t.description, u.name, u.surname, s.name AS status, tk.planned_end FROM tasks AS t " +
+            ResultSet result = QExecutor.executeSelect("SELECT t.id_task, t.title, t.description, u.name, u.surname, s.name AS status, tk.planned_end FROM tasks AS t " +
                     "JOIN statuses AS s ON t.status_id = s.id_status " +
                     "JOIN users AS u ON t.user_id=u.id_user " +
                     "JOIN tasks_history AS tk ON tk.tasks_id=t.id_task " +
@@ -401,12 +433,25 @@ public class AdminController {
             result.next();
 
             editTaskController.setData(
+                    result.getInt("id_task"),
                     result.getString("title"),
                     result.getString("description"),
                     result.getString("name"),
                     result.getString("surname"),
                     result.getString("status"),
                     result.getString("planned_end"));
+            time = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    if (EditTaskController.refBool()) {
+                        refreshEditTask();
+                        time.stop();
+                        EditTaskController.isRefreshed = false;
+                    }
+                }
+            }));
+            time.setCycleCount(Timeline.INDEFINITE);
+            time.play();
 
             Scene scene = new Scene(anchorPane);
             stage.setScene(scene);
