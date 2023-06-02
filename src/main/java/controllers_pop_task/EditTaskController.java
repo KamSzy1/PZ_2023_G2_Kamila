@@ -1,9 +1,7 @@
 package controllers_pop_task;
 
-import controllers.EmployeeController;
 import database.DatabaseConnector;
 import database.QExecutor;
-import database_classes.HistoryTaskTable;
 import database_classes.TasksTable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,14 +9,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class EditTaskController {
     @FXML
@@ -35,19 +29,15 @@ public class EditTaskController {
     private Button cancelButton;
     @FXML
     private Button saveButton;
+    @FXML
+    private Label wrongLabel;
+
     public static boolean isRefreshed;
     public static boolean refBool() {
         return isRefreshed;
     }
-    private ObservableList<String> positions;
-    private final TasksTable tasksTable = new TasksTable();
-    private final HistoryTaskTable historyTaskTable = new HistoryTaskTable();
     private ObservableList<String> names;
     private ObservableList<String> statuses;
-    private final LocalDate currentDate = LocalDate.now();
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private final String formattedDate = currentDate.format(formatter);
-    int oldId_task;
     String oldTitle;
     String oldDescription;
     String oldName;
@@ -55,7 +45,6 @@ public class EditTaskController {
     String oldStatus;
     String oldPlanned_end;
     TasksTable task = new TasksTable();
-    int idTask;
 
     @FXML
     public void initialize() {
@@ -121,8 +110,13 @@ public class EditTaskController {
             QExecutor.executeQuery("UPDATE tasks_history SET planned_end= '"+data+"' WHERE tasks_id="+ task.getEditIdTask());
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (NullPointerException e) {
+            wrongLabel.setText("Wybierz datę zakończenia");
+        } catch (RuntimeException e){
+            wrongLabel.setText("Uzupełnij wszystkie pola");
+        } catch(Exception e){
+            wrongLabel.setText(e.getMessage());
         }
-
     }
 
     //Zamykanie okienka

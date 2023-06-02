@@ -49,18 +49,18 @@
                <font>
                   <Font size="14.0" />
                </font></Label>
-            <Label text="Osoba przypisana" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <Label text="Osoba przypisana" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <font>
                   <Font size="14.0" />
                </font></Label>
-            <Label text="Data zakończenia" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <Label text="Data zakończenia" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <font>
                   <Font size="14.0" />
                </font></Label>
             <TextField fx:id="titleField" promptText="Tytuł" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <DatePicker fx:id="timePicker" prefHeight="25.0" prefWidth="253.0" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+            <DatePicker fx:id="timePicker" prefHeight="25.0" prefWidth="253.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
             <TextArea fx:id="descriptionArea" prefHeight="200.0" prefWidth="200.0" promptText="Opis" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <ComboBox fx:id="personView" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="250.0" promptText="Wybierz osobę" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <ComboBox fx:id="personView" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="250.0" promptText="Wybierz osobę" GridPane.columnIndex="2" GridPane.rowIndex="7" />
             <Button fx:id="cancelButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#buttonsHandler" prefHeight="31.0" prefWidth="136.0" style="-fx-background-color: #7a6fb9;" text="Anuluj" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="13">
                <font>
                   <Font size="15.0" />
@@ -75,7 +75,7 @@
                <font>
                   <Font size="14.0" />
                </font></Label>
-            <Label fx:id="wrongLabel" prefHeight="17.0" prefWidth="328.0" GridPane.columnIndex="2" GridPane.rowIndex="11">
+            <Label fx:id="wrongLabel" alignment="CENTER" prefHeight="21.0" prefWidth="552.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="11">
                <font>
                   <Font size="15.0" />
                </font>
