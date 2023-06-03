@@ -2,7 +2,6 @@ package controllers_pop_employee;
 
 import database.DatabaseConnector;
 import database.QExecutor;
-import database_classes.LoginTable;
 import database_classes.UsersTable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -53,7 +52,6 @@ public class AddEmployeeController {
 
     public static boolean isRefreshed;
     UsersTable addEmployee = new UsersTable();
-    LoginTable loginTable = new LoginTable();
     private ObservableList<String> positions;
 
     public static boolean refBool() {
@@ -124,8 +122,6 @@ public class AddEmployeeController {
             addEmployee.setPositionId(position);
             addEmployee.setToken(token);
             addEmployee.setGroups(Integer.parseInt(group));
-
-            loginTable.setToken(tokenField.getText());
 
             //Utworzenie połączenia z bazą danych
             DatabaseConnector.connect();

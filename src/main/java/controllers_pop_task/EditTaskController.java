@@ -56,6 +56,7 @@ public class EditTaskController {
     String oldPlanned_end;
     TasksTable task = new TasksTable();
     int idTask;
+
     @FXML
     public void initialize() {
         userList();
