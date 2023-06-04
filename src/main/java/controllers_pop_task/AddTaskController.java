@@ -45,12 +45,10 @@ public class AddTaskController {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final String formattedDate = currentDate.format(formatter);
     public static boolean isRefreshed;
-    TasksTable addTask = new TasksTable();
     public static boolean refBool() {
         return isRefreshed;
     }
     private LocalDate date;
-
 
 
     @FXML
@@ -105,7 +103,9 @@ public class AddTaskController {
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
-            wrongLabel.setText("Ustaw czas zakończenia zadania");
+            wrongLabel.setText("Wybierz datę zakończenia");
+        } catch (RuntimeException e){
+            wrongLabel.setText("Uzupełnij wszystkie pola");
         } catch(Exception e){
             wrongLabel.setText(e.getMessage());
         }
