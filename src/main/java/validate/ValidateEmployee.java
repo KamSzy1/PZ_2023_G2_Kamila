@@ -1,7 +1,11 @@
 package validate;
 
+import database.DatabaseConnector;
+import database.QExecutor;
+import database_classes.UsersTable;
 import org.apache.commons.validator.routines.EmailValidator;
 
+import java.sql.ResultSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,6 +25,10 @@ public class ValidateEmployee {
 
     //Sprawdzenie czy imię jest takie jak powinno -> tzn. żeby ktoś Kasia2000 nie wpisał
     public static void goodName(String name) throws Exception {
+        if (name.isEmpty()) {
+            throw new Exception("Puste pole imienia");
+        }
+
         if (name.length() > 128) {
             throw new Exception("Imię powinno mieć mniej niż 125 znaków");
         }
@@ -35,6 +43,10 @@ public class ValidateEmployee {
 
     //Sprawdzenie czy nazwisko jest takie jak powinno -> tzn. żeby ktoś Kowalski2019 nie wpisał
     public static void goodSurname(String surname) throws Exception {
+        if (surname.isEmpty()) {
+            throw new Exception("Puste pole nazwiska");
+        }
+
         if (surname.length() > 128) {
             throw new Exception("Nazwisko powinno mieć mniej niż 125 znaków");
         }
@@ -49,6 +61,10 @@ public class ValidateEmployee {
 
     //Sprawdzenie czy miejscowość jest taka jak powinna
     public static void goodPlace(String place) throws Exception {
+        if (place.isEmpty()) {
+            throw new Exception("Puste pole miejscowości");
+        }
+
         if (place.length() > 128) {
             throw new Exception("Nazwa miejscowości powinna mieć mniej niż 125 znaków");
         }
@@ -57,12 +73,16 @@ public class ValidateEmployee {
         Matcher matcher_place = pattern_place.matcher(place);
 
         if (!matcher_place.matches()) {
-            throw new Exception("Nie można używać spacji w polach PLACE");
+            throw new Exception("Nie można używać spacji w polach");
         }
     }
 
     //Sprawdzenie czy adres nie ma spacji na początku linii w adresie
     public static void goodAddress(String address) throws Exception {
+        if (address.isEmpty()) {
+            throw new Exception("Puste pole adresu");
+        }
+
         if (address.length() > 128) {
             throw new Exception("Adres powinien mieć mniej niż 250 znaków");
         }
@@ -77,6 +97,10 @@ public class ValidateEmployee {
 
     //Sprawdzenie czy email jest taki jak powinien
     public static void goodEmail(String email) throws Exception {
+        if (email.isEmpty()) {
+            throw new Exception("Pusty email");
+        }
+
         if (email.length() > 128) {
             throw new Exception("Adres powinien mieć mniej niż 250 znaków");
         }
@@ -105,16 +129,34 @@ public class ValidateEmployee {
 
     //Sprawdzenie czy numer telefonu jest taki jak powinien
     public static void goodPhoneNumber(String phoneNumber) throws Exception {
+        if (phoneNumber.isEmpty()) {
+            throw new Exception("Puste pole numeru telefonu");
+        }
+
         Pattern pattern_number = Pattern.compile(regex_number);
         Matcher matcher_number = pattern_number.matcher(phoneNumber);
 
         if (!matcher_number.matches()) {
             throw new Exception("Błędny numer telefonu");
         }
+
+        DatabaseConnector.connect();
+        ResultSet rs = QExecutor.executeSelect("SELECT phone_num FROM users WHERE phone_num = " + phoneNumber);
+        rs.next();
+        String number = String.valueOf(rs.getInt("phone_num"));
+
+        if (number.equals(phoneNumber)) {
+            throw new Exception("Podany numer telefonu już istnieje");
+        }
+
     }
 
     //Sprawdzenie czy kod pocztowy jest taki jak powinien
     public static void goodZipCode(String zipcode) throws Exception {
+        if (zipcode.isEmpty()) {
+            throw new Exception("Puste pole kodu pocztowego");
+        }
+
         Pattern pattern_zipCode = Pattern.compile(regex_zipCode);
         Matcher matcher_zipCode = pattern_zipCode.matcher(zipcode);
 
@@ -134,12 +176,12 @@ public class ValidateEmployee {
     public static void goodGroup(String strNum) throws Exception {
         if (strNum == null) {
             throw new Exception("Wpisz numer grupy");
-        } else {
-            Pattern pattern_number = Pattern.compile(number);
-            Matcher number = pattern_number.matcher(strNum);
-            if (!number.matches()) {
-                throw new Exception("Numer grupy musi być liczbą");
-            }
+        }
+
+        Pattern pattern_number = Pattern.compile(number);
+        Matcher number = pattern_number.matcher(strNum);
+        if (!number.matches()) {
+            throw new Exception("Numer grupy musi być liczbą");
         }
     }
 

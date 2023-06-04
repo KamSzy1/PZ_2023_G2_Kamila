@@ -93,12 +93,16 @@ public class MainController {
             //Przejście do gridu z panelem tokenu
             backButton.setVisible(true);
             logRegLabel.setText("Rejestracja");
+            wrongTokenLabel.setText("");
             tokenField.clear();
             gridToken.toFront();
             USER_CHOICE = 1;
         } else if (source == registrationButton) {
             tryRegisterEmployee();
         } else if (source == resetPasswordButton) {
+            logRegLabel.setText("Resetowanie hasła");
+            wrongTokenLabel.setText("");
+            tokenField.clear();
             backButton.setVisible(true);
             gridToken.toFront();
             USER_CHOICE = 2;
@@ -110,13 +114,14 @@ public class MainController {
             //Sprawdzenie tokenu i odesłanie użytkownika w dobre miejsce
             tokenCheck();
         } else if (source == backButton) {
-            //Powrót z rejestracji do loginu
+            //Powrót do loginu
             emailField.clear();
             passwordField.clear();
             regEmailField.clear();
             regPasswordField.clear();
             regRepeatPasswordField.clear();
 
+            wrongTokenLabel.setText("");
             logRegLabel.setText("Logowanie");
             backButton.setVisible(false);
             wrongLogin.setText("");

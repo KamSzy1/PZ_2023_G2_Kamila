@@ -2,6 +2,7 @@ package controllers_pop_settings;
 
 import database.DatabaseConnector;
 import database.QExecutor;
+import database_classes.UsersTable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -77,7 +78,8 @@ public class EditEmailInSettingsController {
             DatabaseConnector.connect();
             ResultSet result = QExecutor.executeSelect("SELECT login.email FROM login " +
                     "INNER JOIN users on users.id_user = login.user_id " +
-                    "WHERE users.token ='" + token + "'");
+                    "WHERE users.token ='" + token + "' " +
+                    "AND users.id_user = " + UsersTable.getIdLoginUser());
             result.next();
 
             if (result.getString("email").isEmpty()) {

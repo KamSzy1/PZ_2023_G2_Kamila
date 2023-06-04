@@ -2,6 +2,7 @@ package controllers_pop_settings;
 
 import database.DatabaseConnector;
 import database.QExecutor;
+import database_classes.UsersTable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -43,6 +44,8 @@ public class EditPasswordInSettingsController {
     @FXML
     private Label wrongTokenLabel;
 
+    String token;
+
     @FXML
     public void initialize() {
         tokenGrid.toFront();
@@ -54,13 +57,7 @@ public class EditPasswordInSettingsController {
 
         if (source == continueButton) {
             //Sprawdzenie tokenu
-            try {
-                ValidateEmployee.goodToken(tokenField.getText());
-            } catch (Exception e) {
-                wrongTokenLabel.setText(e.getMessage());
-            }
-            passwordGrid.toFront();
-
+            checkIfTokenIsEmpty();
         } else if (source == saveButton) {
             resetPassword();
         } else if (source == cancel2Button) {
@@ -71,8 +68,18 @@ public class EditPasswordInSettingsController {
             //Zamykanie okienka
             Stage stage = (Stage) cancelButton.getScene().getWindow();
             stage.close();
-
         }
+    }
+
+    private void checkIfTokenIsEmpty() {
+        token = tokenField.getText();
+
+        try {
+            ValidateEmployee.goodToken(token);
+        } catch (Exception e) {
+            wrongTokenLabel.setText(e.getMessage());
+        }
+        passwordGrid.toFront();
     }
 
     private void resetPassword() {
@@ -88,7 +95,8 @@ public class EditPasswordInSettingsController {
             QExecutor.executeQuery("UPDATE login " +
                     "INNER JOIN users ON users.id_user = login.user_id " +
                     "SET password = '" + hashedPassword + "' " +
-                    "WHERE users.token = '" + tokenField.getText() + "'");
+                    "WHERE users.token = '" + token +"' " +
+                    "AND users.id_user = " + UsersTable.getIdLoginUser());
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
