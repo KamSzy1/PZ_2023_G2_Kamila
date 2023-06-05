@@ -501,7 +501,6 @@ public class AdminController {
         task();
     }
 
-
     private void preparePopUpWindowEditTask(String idTask) {
         try {
             Stage stage = new Stage();

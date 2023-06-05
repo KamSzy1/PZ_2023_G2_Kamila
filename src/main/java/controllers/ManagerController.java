@@ -542,6 +542,7 @@ public class ManagerController {
                     result.getString("surname"),
                     result.getString("status"),
                     result.getString("planned_end"));
+
             time = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
