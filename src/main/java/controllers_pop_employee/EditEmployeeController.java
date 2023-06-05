@@ -9,8 +9,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import other.GenerateToken;
 import validate.ValidateEmployee;
 
 import java.io.IOException;
@@ -67,7 +70,20 @@ public class EditEmployeeController {
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
 
-        if (source == cancelButton) {
+        if (source == generateButton) {
+            //Generowanie tokena
+            GenerateToken generateToken = new GenerateToken();
+            String generatedToken = generateToken.generateToken();
+            tokenField.setText(generatedToken);
+
+        } else if (source == copyButton) {
+            //Kopiowanie tokena do schowka
+            final Clipboard clipboard = Clipboard.getSystemClipboard();
+            final ClipboardContent content = new ClipboardContent();
+            content.putString(tokenField.getText());
+            clipboard.setContent(content);
+
+        } else if (source == cancelButton) {
             //Zamykanie okienka
             Stage stage = (Stage) cancelButton.getScene().getWindow();
             stage.close();
@@ -108,7 +124,7 @@ public class EditEmployeeController {
             ValidateEmployee.goodAddress(newAddress);
             ValidateEmployee.goodZipCode(newZip);
             ValidateEmployee.goodPlace(newPlace);
-            ValidateEmployee.goodPhoneNumber(newPhoneNumber);
+            //ValidateEmployee.goodPhoneNumber(newPhoneNumber);
             ValidateEmployee.goodToken(newToken);
             ValidateEmployee.goodGroup(newGroup);
             ValidateEmployee.goodPosition(newPosition);
