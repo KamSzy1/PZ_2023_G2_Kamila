@@ -8,12 +8,15 @@ import controllers_pop_task.EditTaskController;
 import database.DatabaseConnector;
 import database.QExecutor;
 import database_classes.HistoryTaskTable;
+import database_classes.LoginTable;
 import database_classes.TasksTable;
 import database_classes.UsersTable;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -39,6 +42,14 @@ import java.util.Objects;
 
 public class AdminController {
 
+    @FXML
+    private TextField filterEmployeeField;
+
+    @FXML
+    private TextField filterMyTasksField;
+
+    @FXML
+    private TextField filterTasksField;
     @FXML
     private Button myTasksButton;
     @FXML
@@ -155,6 +166,7 @@ public class AdminController {
         gridMyTasks.toFront();
         myTask();
         task();
+        employee();
     }
 
     //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
@@ -282,22 +294,22 @@ public class AdminController {
                     "WHERE user_id = " + UsersTable.getIdLoginUser());
             System.out.println(UsersTable.getIdLoginUser());
             while (result.next()) {
-                TasksTable task = new TasksTable();
-
+                TasksTable myTask = new TasksTable();
+                HistoryTaskTable htask = new HistoryTaskTable();
                 Button editButton = new Button("Edycja");
                 int idTask = result.getInt("id_task");
-                task.setEditIdTask(idTask);
+                myTask.setEditIdTask(idTask);
                 editButton.setOnAction(event -> {
                     preparePopUpWindowEditTask(String.valueOf(idTask));
-                    System.out.println(task.getEditIdTask());
+                    System.out.println(myTask.getEditIdTask());
                 });
-                task.setIdTask(result.getInt("id_task"));
-                task.setTitle(result.getString("title"));
-                task.setData(result.getDate("planned_end"));
-                task.setDescription(result.getString("description"));
-                task.setNameStatus(result.getString("name"));
-                task.setEditTaskButton(editButton);
-                myTaskTable.add(task);
+                myTask.setIdTask(result.getInt("id_task"));
+                myTask.setTitle(result.getString("title"));
+                myTask.setData(result.getDate("planned_end"));
+                myTask.setDescription(result.getString("description"));
+                myTask.setNameStatus(result.getString("name"));
+                myTask.setEditTaskButton(editButton);
+                myTaskTable.add(myTask);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -309,6 +321,29 @@ public class AdminController {
         myTaskEdit.setCellValueFactory(new PropertyValueFactory<>("editTaskButton"));
 
         myTaskTableView.setItems(myTaskTable);
+
+        FilteredList<TasksTable> filteredTaskData = new FilteredList<>(myTaskTable, b -> true);
+        filterMyTasksField.textProperty().addListener((observable, oldValue, newValue1) -> {
+            filteredTaskData.setPredicate(myTask -> {
+                if (newValue1 == null || newValue1.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue1.toLowerCase();
+
+                if (myTask.getTitle().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (myTask.getDescription().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (myTask.getNameStatus().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        });
+        SortedList<TasksTable> sortedData = new SortedList<>(filteredTaskData);
+        sortedData.comparatorProperty().bind(myTaskTableView.comparatorProperty());
+        myTaskTableView.setItems(sortedData);
     }
 
     //Wyświetlanie zadań
@@ -324,7 +359,6 @@ public class AdminController {
 
             while (result.next()) {
                 TasksTable task = new TasksTable();
-
                 Button editButton = new Button("Edycja");
                 String idTask = result.getString("id_task");
                 editButton.setOnAction(event -> {
@@ -350,6 +384,31 @@ public class AdminController {
         taskEdit.setCellValueFactory(new PropertyValueFactory<>("editTaskButton"));
 
         taskTableView.setItems(taskTable);
+        // Filtrowanie danych
+        FilteredList<TasksTable> filteredData = new FilteredList<>(taskTable, b -> true);
+        filterTasksField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(tasks -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (tasks.getTitle().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (tasks.getDescription().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (tasks.getNameUser().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (tasks.getNameStatus().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        });
+        SortedList<TasksTable> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(taskTableView.comparatorProperty());
+        taskTableView.setItems(sortedData);
     }
 
     //Wyświetlanie pracowników
@@ -358,19 +417,18 @@ public class AdminController {
             DatabaseConnector.connect();
             userTable = FXCollections.observableArrayList();
 
+
             ResultSet result = QExecutor.executeSelect("SELECT * FROM users " +
                     "JOIN positions ON users.position_id = positions.id_position " +
                     "JOIN login ON users.id_user = login.user_id");
 
             while (result.next()) {
                 UsersTable user = new UsersTable();
-
                 Button editButton = new Button("Edycja");
                 String tokenName = result.getString("token");
                 editButton.setOnAction(event -> {
                     preparePopUpWindowEditEmployee(tokenName);
                 });
-
                 user.setName(result.getString("name"));
                 user.setSurname(result.getString("surname"));
                 user.setEmail(result.getString("email"));
@@ -395,6 +453,34 @@ public class AdminController {
         employeeEdit.setCellValueFactory(new PropertyValueFactory<>("editEmployeeButton"));
 
         employeeTableView.setItems(userTable);
+
+        FilteredList<UsersTable> filteredData = new FilteredList<>(userTable, b -> true);
+        filterEmployeeField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(user -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (user.getName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (user.getSurname().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (user.getAddress().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (user.getNamePosition().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (String.valueOf(user.getPhoneNumber()).contains(lowerCaseFilter)) {
+                    return true;
+                } else if (String.valueOf(user.getGroups()).contains(lowerCaseFilter)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        });
+        SortedList<UsersTable> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(employeeTableView.comparatorProperty());
+        employeeTableView.setItems(sortedData);
     }
 
     private void refreshUser() {
@@ -471,7 +557,37 @@ public class AdminController {
             AnchorPane anchorPane = loader.load();
             EditEmployeeController editEmployeeController = loader.getController();
 
-            //tutaj kod z danymi
+            DatabaseConnector.connect();
+            ResultSet result = QExecutor.executeSelect("SELECT u.id_user, u.name, u.surname, u.address, u.place, u.zip, u.phone_num, p.position_name, u.token, u.groups FROM users AS u " +
+                    "JOIN positions AS p ON u.position_id = p.id_position " +
+                    "WHERE u.token = '" + token +"'");
+            result.next();
+
+            editEmployeeController.setData(
+                    result.getInt("id_user"),
+                    result.getString("name"),
+                    result.getString("surname"),
+                    result.getString("phone_num"),
+                    result.getString("place"),
+                    result.getString("address"),
+                    result.getString("groups"),
+                    result.getString("position_name"),
+                    result.getString("token"),
+                    result.getString("zip")
+            );
+
+            time = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    if (EditTaskController.refBool()) {
+                        refreshEditTask();
+                        time.stop();
+                        EditTaskController.isRefreshed = false;
+                    }
+                }
+            }));
+            time.setCycleCount(Timeline.INDEFINITE);
+            time.play();
 
             Scene scene = new Scene(anchorPane);
             stage.setScene(scene);
@@ -479,7 +595,7 @@ public class AdminController {
             stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/ICON.png"))));
             stage.show();
 
-        } catch (IOException e) {
+        } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
     }

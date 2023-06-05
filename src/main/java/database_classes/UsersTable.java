@@ -7,6 +7,7 @@ public class UsersTable {
     private static int idLoginUser;
     private static String loginName;
     private static String loginSurname;
+    private static int idEditUser;
     private int idUser;
     private String name;
     private String surname;
@@ -37,6 +38,14 @@ public class UsersTable {
         this.token = token;
         this.groups = groups;
         this.editEmployeeButton = new Button();
+    }
+
+    public static int getIdEditUser() {
+        return idEditUser;
+    }
+
+    public static void setIdEditUser(int idEditUser) {
+        UsersTable.idEditUser = idEditUser;
     }
 
     public static int getIdLoginUser() {

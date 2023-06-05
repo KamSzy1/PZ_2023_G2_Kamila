@@ -7,6 +7,7 @@ import database_classes.HistoryTaskTable;
 import database_classes.TasksTable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -83,7 +84,6 @@ public class EditTaskController {
             updateData();
             closeWindow(saveButton);
             isRefreshed= true;
-            System.out.println(task.getEditIdTask());
         }
     }
 
@@ -94,7 +94,7 @@ public class EditTaskController {
         statusView.setValue(status);
         timePicker.setValue(LocalDate.parse(planned_end));
 
-        task.setEditIdTask(id_task);
+        TasksTable.setEditIdTask(id_task);
         oldTitle = title;
         oldDescription = description;
         oldName = name;
@@ -116,13 +116,12 @@ public class EditTaskController {
                     " description = '"+ newDescription +  "' ," +
                     " user_id = "+ newName + " ," +
                     " status_id = "+ newStatus + " WHERE " +
-                    " id_task = " + task.getEditIdTask()
+                    " id_task = " + TasksTable.getEditIdTask()
             );
             QExecutor.executeQuery("UPDATE tasks_history SET planned_end= '"+data+"' WHERE tasks_id="+ task.getEditIdTask());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
     //Zamykanie okienka
