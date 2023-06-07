@@ -9,6 +9,8 @@ import database_classes.TasksTable;
 import database_classes.UsersTable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,12 +30,15 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.Objects;
 
 public class EmployeeController {
 
     @FXML
     private Button myTasksButton;
+    @FXML
+    private TextField filterField;
     @FXML
     private Button reportButton;
     @FXML
@@ -200,14 +205,13 @@ public class EmployeeController {
                     "WHERE user_id = " + UsersTable.getIdLoginUser());
             System.out.println(UsersTable.getIdLoginUser());
             while (result.next()) {
-                TasksTable task = new TasksTable();
 
                 Button editButton = new Button("Edycja");
                 String idTask = result.getString("id_task");
                 editButton.setOnAction(event -> {
                     preparePopUpWindowEditTask(idTask);
                 });
-
+                TasksTable task = new TasksTable();
                 HistoryTaskTable htask = new HistoryTaskTable();
                 task.setTitle(result.getString("title"));
                 task.setData(result.getDate("planned_end"));
@@ -226,6 +230,29 @@ public class EmployeeController {
         myTaskEdit.setCellValueFactory(new PropertyValueFactory<>("editTaskButton"));
 
         myTaskTableView.setItems(myTaskTable);
+
+        FilteredList<TasksTable> filteredTaskData = new FilteredList<>(myTaskTable, b -> true);
+        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredTaskData.setPredicate(task -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (task.getTitle().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (task.getDescription().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (task.getNameStatus().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        });
+        SortedList<TasksTable> sortedData = new SortedList<>(filteredTaskData);
+        sortedData.comparatorProperty().bind(myTaskTableView.comparatorProperty());
+        myTaskTableView.setItems(sortedData);
     }
 
     private void openWindow(Button button, String fxml) {
