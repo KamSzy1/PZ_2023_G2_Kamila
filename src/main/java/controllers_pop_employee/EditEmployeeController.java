@@ -58,6 +58,7 @@ public class EditEmployeeController {
 
     private ObservableList<String> positions;
     public static boolean isRefreshed;
+
     public static boolean refBool() {
         return isRefreshed;
     }
@@ -84,17 +85,14 @@ public class EditEmployeeController {
             clipboard.setContent(content);
 
         } else if (source == cancelButton) {
-            //Zamykanie okienka
-            Stage stage = (Stage) cancelButton.getScene().getWindow();
-            stage.close();
+            closeWindow(cancelButton);
         } else if (source == saveButton) {
             updateData();
-            closeWindow(saveButton);
-            isRefreshed= true;
+            isRefreshed = true;
         }
     }
 
-    public void setData(int id_user, String name, String surname, String phoneNumber, String place, String address, String group, String position, String token, String zipCode){
+    public void setData(int id_user, String name, String surname, String phoneNumber, String place, String address, String group, String position, String token, String zipCode) {
         nameField.setText(name);
         surnameField.setText(surname);
         numberField.setText(phoneNumber);
@@ -107,7 +105,7 @@ public class EditEmployeeController {
         UsersTable.setIdEditUser(id_user);
     }
 
-    public void updateData(){
+    public void updateData() {
         String newName = nameField.getText();
         String newSurname = surnameField.getText();
         String newPhoneNumber = numberField.getText();
@@ -131,18 +129,21 @@ public class EditEmployeeController {
 
             DatabaseConnector.connect();
             QExecutor.executeQuery("UPDATE users SET " +
-                    " name = '"+ newName +  "' ," +
-                    " surname = '"+ newSurname +  "' ," +
-                    " phone_num = '"+ newPhoneNumber +  "' ," +
-                    " place = '"+ newPlace +  "' ," +
-                    " address = '"+ newAddress +  "' ," +
-                    " position_id = "+ newPosition + " ," +
-                    " token = '"+ newToken + "' ," +
-                    " zip = '"+ newZip + "' ," +
-                    " groups = "+ newGroup + " WHERE " +
+                    " name = '" + newName + "' ," +
+                    " surname = '" + newSurname + "' ," +
+                    " phone_num = '" + newPhoneNumber + "' ," +
+                    " place = '" + newPlace + "' ," +
+                    " address = '" + newAddress + "' ," +
+                    " position_id = " + newPosition + " ," +
+                    " token = '" + newToken + "' ," +
+                    " zip = '" + newZip + "' ," +
+                    " groups = " + newGroup + " WHERE " +
                     " id_user = " + UsersTable.getIdEditUser()
             );
+
+            closeWindow(saveButton);
         } catch (Exception e) {
+            wrongLabel.setText(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -161,6 +162,7 @@ public class EditEmployeeController {
         }
         positionView.setItems(positions);
     }
+
     //Zamykanie okienka
     private void closeWindow(Button button) {
         Stage stage = (Stage) button.getScene().getWindow();

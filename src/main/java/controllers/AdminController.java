@@ -295,7 +295,6 @@ public class AdminController {
             System.out.println(UsersTable.getIdLoginUser());
             while (result.next()) {
                 TasksTable myTask = new TasksTable();
-                HistoryTaskTable htask = new HistoryTaskTable();
                 Button editButton = new Button("Edycja");
                 int idTask = result.getInt("id_task");
                 myTask.setEditIdTask(idTask);
@@ -491,7 +490,6 @@ public class AdminController {
     private void refreshTask() {
         taskTable.clear();
         task();
-
     }
 
     private void refreshEditTask() {
@@ -578,10 +576,10 @@ public class AdminController {
             time = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    if (EditTaskController.refBool()) {
-                        refreshEditTask();
+                    if (EditEmployeeController.refBool()) {
+                        refreshEmployee();
                         time.stop();
-                        EditTaskController.isRefreshed = false;
+                        EditEmployeeController.isRefreshed = false;
                     }
                 }
             }));
@@ -612,6 +610,11 @@ public class AdminController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void refreshEmployee(){
+        userTable.clear();
+        employee();
     }
 
     private void setPathPdfGenerator() {
