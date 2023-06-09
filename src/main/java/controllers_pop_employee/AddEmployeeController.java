@@ -71,19 +71,14 @@ public class AddEmployeeController {
             GenerateToken generateToken = new GenerateToken();
             String generatedToken = generateToken.generateToken();
             tokenField.setText(generatedToken);
-
         } else if (source == copyButton) {
             //Kopiowanie tokena do schowka
             final Clipboard clipboard = Clipboard.getSystemClipboard();
             final ClipboardContent content = new ClipboardContent();
             content.putString(tokenField.getText());
             clipboard.setContent(content);
-
         } else if (source == cancelButton) {
-            //Zamykanie okienka
-            Stage stage = (Stage) cancelButton.getScene().getWindow();
-            stage.close();
-
+            closeWindow(cancelButton);
         } else if (source == addButton) {
             addPerson();
             isRefreshed = true;
@@ -143,10 +138,7 @@ public class AddEmployeeController {
 
             QExecutor.executeQuery("INSERT INTO login (user_id) VALUES (" +
                     Integer.parseInt(resultSet.getString("id_user")) + ")");
-
-            //Zamykanie okienka
-            Stage stage = (Stage) addButton.getScene().getWindow();
-            stage.close();
+            closeWindow(addButton);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -167,5 +159,11 @@ public class AddEmployeeController {
             e.printStackTrace();
         }
         positionView.setItems(positions);
+    }
+
+    //Zamykanie okienka
+    private void closeWindow(Button button) {
+        Stage stage = (Stage) button.getScene().getWindow();
+        stage.close();
     }
 }

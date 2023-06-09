@@ -50,7 +50,6 @@ public class AddTaskController {
     }
     private LocalDate date;
 
-
     @FXML
     public void initialize() {
         userList();
@@ -59,11 +58,9 @@ public class AddTaskController {
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
                 LocalDate today = LocalDate.now();
-
                 setDisable(empty || date.isBefore(today));
             }
         });
-
         timePicker.getEditor().setDisable(true);
     }
 
@@ -71,10 +68,7 @@ public class AddTaskController {
         Object source = event.getSource();
 
         if (source == cancelButton) {
-            //Zamykanie okienka
-            Stage stage = (Stage) cancelButton.getScene().getWindow();
-            stage.close();
-
+            closeWindow(cancelButton);
         } else if (source == addButton) {
             addTask();
             isRefreshed = true;
@@ -96,9 +90,7 @@ public class AddTaskController {
                     + historyTaskTable.getPlannedEnd() + "','"
                     + historyTaskTable.getStartDate() + "',"
                     + "(SELECT MAX(id_task) FROM tasks))");
-
-            Stage stage = (Stage) addButton.getScene().getWindow();
-            stage.close();
+            closeWindow(addButton);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -109,6 +101,12 @@ public class AddTaskController {
         } catch(Exception e){
             wrongLabel.setText(e.getMessage());
         }
+    }
+
+    //Zamykanie okienka
+    private void closeWindow(Button button) {
+        Stage stage = (Stage) button.getScene().getWindow();
+        stage.close();
     }
 
     public void userList() {

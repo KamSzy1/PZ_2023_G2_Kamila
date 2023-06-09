@@ -169,7 +169,7 @@ public class ManagerController {
     }
 
     //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
-    public void buttonsHandlerPane(ActionEvent event) throws IOException {
+    public void buttonsHandlerPane(ActionEvent event) {
         Object source = event.getSource();
 
         if (source == myTasksButton) {
@@ -233,7 +233,6 @@ public class ManagerController {
     private void refreshTask() {
         taskTable.clear();
         task();
-
     }
 
     private void refreshEditTask() {
@@ -595,10 +594,10 @@ public class ManagerController {
             time = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    if (EditTaskController.refBool()) {
-                        refreshEditTask();
+                    if (EditEmployeeController.refBool()) {
+                        refreshEmployee();
                         time.stop();
-                        EditTaskController.isRefreshed = false;
+                        EditEmployeeController.isRefreshed = false;
                     }
                 }
             }));
@@ -614,6 +613,11 @@ public class ManagerController {
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void refreshEmployee(){
+        userTable.clear();
+        employee();
     }
 
     private void pdfChooseReportToGenerate() {

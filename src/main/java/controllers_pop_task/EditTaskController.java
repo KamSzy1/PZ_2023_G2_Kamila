@@ -71,7 +71,6 @@ public class EditTaskController {
 
         } else if (source == saveButton) {
             updateData();
-            closeWindow(saveButton);
             isRefreshed= true;
         }
     }
@@ -108,6 +107,7 @@ public class EditTaskController {
                     " id_task = " + TasksTable.getEditIdTask()
             );
             QExecutor.executeQuery("UPDATE tasks_history SET planned_end= '"+data+"' WHERE tasks_id="+ task.getEditIdTask());
+            closeWindow(saveButton);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {

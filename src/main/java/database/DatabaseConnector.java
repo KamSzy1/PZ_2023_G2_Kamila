@@ -9,10 +9,8 @@ public class DatabaseConnector {
     private final static String pass = "";
 
     public static Connection connect() throws SQLException{
-
         Connection connection = DriverManager.getConnection(url, user, pass);
         System.out.println("Connected");
-
         return connection;
     }
 }
