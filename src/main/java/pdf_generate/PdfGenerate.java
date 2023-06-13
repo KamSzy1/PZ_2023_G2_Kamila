@@ -25,8 +25,7 @@ public class PdfGenerate {
             return "SELECT * FROM tasks " +
                     "INNER JOIN users ON users.id_user = tasks.user_id " +
                     "WHERE users.id_user = " + idUser;
-        }
-        else {
+        } else {
             return "SELECT * FROM tasks " +
                     "INNER JOIN users ON users.id_user = tasks.user_id " +
                     "INNER JOIN statuses ON statuses.id_status = tasks.status_id " +
@@ -71,8 +70,6 @@ public class PdfGenerate {
                         "WHERE users.groups = " + group;
             }
         }
-
-        System.out.println("Manager: " + query);
         return query;
     }
 
@@ -98,8 +95,6 @@ public class PdfGenerate {
         if (pdfData.equals("Wszystko")) {
             return "SELECT * FROM " + table;
         }
-
-        System.out.println("Admin: " + query);
         return query;
     }
 
@@ -219,8 +214,6 @@ public class PdfGenerate {
 
             // Zamykanie dokumentu
             document.close();
-
-            System.out.println("Plik PDF został utworzony.");
         } catch (SQLException | DocumentException | FileNotFoundException e) {
             e.printStackTrace();
         }
