@@ -308,7 +308,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <TextField fx:id="pdfPathField" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" promptText="Ścieżka do zapisu" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="1" />
+                  <TextField fx:id="pdfPathField" disable="true" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" promptText="Ścieżka do zapisu" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="1" />
                   <Button fx:id="pdfPathButton" maxHeight="30.0" minHeight="30.0" mnemonicParsing="false" onAction="#buttonReports" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: #554994;" text="Wybierz" textFill="WHITE" GridPane.columnIndex="5" GridPane.rowIndex="1">
                      <font>
                         <Font size="15.0" />

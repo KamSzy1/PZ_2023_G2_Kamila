@@ -7,7 +7,7 @@ public class ValidateTask {
             throw new Exception("Tytuł nie może być pusty");
         }
         if (title.length() > 128) {
-            throw new Exception("Zbyt długi opis");
+            throw new Exception("Zbyt długi tytuł");
         }
     }
 

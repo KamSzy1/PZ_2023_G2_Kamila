@@ -19,8 +19,8 @@ public class ValidateTaskTest {
         String desc = "Opis bardzo ważnego zadania";
         String descWrong = "";
 
-        assertDoesNotThrow(() -> ValidateTask.checkTitle(desc));
-        assertThrows(Exception.class, () -> ValidateTask.checkTitle(descWrong));
+        assertDoesNotThrow(() -> ValidateTask.checkDescription(desc));
+        assertThrows(Exception.class, () -> ValidateTask.checkDescription(descWrong));
     }
 
 }
