@@ -3,6 +3,9 @@ package validate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class ValidateEmployeeTest {
 
     //Sprawdza czy nie wyrzuci wyjątku
@@ -65,19 +68,27 @@ public class ValidateEmployeeTest {
     @Test
     public void testEmail() {
         final String email = "misiaczek3000@gmail.com";
-        Assertions.assertDoesNotThrow(() -> ValidateEmployee.goodAddress(email));
+        Assertions.assertDoesNotThrow(() -> ValidateEmployee.goodEmail(email));
     }
 
     //Test dla e-maila -> wyrzuci wyjątek, ponieważ jest spacja przed mailem
     @Test
     public void testAEmail2() throws Exception {
         final String email = " zlymisiaczek0003@gmail.com";
-        Assertions.assertThrows(Exception.class, () -> ValidateEmployee.goodAddress(email));
+        Assertions.assertThrows(Exception.class, () -> ValidateEmployee.goodEmail(email));
     }
+
+    @Test
+    public void testSameEmail() throws Exception {
+        final String email = "takisammisiaczek3000@gmail.com";
+        final String sameEmail = "takisammisiaczek3000@gmail.com";
+        Assertions.assertDoesNotThrow(() -> ValidateEmployee.sameEmail(email, sameEmail));
+    }
+
 
     //Test dla hasła
     @Test
-    public void testPassword() {
+    public void testSamePassword() {
         final String password = "prosteHaslo";
         final String password2 = "prosteHaslo";
         Assertions.assertDoesNotThrow(() -> ValidateEmployee.samePassword(password, password2));
@@ -85,7 +96,7 @@ public class ValidateEmployeeTest {
 
     //Test dla hasła -> wyjątek
     @Test
-    public void testPassword2() {
+    public void testNotSamePassword2() {
         final String password = "prosteHaslo";
         final String password2 = "nieProsteHaslo";
         Assertions.assertThrows(Exception.class, () -> ValidateEmployee.samePassword(password, password2));
@@ -120,4 +131,21 @@ public class ValidateEmployeeTest {
         Assertions.assertThrows(Exception.class, () -> ValidateEmployee.goodZipCode(zipCode));
     }
 
+    @Test
+    public void testToken(){
+        final String token = "";
+        Assertions.assertThrows(Exception.class, () -> ValidateEmployee.goodToken(token));
+    }
+
+    @Test
+    public void testGoodGroup(){
+        String number = "2";
+        assertDoesNotThrow(() -> ValidateEmployee.goodGroup(number));
+    }
+
+    @Test
+    public void testGoodPosition(){
+        int number = 2;
+        assertDoesNotThrow(() -> ValidateEmployee.goodPosition(number));
+    }
 }

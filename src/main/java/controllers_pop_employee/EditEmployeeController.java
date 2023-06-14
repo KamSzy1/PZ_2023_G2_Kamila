@@ -122,7 +122,7 @@ public class EditEmployeeController {
             ValidateEmployee.goodAddress(newAddress);
             ValidateEmployee.goodZipCode(newZip);
             ValidateEmployee.goodPlace(newPlace);
-            //ValidateEmployee.goodPhoneNumber(newPhoneNumber);
+            ValidateEmployee.goodPhoneNumber(newPhoneNumber);
             ValidateEmployee.goodToken(newToken);
             ValidateEmployee.goodGroup(newGroup);
             ValidateEmployee.goodPosition(newPosition);

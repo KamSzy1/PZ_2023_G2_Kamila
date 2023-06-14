@@ -65,7 +65,7 @@ public class ValidateEmployee {
             throw new Exception("Puste pole miejscowości");
         }
 
-        if (place.length() > 128) {
+        if (place.length() > 125) {
             throw new Exception("Nazwa miejscowości powinna mieć mniej niż 125 znaków");
         }
 
@@ -83,7 +83,7 @@ public class ValidateEmployee {
             throw new Exception("Puste pole adresu");
         }
 
-        if (address.length() > 128) {
+        if (address.length() > 250) {
             throw new Exception("Adres powinien mieć mniej niż 250 znaków");
         }
 
@@ -98,11 +98,11 @@ public class ValidateEmployee {
     //Sprawdzenie czy email jest taki jak powinien
     public static void goodEmail(String email) throws Exception {
         if (email.isEmpty()) {
-            throw new Exception("Pusty email");
+            throw new Exception("Pusty e-mail");
         }
 
-        if (email.length() > 128) {
-            throw new Exception("Adres powinien mieć mniej niż 250 znaków");
+        if (email.length() > 200) {
+            throw new Exception("E-mail powinien mieć mniej niż 200 znaków");
         }
 
         if (!EmailValidator.getInstance().isValid(email)) {
@@ -140,14 +140,14 @@ public class ValidateEmployee {
             throw new Exception("Błędny numer telefonu");
         }
 
-        DatabaseConnector.connect();
-        ResultSet rs = QExecutor.executeSelect("SELECT phone_num FROM users WHERE phone_num = " + phoneNumber);
-        rs.next();
-        String number = String.valueOf(rs.getInt("phone_num"));
-
-        if (number.equals(phoneNumber)) {
-            throw new Exception("Podany numer telefonu już istnieje");
-        }
+//        DatabaseConnector.connect();
+//        ResultSet rs = QExecutor.executeSelect("SELECT phone_num FROM users WHERE phone_num = " + phoneNumber);
+//        rs.next();
+//        String number = String.valueOf(rs.getInt("phone_num"));
+//
+//        if (number.equals(phoneNumber)) {
+//            throw new Exception("Podany numer telefonu już istnieje");
+//        }
 
     }
 

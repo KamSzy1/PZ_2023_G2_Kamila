@@ -416,7 +416,6 @@ public class AdminController {
             DatabaseConnector.connect();
             userTable = FXCollections.observableArrayList();
 
-
             ResultSet result = QExecutor.executeSelect("SELECT * FROM users " +
                     "JOIN positions ON users.position_id = positions.id_position " +
                     "JOIN login ON users.id_user = login.user_id");

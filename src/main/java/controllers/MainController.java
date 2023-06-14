@@ -150,9 +150,10 @@ public class MainController {
                     "INNER JOIN login ON login.user_id = users.id_user " +
                     "WHERE email = '" + email + "' and password = '" + hashedPassword + "'");
             result.next();
+            UsersTable.setIdLoginUser(result.getInt("id_user"));
             UsersTable.setLoginName(result.getString("name"));
             UsersTable.setLoginSurname(result.getString("surname"));
-            UsersTable.setIdLoginUser(result.getInt("id_user"));
+            UsersTable.setGroupNumber(result.getInt("groups"));
             if (result.getInt("position_id") == 1) {
                 stageChanger.changeScene("/admin.fxml");
                 stageChanger.changeSize(1215, 630);

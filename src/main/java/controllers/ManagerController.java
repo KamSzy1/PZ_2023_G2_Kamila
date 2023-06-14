@@ -160,6 +160,7 @@ public class ManagerController {
     private ObservableList<TasksTable> myTaskTable;
     private ObservableList<TasksTable> taskTable;
     private ObservableList<UsersTable> userTable;
+
     @FXML
     private void initialize() {
         welcomeLabel.setText("Witaj " + UsersTable.getLoginName() + " " + UsersTable.getLoginSurname() + "!");
@@ -439,25 +440,19 @@ public class ManagerController {
 
             ResultSet result = QExecutor.executeSelect("SELECT * FROM users " +
                     "JOIN positions ON users.position_id = positions.id_position " +
-                    "JOIN login ON users.id_user = login.user_id");
+                    "JOIN login ON users.id_user = login.user_id " +
+                    "WHERE groups = " + UsersTable.getGroupNumber());
 
             while (result.next()) {
                 UsersTable user = new UsersTable();
-                Button editButton = new Button("Edycja");
-                String tokenName = result.getString("token");
-                editButton.setOnAction(event -> {
-                    preparePopUpWindowEditEmployee(tokenName);
-                });
                 user.setName(result.getString("name"));
                 user.setSurname(result.getString("surname"));
-                user.setEmail(result.getString("email"));
                 user.setAddress(result.getString("address"));
+                user.setEmail(result.getString("email"));
                 user.setPhoneNumber(result.getInt("phone_num"));
                 user.setNamePosition(result.getString("position_name"));
                 user.setGroups(result.getInt("groups"));
-                user.setEditEmployeeButton(editButton);
                 userTable.add(user);
-
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -465,11 +460,10 @@ public class ManagerController {
         employeeName.setCellValueFactory(new PropertyValueFactory<>("name"));
         employeeSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
         employeePosition.setCellValueFactory(new PropertyValueFactory<>("namePosition"));
-        employeeAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         employeeMail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        employeeAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         employeePhone.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
         employeeGroup.setCellValueFactory(new PropertyValueFactory<>("groups"));
-        employeeEdit.setCellValueFactory(new PropertyValueFactory<>("editEmployeeButton"));
         employeeTableView.setItems(userTable);
 
         FilteredList<UsersTable> filteredEmpData = new FilteredList<>(userTable, b -> true);
@@ -479,13 +473,13 @@ public class ManagerController {
                     return true;
                 }
                 String lowerCaseFilter = newValue.toLowerCase();
-                if (user.getName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                if (user.getName().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                } else if (user.getSurname().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                } else if (user.getSurname().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                } else if (user.getAddress().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                } else if (user.getAddress().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                } else if (user.getNamePosition().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                } else if (user.getNamePosition().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 } else if (String.valueOf(user.getPhoneNumber()).contains(lowerCaseFilter)) {
                     return true;
@@ -554,56 +548,6 @@ public class ManagerController {
             }));
             time.setCycleCount(Timeline.INDEFINITE);
             time.play();
-            Scene scene = new Scene(anchorPane);
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/ICON.png"))));
-            stage.show();
-
-        } catch (IOException | SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void preparePopUpWindowEditEmployee(String token) {
-        try {
-            Stage stage = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/pop_employee/editEmployee.fxml"));
-            AnchorPane anchorPane = loader.load();
-            EditEmployeeController editEmployeeController = loader.getController();
-
-            DatabaseConnector.connect();
-            ResultSet result = QExecutor.executeSelect("SELECT u.id_user, u.name, u.surname, u.address, u.place, u.zip, u.phone_num, p.position_name, u.token, u.groups FROM users AS u " +
-                    "JOIN positions AS p ON u.position_id = p.id_position " +
-                    "WHERE u.token = '" + token +"'");
-            result.next();
-
-            editEmployeeController.setData(
-                    result.getInt("id_user"),
-                    result.getString("name"),
-                    result.getString("surname"),
-                    result.getString("phone_num"),
-                    result.getString("place"),
-                    result.getString("address"),
-                    result.getString("groups"),
-                    result.getString("position_name"),
-                    result.getString("token"),
-                    result.getString("zip")
-            );
-
-            time = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    if (EditEmployeeController.refBool()) {
-                        refreshEmployee();
-                        time.stop();
-                        EditEmployeeController.isRefreshed = false;
-                    }
-                }
-            }));
-            time.setCycleCount(Timeline.INDEFINITE);
-            time.play();
-
             Scene scene = new Scene(anchorPane);
             stage.setScene(scene);
             stage.setResizable(false);

@@ -5,9 +5,10 @@ import javafx.scene.control.Button;
 public class UsersTable {
 
     private static int idLoginUser;
+    private static int idEditUser;
+    private static int groupNumber;
     private static String loginName;
     private static String loginSurname;
-    private static int idEditUser;
     private int idUser;
     private String name;
     private String surname;
@@ -190,6 +191,14 @@ public class UsersTable {
 
     public void setEditEmployeeButton(Button editEmployeeButton) {
         this.editEmployeeButton = editEmployeeButton;
+    }
+
+    public static int getGroupNumber() {
+        return groupNumber;
+    }
+
+    public static void setGroupNumber(int groupNumber) {
+        UsersTable.groupNumber = groupNumber;
     }
 }
 
