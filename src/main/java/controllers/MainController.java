@@ -73,17 +73,34 @@ public class MainController {
     @FXML
     private Label regWelcomeLabel;
 
+    /**
+     * @param USER_CHOICE Statyczna metoda dla wyboru użytkownika
+     * @param token Zmienna z nazwą tokenu
+     * @param stageChanger Zmienna do zmiany okienka
+     * @param password Zmienna z hasłem użytkownika
+     * @param email Zmienna z emailem użytkownika
+     */
     private static int USER_CHOICE;
     private String token;
     private final StageChanger stageChanger = new StageChanger();
     private String password;
     private String email;
 
+    /**
+     * Metoda, która wykonuje się na samym początku uruchomienia się klasy. Służy do wczytania odpowiednich ustawień w panelu
+     */
     @FXML
     public void initialize() {
         gridLogin.toFront();
     }
 
+
+    /**
+     * Metoda do zarządzania wszystkimi przyciskami
+     * @param event Służy do prawidłowego zarządzania okienkami
+     * @throws IOException
+     */
+    @FXML
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
 
@@ -129,8 +146,11 @@ public class MainController {
         }
     }
 
+
+    /**
+     * Metoda próbująca zalogowac użytkownika
+     */
     private void tryLoginUser() {
-        //Logowanie
         email = emailField.getText();
         password = passwordField.getText();
 
@@ -141,7 +161,12 @@ public class MainController {
         }
     }
 
-    //Metoda do logowania
+
+    /**
+     * Metoda do logowania użytkownika
+     * @param email Email użytkownika
+     * @param password Hasło użytkownika
+     */
     private void login(String email, String password) {
         try {
             DatabaseConnector.connect();
@@ -171,6 +196,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Sprawdzenie tokenu
+     */
     private void tokenCheck() {
         try {
             token = tokenField.getText();
@@ -185,12 +213,16 @@ public class MainController {
         }
     }
 
+    /**
+     * Metoda do pozyskania informacji o użytkowniku na podstawie tokenu
+     * @param token Token użytkownika
+     * @throws SQLException
+     */
     private void getUserFromToken(String token) throws SQLException {
         ResultSet result = QExecutor.executeSelect("SELECT u.name, u.surname, u.token, l.email FROM login AS l " +
                 "INNER JOIN users AS u ON u.id_user = l.user_id " +
                 "WHERE token = '" + token + "'");
         result.next();
-        System.out.println(token);
 
         UsersTable user = new UsersTable();
         user.setName(result.getString("name"));
@@ -209,6 +241,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Metoda do próby rejestracji użytkownika
+     */
     private void tryRegisterEmployee() {
         // Rejestracja użytkownika
         email = regEmailField.getText();
@@ -226,7 +261,13 @@ public class MainController {
         }
     }
 
-    //Metoda do rejestrowania użytkowników
+    /**
+     * Rejestracja użytkownika
+     * @param mail Email użytkownika
+     * @param password Hasło użytkownika
+     * @param token Token użytkownika
+     * @throws SQLException
+     */
     private void registration(String mail, String password, String token) throws SQLException {
         String hashedPassword = PasswordHash.hashedPassword(password);
 
@@ -238,7 +279,12 @@ public class MainController {
 
     }
 
-    //Zmiana hasła (Zapomniałem hasło)
+    /**
+     * Metoda do zmiany hasła
+     * @param password Hasło
+     * @param repeatPassword Powtórzone hasło
+     * @param token Token
+     */
     private void changePassword(String password, String repeatPassword, String token) {
         try {
 
