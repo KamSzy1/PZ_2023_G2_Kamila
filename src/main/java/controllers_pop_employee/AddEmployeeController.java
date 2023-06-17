@@ -19,8 +19,27 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Klasa obsługująca panel dodawania pracowników
+ */
 public class AddEmployeeController {
 
+    /**
+     * @param addButton Przycisk do dodawania zdań
+     * @param addressField Pole tekstowe dla adresu
+     * @param cancelButton Przycisk do zamykania okna
+     * @param generateButton Przycisk do generowania tokenu
+     * @param copyButton Przycisk do kopiowania tokenu
+     * @param nameField Pole tekstowe dla imienia
+     * @param numberField Pole tekstowe dla numeru telefonu
+     * @param placeField Pole tekstowe dla miejscowości
+     * @param positionView Lista rozwijana do wyboru stanowiska pracownika
+     * @param surnameField Pole tekstowe dla nazwiska
+     * @param tokenField Pole tekstowe dla tokenu
+     * @param groupField Pole tekstowe dla numeru grupy
+     * @param zipCodeField Pole tekstowe dla kodu pocztowego
+     * @param wrongLabel Tekst wyświetlający błąd
+     */
     @FXML
     private Button addButton;
     @FXML
@@ -50,19 +69,39 @@ public class AddEmployeeController {
     @FXML
     private Label wrongLabel;
 
+    /**
+     * Zmienne potrzebne do działania aplikacji
+     *
+     * @param isRefreshed Publiczna zmienna statyczna
+     * @param addEmployee Zmienna do dodawania nowego pracownika
+     * @param positions Lista do przechowywania stanowisk pracowników
+     */
     public static boolean isRefreshed;
-    UsersTable addEmployee = new UsersTable();
+    private final UsersTable addEmployee = new UsersTable();
     private ObservableList<String> positions;
 
+    /**
+     * Zwraca informację, czy użytkownik został poprawnie dodany
+     *
+     * @return Zwraca true lub false
+     */
     public static boolean refBool() {
         return isRefreshed;
     }
 
+    /**
+     * Metoda, która wykonuje się na samym początku uruchomienia się klasy. Służy do wczytania odpowiednich ustawień w panelu
+     */
     @FXML
     public void initialize() {
         positionList();
     }
 
+    /**
+     * Metoda do zarządzania wszystkimi przyciskami
+     * @param event Służy do prawidłowego zarządzania okienkami
+     * @throws IOException
+     */
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
 
@@ -85,7 +124,10 @@ public class AddEmployeeController {
         }
     }
 
-    //Dodawanie pracownika
+
+    /**
+     * Metoda do dodawania pracownika
+     */
     private void addPerson() {
         String name = nameField.getText();
         String surname = surnameField.getText();
@@ -146,7 +188,9 @@ public class AddEmployeeController {
         }
     }
 
-    //wyświetlanie pozycji
+    /**
+     * Dodawanie pozycji z bazy danych do listy
+     */
     private void positionList() {
         try {
             DatabaseConnector.connect();
@@ -161,7 +205,10 @@ public class AddEmployeeController {
         positionView.setItems(positions);
     }
 
-    //Zamykanie okienka
+    /**
+     * Zamykanie okienka
+     * @param button Informacja o tym, który przycisk został kliknięty
+     */
     private void closeWindow(Button button) {
         Stage stage = (Stage) button.getScene().getWindow();
         stage.close();

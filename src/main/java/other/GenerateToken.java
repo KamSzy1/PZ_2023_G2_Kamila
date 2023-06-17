@@ -2,9 +2,16 @@ package other;
 
 import java.util.Random;
 
+/**
+ * Klasa do generowania tokenu
+ */
 public class GenerateToken {
+
+    /**
+     * Metoda do generowania tokenu
+     * @return Wygenerowany token
+     */
     public String generateToken() {
-        //Generowanie tokenu
         String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuwxyz1234567890!@#$%^&*";
         StringBuilder stringBuilder = new StringBuilder();
         Random random = new Random();

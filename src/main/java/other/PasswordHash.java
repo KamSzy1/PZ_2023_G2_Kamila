@@ -3,8 +3,17 @@ package other;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Klasa do hashowania hasła
+ */
 public class PasswordHash {
 
+    /**
+     * Metoda do hashowania hasła
+     *
+     * @param password Hasło
+     * @return Zahashowane hasło
+     */
     public static String hashedPassword(String password) {
         String hashPassword = null;
         try {
@@ -17,7 +26,7 @@ public class PasswordHash {
             }
             hashPassword = stringBuilder.toString();
         } catch (NoSuchAlgorithmException e) {
-            System.out.println("Coś poszło nie tak z hashowaniem hasła");
+            e.printStackTrace();
         }
         return hashPassword;
     }

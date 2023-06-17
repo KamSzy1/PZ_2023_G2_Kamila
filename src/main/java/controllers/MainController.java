@@ -18,8 +18,39 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Klasa obsługującaq panel główny
+ */
 public class MainController {
 
+    /**
+     * @param backButton Przycisk powrotu
+     * @param resetSetNewPasswordButton Przycisk do resetowania hasła
+     * @param resetPasswordButton Przycisk do przejścia do panelu resetowania hasła
+     * @param gridLogin Siatka w panelu logowania
+     * @param gridToken Siatka w panelu sprawdzania tokenu
+     * @param gridRegistration Siatka w panelu rejestracji
+     * @param gridResetPassword Siatka w panelu resetowania hasła
+     * @param emailField Pole tekstowe dla e-mail'a w panelu logowania
+     * @param regEmailField Pole tekstowe dla e-mail'a w panelu rejestacji
+     * @param passwordField Pole tekstowe dla hasła w panelu logowania
+     * @param regPasswordField Pole tekstowe dla hasła w panelu rejestracji
+     * @param regRepeatPasswordField Pole tekstowe dla powtórzonego hasła w panelu rejestracji
+     * @param tokenField Pole tekstowe dla tokenu
+     * @param resetPasswordField Pole tekstowe dla hasła w panelu resetu hasła
+     * @param resetRepeatPasswordField Pole tekstowe dla powtórzonego hasła w panelu resetu hasła
+     * @param loginButton Przycisk do logowania
+     * @param tokenButton Przycisk do sprawdzania tokenu
+     * @param registrationButton Przucisk do rejestracji
+     * @param regChangeButton Przycisk do przejścia do panelu rejestracji
+     * @param wrongLogin Teskt wyświetlający się w przypadku błędu podczas logowania
+     * @param wrongRegistration Tekst wyświetlający się w przypadku błędy podczas rejestracji
+     * @param wrongResetLabel Tekst wyświetlający się w przypadku błędu podczas resetu hasła
+     * @param wrongTokenLabel Tekst wyświeltający się w przypadku błędu podczas sprawania tokenu
+     * @param logRegLabel Nagłówek wyświetlający się w panelu
+     * @param resetWelcomeLabel Przywitanie użytkownika w panelu resetu hasła
+     * @param regWelcomeLabel Przywitanie użytkownika w panelu rejestracji
+     */
     @FXML
     private Button backButton;
     @FXML
