@@ -235,16 +235,20 @@ public class AdminController {
     private AnchorPane mainAnchorPane;
 
     /**
-     * Zmienne potrzebne do prawidłowego działania aplikacji
-     *
-     * @param time Linia czasowa do odświeżania tabel
-     * @param myTaskTable Lista z moimi zadaniami
-     * @param taskTable Lista z zadaniami
-     * @param userTable Lista z pracownikami
+     * Linia czasowa do odświeżania tabel
      */
     private Timeline time;
+    /**
+     * Lista z moimi zadaniami
+     */
     private ObservableList<TasksTable> myTaskTable;
+    /**
+     * Lista z zadaniami
+     */
     private ObservableList<TasksTable> taskTable;
+    /**
+     * Lista z pracownikami
+     */
     private ObservableList<UsersTable> userTable;
 
     /**
