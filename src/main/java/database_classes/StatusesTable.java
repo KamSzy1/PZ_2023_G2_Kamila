@@ -1,8 +1,17 @@
 package database_classes;
 
+/**
+ * Klasa reprezentująca tabelę "Statuses" z bazy danych
+ */
 public class StatusesTable {
 
+    /**
+     * @param idStatus ID
+     */
     private int idStatus;
+    /**
+     * @param name Nazwa
+     */
     private String name;
 
     public int getIdStatus() {

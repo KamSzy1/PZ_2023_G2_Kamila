@@ -4,18 +4,51 @@ import javafx.scene.control.Button;
 
 import java.sql.Date;
 
+/**
+ * Klasa reprezentująca tabelę "Tasks" z bazy danych
+ */
 public class TasksTable {
 
-    private int idTask;
-    private String title;
-    private String description;
-    private int statusId;
-    private int userId;
-    private String nameStatus;
-    private Date data;
-    private String nameUser;
-    private Button editTaskButton;
+    /**
+     * @param editIdTask Numer do przycisku edycji
+     */
     private static int editIdTask;
+    /**
+     * @param idTask ID
+     */
+    private int idTask;
+    /**
+     * @param title Tytuł
+     */
+    private String title;
+    /**
+     * @param description Opis
+     */
+    private String description;
+    /**
+     * @param statusId ID statusu
+     */
+    private int statusId;
+    /**
+     * @param userId ID użytkownika
+     */
+    private int userId;
+    /**
+     * @param nameStatus Nazwa stanowiska
+     */
+    private String nameStatus;
+    /**
+     * @param data Data
+     */
+    private Date data;
+    /**
+     * @param nameUser Imię użytkownika
+     */
+    private String nameUser;
+    /**
+     * @param editTaskButton Przycisk edycji
+     */
+    private Button editTaskButton;
 
     public TasksTable() {}
 

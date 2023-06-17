@@ -1,8 +1,21 @@
 package database_classes;
 
+/**
+ * Klasa reprezentująca tabelę "Positions" z bazy danych
+ */
 public class PositionsTable {
+
+    /**
+     * @param idPosition ID
+     */
     private int idPosition;
+    /**
+     * @param positionName Nazwa stanowiska
+     */
     private String positionName;
+    /**
+     * @param description Opis stanowiska
+     */
     private String description;
 
     public int getIdPosition() {

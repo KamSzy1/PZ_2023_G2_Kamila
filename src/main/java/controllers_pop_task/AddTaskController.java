@@ -20,37 +20,101 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Klasa do zarządzania dodawaniem zadań
+ */
 public class AddTaskController {
+
+    /**
+     * Wybór daty
+     */
     @FXML
     private DatePicker timePicker;
+    /**
+     * Pole tekstowe tytułu
+     */
     @FXML
     private TextField titleField;
+    /**
+     * Lista rozwijana z osobą
+     */
     @FXML
     private ComboBox<String> personView;
+    /**
+     * Lista rozwijana z statusem zadania
+     */
     @FXML
     private ComboBox<String> statusView;
+    /**
+     * Opis zadania
+     */
     @FXML
     private TextArea descriptionArea;
+    /**
+     * Przycisk anulowania
+     */
     @FXML
     private Button cancelButton;
+    /**
+     * Przycisk dodawania zadania
+     */
     @FXML
     private Button addButton;
+    /**
+     * Tekst wyświetlający błąd
+     */
     @FXML
     private Label wrongLabel;
 
-    private final TasksTable tasksTable = new TasksTable();
-    private final HistoryTaskTable historyTaskTable = new HistoryTaskTable();
-    private ObservableList<String> names;
-    private ObservableList<String> statuses;
-    private final LocalDate currentDate = LocalDate.now();
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private final String formattedDate = currentDate.format(formatter);
+    /**
+     * Publiczna zmienna statyczna
+     */
     public static boolean isRefreshed;
+    /**
+     *  Zmienna do dodawania nowego zadania
+     */
+    private final TasksTable tasksTable = new TasksTable();
+    /**
+     * Zmienna do doawania czasu zadania
+     */
+    private final HistoryTaskTable historyTaskTable = new HistoryTaskTable();
+    /**
+     * Obecna data
+     */
+    private final LocalDate currentDate = LocalDate.now();
+    /**
+     * Format daty
+     */
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    /**
+     * Sformatowana data
+     */
+    private final String formattedDate = currentDate.format(formatter);
+    /**
+     * Lista z osobami
+     */
+    private ObservableList<String> names;
+    /**
+     * Lista z statusami
+     */
+    private ObservableList<String> statuses;
+    /**
+     * Data
+     */
+    private LocalDate date;
+
+    /**
+     * Zwraca informację, czy użytkownik został poprawnie dodany
+     *
+     * @return Zwraca true lub false
+     */
     public static boolean refBool() {
         return isRefreshed;
     }
-    private LocalDate date;
 
+    /**
+     * Metoda, która wykonuje się na samym początku uruchomienia się klasy. Służy do wczytania odpowiednich ustawień w panelu
+     */
     @FXML
     public void initialize() {
         userList();
@@ -65,6 +129,12 @@ public class AddTaskController {
         timePicker.getEditor().setDisable(true);
     }
 
+    /**
+     * Metoda do zarządzania wszystkimi przyciskami
+     *
+     * @param event Służy do prawidłowego zarządzania okienkami
+     * @throws IOException
+     */
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
 
@@ -76,6 +146,9 @@ public class AddTaskController {
         }
     }
 
+    /**
+     * Dodawanie zadania do bazy danych
+     */
     public void addTask() {
         // Dodawanie nowych zadań
         try {
@@ -104,12 +177,9 @@ public class AddTaskController {
         }
     }
 
-    //Zamykanie okienka
-    private void closeWindow(Button button) {
-        Stage stage = (Stage) button.getScene().getWindow();
-        stage.close();
-    }
-
+    /**
+     * Dodawanie praocwników z bazy danych do listy
+     */
     public void userList() {
         try {
             DatabaseConnector.connect();
@@ -133,20 +203,10 @@ public class AddTaskController {
         personView.setItems(names);
     }
 
-    public void statusList() {
-        try {
-            DatabaseConnector.connect();
-            statuses = FXCollections.observableArrayList();
-            ResultSet rs = QExecutor.executeSelect("SELECT * FROM statuses");
-            while (rs.next()) {
-                statuses.add(rs.getString("name"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        statusView.setItems(statuses);
-    }
-
+    /**
+     * Ustawieanie danych i ich walidacja
+     * @throws Exception
+     */
     private void tryGetData() throws Exception {
         String title = titleField.getText();
         String description = descriptionArea.getText();
@@ -161,5 +221,32 @@ public class AddTaskController {
         historyTaskTable.setStartDate(Date.valueOf(formattedDate));
         tasksTable.setStatusId(statusView.getSelectionModel().getSelectedIndex()+1);
         tasksTable.setUserId(personView.getSelectionModel().getSelectedIndex()+1);
+    }
+
+    /**
+     * Dodawanie statusów z bazy danych do listy
+     */
+    public void statusList() {
+        try {
+            DatabaseConnector.connect();
+            statuses = FXCollections.observableArrayList();
+            ResultSet rs = QExecutor.executeSelect("SELECT * FROM statuses");
+            while (rs.next()) {
+                statuses.add(rs.getString("name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        statusView.setItems(statuses);
+    }
+
+    /**
+     * Zamykanie okienka
+     *
+     * @param button Informacja o tym, który przycisk został kliknięty
+     */
+    private void closeWindow(Button button) {
+        Stage stage = (Stage) button.getScene().getWindow();
+        stage.close();
     }
 }

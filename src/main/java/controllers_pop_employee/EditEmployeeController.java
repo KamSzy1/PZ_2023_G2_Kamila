@@ -2,7 +2,6 @@ package controllers_pop_employee;
 
 import database.DatabaseConnector;
 import database.QExecutor;
-import database_classes.TasksTable;
 import database_classes.UsersTable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,12 +18,28 @@ import validate.ValidateEmployee;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
+/**
+ * Klasa obsługująca panel edytowania pracowników
+ */
 public class EditEmployeeController {
 
-    @FXML
-    private GridPane addEmployeeGrid;
+    /**
+     * @param addButton Przycisk do dodawania zdań
+     * @param addressField Pole tekstowe dla adresu
+     * @param cancelButton Przycisk do zamykania okna
+     * @param generateButton Przycisk do generowania tokenu
+     * @param copyButton Przycisk do kopiowania tokenu
+     * @param nameField Pole tekstowe dla imienia
+     * @param numberField Pole tekstowe dla numeru telefonu
+     * @param placeField Pole tekstowe dla miejscowości
+     * @param positionView Lista rozwijana do wyboru stanowiska pracownika
+     * @param surnameField Pole tekstowe dla nazwiska
+     * @param tokenField Pole tekstowe dla tokenu
+     * @param groupField Pole tekstowe dla numeru grupy
+     * @param zipCodeField Pole tekstowe dla kodu pocztowego
+     * @param wrongLabel Tekst wyświetlający błąd
+     */
     @FXML
     private TextField addressField;
     @FXML
@@ -44,8 +59,6 @@ public class EditEmployeeController {
     @FXML
     private TextField placeField;
     @FXML
-    private TextField positionField;
-    @FXML
     private Button saveButton;
     @FXML
     private TextField surnameField;
@@ -56,18 +69,37 @@ public class EditEmployeeController {
     @FXML
     private TextField zipCodeField;
 
-    private ObservableList<String> positions;
+    /**
+     * Zmienne potrzebne do działania aplikacji
+     *
+     * @param isRefreshed Publiczna zmienna statyczna
+     * @param positions Lista do przechowywania stanowisk pracowników
+     */
     public static boolean isRefreshed;
+    private ObservableList<String> positions;
 
+    /**
+     * Zwraca informację, czy użytkownik został poprawnie dodany
+     *
+     * @return Zwraca true lub false
+     */
     public static boolean refBool() {
         return isRefreshed;
     }
 
+    /**
+     * Metoda, która wykonuje się na samym początku uruchomienia się klasy. Służy do wczytania odpowiednich ustawień w panelu
+     */
     @FXML
     public void initialize() {
         positionList();
     }
 
+    /**
+     * Metoda do zarządzania wszystkimi przyciskami
+     * @param event Służy do prawidłowego zarządzania okienkami
+     * @throws IOException
+     */
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
 
@@ -92,6 +124,19 @@ public class EditEmployeeController {
         }
     }
 
+    /**
+     * Metoda do ustawiania informacji o użytkowniku
+     * @param id_user Numer pracownika w bazie danych
+     * @param name Imię pracownika
+     * @param surname Nazwisko pracownika
+     * @param phoneNumber Numer telefonu pracownika
+     * @param place Miejscowość pracownika
+     * @param address Adres pracownika
+     * @param group Numer grupy pracownika
+     * @param position Stawnowisko pracownika
+     * @param token Token pracownika
+     * @param zipCode Kod pocztowy pracownika
+     */
     public void setData(int id_user, String name, String surname, String phoneNumber, String place, String address, String group, String position, String token, String zipCode) {
         nameField.setText(name);
         surnameField.setText(surname);
@@ -105,6 +150,9 @@ public class EditEmployeeController {
         UsersTable.setIdEditUser(id_user);
     }
 
+    /**
+     * Metoda akrualizująca informacje o użytkowniku
+     */
     public void updateData() {
         String newName = nameField.getText();
         String newSurname = surnameField.getText();
@@ -148,6 +196,9 @@ public class EditEmployeeController {
         }
     }
 
+    /**
+     * Dodawanie pozycji z bazy danych do listy
+     */
     public void positionList() {
         try {
             DatabaseConnector.connect();
@@ -163,7 +214,10 @@ public class EditEmployeeController {
         positionView.setItems(positions);
     }
 
-    //Zamykanie okienka
+    /**
+     * Zamykanie okienka
+     * @param button Informacja o tym, który przycisk został kliknięty
+     */
     private void closeWindow(Button button) {
         Stage stage = (Stage) button.getScene().getWindow();
         stage.close();

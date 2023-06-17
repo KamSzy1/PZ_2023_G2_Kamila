@@ -12,7 +12,6 @@ import java.util.Objects;
 /**
  * Klasa do zarządzania panelami
  */
-
 public class StageChanger extends Application {
 
     /**

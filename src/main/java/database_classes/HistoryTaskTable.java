@@ -1,15 +1,31 @@
 package database_classes;
 
-import java.time.Instant;
-import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Klasa reprezentująca tabelę "HistoryTask" z bazy danych
+ */
 public class HistoryTaskTable {
 
+    /**
+     * @param idTaskHistory ID
+     */
     private int idTaskHistory;
+    /**
+     * @param startDate Data początkowa
+     */
     private Date startDate;
+    /**
+     * @param endDate Data zakończenia
+     */
     private Date endDate;
+    /**
+     * @param tasksId ID zadania
+     */
     private int tasksId;
+    /**
+     * @param plannedEnd Planowana data zakończenia
+     */
     private Date plannedEnd;
 
     public int getIdTaskHistory() {

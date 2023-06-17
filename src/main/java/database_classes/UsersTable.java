@@ -2,27 +2,90 @@ package database_classes;
 
 import javafx.scene.control.Button;
 
+/**
+ * Klasa reprezentująca tabelę "Users" z bazy danych
+ */
 public class UsersTable {
 
+    /**
+     * @param idLoginUser Statyczne ID
+     */
     private static int idLoginUser;
+    /**
+     * @param idEditUser Statyczny numer ID do edycji
+     */
     private static int idEditUser;
+    /**
+     * @param groupNumber Statyczny numer grupy
+     */
     private static int groupNumber;
+    /**
+     * @param loginName Statyczne imię
+     */
     private static String loginName;
+    /**
+     * @param loginSurname Statyczne nazwisko
+     */
     private static String loginSurname;
+    /**
+     * @param idUser ID
+     */
     private int idUser;
+    /**
+     * @param name Imię
+     */
     private String name;
+    /**
+     * @param surname Nazwisko
+     */
     private String surname;
+    /**
+     * @param address Adres
+     */
     private String address;
+    /**
+     * @param zip Kod pocztowy
+     */
     private String zip;
+    /**
+     * @param place Miejscowość
+     */
     private String place;
+    /**
+     * @param phoneNumberNumer telefonu
+     */
     private int phoneNumber;
+    /**
+     * @param email Email
+     */
     private String email;
+    /**
+     * @param password Hasło
+     */
     private String password;
+    /**
+     * @param positionId ID Stanowiska
+     */
     private int positionId;
+    /**
+     * @param login Login
+     */
     private int login;
+    /**
+     * @param groups Grupa
+     */
     private int groups;
+    /**
+     * @param namePosition Nazwa stanowiska
+     */
     private String namePosition;
+    /**
+     * @param token Token
+     */
     private String token;
+    /**
+     * @param editEmployeeButton Przycisk do edycji pracownika
+     */
     private Button editEmployeeButton;
 
     public UsersTable() {}

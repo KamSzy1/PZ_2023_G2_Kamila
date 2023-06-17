@@ -1,8 +1,21 @@
 package database_classes;
 
+/**
+ * Klasa reprezentująca tabelę "Login" z bazy danych
+ */
 public class LoginTable {
+
+    /**
+     * @param idLogin ID
+     */
     private int idLogin;
+    /**
+     * @param email E-mail
+     */
     private String email;
+    /**
+     * @param password Hasło
+     */
     private String password;
 
     public int getIdLogin() {
@@ -20,7 +33,6 @@ public class LoginTable {
     public void setIdLogin(int idLogin) {
         this.idLogin = idLogin;
     }
-
 
     public void setEmail(String email) {
         this.email = email;

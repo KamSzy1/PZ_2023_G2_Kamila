@@ -41,14 +41,12 @@ import java.util.Objects;
 /**
  * Klasa służąca do zarządzania panelem administratora
  */
-
 public class AdminController {
 
     /**
      * Potrzebne zmienne z Scene Buildera, aby aplikacja działała poprawnie
      *
      *     @param filterEmployeeField Pole tekstowe do filtrowania pracowników
-     *     @param filterMyTasksField Pole tekstowe do filtrowania moich zadań
      *     @param filterTasksField Pole tekstowe do filtrowania zadań
      *     @param myTasksButton Przycisk do przejścia do panelu z moimi zadanami
      *     @param tasksButton Przycisk do przejścia do panelu z zadaniami
@@ -94,18 +92,15 @@ public class AdminController {
      *     @param taskDescription Kolumna z opisem zadania w panelu zadań
      *     @param taskEdit Kolumna z edycją zadania w panelu  zadań
      *     @param taskEmployee Kolumna z przypisanym pracownikiem do zadania w panelu  zadań
-     *     @param taskPlannedDate Kolumna z planowaną datą zakończenia zadania w panelu  zadań
-     *     @param taskStatus Kolumna z statusem zadania w panelu  zadań
-     *     @param taskTitle Kolumna z tytułem zadania w panelu zadań
-     *     @param taskTableView Tabela z zadaniami w panelu zadania
-     *     @param pdfPathField Pole tekstowe do ścieżki w panelu generowania PDF
-     *     @param pdfChooseReportComboBox Lista rozwijana do wyboru typu generowanego PDF
-     *     @param pdfChooseDataComboBox Lista rozwiajana do wyboru statusu lub stabowiska pracownika w panelu raportów
-     *     @param mainAnchorPane Główne okno aplikacji
+     *     @param taskPlannedDate
+     *     @param taskStatus
+     *     @param taskTitle
      */
-
     @FXML
     private TextField filterEmployeeField;
+    /**
+     * Pole tekstowe do filtrowania moich zadań
+     */
     @FXML
     private TextField filterMyTasksField;
     @FXML
@@ -198,20 +193,44 @@ public class AdminController {
     private TableColumn<?, ?> taskEdit;
     @FXML
     private TableColumn<?, ?> taskEmployee;
+    /**
+     * Kolumna z planowaną datą zakończenia zadania w panelu  zadań
+     */
     @FXML
     private TableColumn<?, ?> taskPlannedDate;
+    /**
+     * Kolumna z statusem zadania w panelu  zadań
+     */
     @FXML
     private TableColumn<?, ?> taskStatus;
+    /**
+     * Kolumna z tytułem zadania w panelu zadań
+     */
     @FXML
     private TableColumn<?, ?> taskTitle;
+    /**
+     * Tabela z zadaniami w panelu zadania
+     */
     @FXML
     private TableView<TasksTable> taskTableView;
+    /**
+     * Pole tekstowe do ścieżki w panelu generowania PDF
+     */
     @FXML
     private TextField pdfPathField;
+    /**
+     * Lista rozwijana do wyboru typu generowanego PDF
+     */
     @FXML
     private ComboBox pdfChooseReportComboBox;
+    /**
+     * Lista rozwiajana do wyboru statusu lub stabowiska pracownika w panelu raportów
+     */
     @FXML
     private ComboBox pdfChooseDataComboBox;
+    /**
+     * Główne okno aplikacji
+     */
     @FXML
     private AnchorPane mainAnchorPane;
 
@@ -242,6 +261,7 @@ public class AdminController {
      * Metoda do zmieniania paneli w aplikacji
      * @param event Służy do prawidłowego zarządzania okienkami
      */
+    @FXML
     public void buttonsHandlerPane(ActionEvent event) {
         Object source = event.getSource();
 
@@ -275,6 +295,7 @@ public class AdminController {
      * @param event Służy do prawidłowego zarządzania okienkami
      * @throws IOException
      */
+    @FXML
     public void buttonsHandlerStages(ActionEvent event) throws IOException {
         StageChanger stageChanger = new StageChanger();
         Object source = event.getSource();

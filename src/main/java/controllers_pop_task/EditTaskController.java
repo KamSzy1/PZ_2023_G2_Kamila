@@ -6,51 +6,91 @@ import database_classes.TasksTable;
 import database_classes.UsersTable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import validate.ValidateTask;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+/**
+ * Klasa do zarządzania edycją zadań
+ */
 public class EditTaskController {
+
+    /**
+     * Wybór daty
+     */
     @FXML
     private DatePicker timePicker;
+    /**
+     * Pole tekstowe tytułu
+     */
     @FXML
     private TextField titleField;
+    /**
+     * Lista rozwijana z osobą
+     */
     @FXML
     private ComboBox<String> personView;
+    /**
+     * Lista rozwijana z statusem zadania
+     */
     @FXML
     private ComboBox<String> statusView;
+    /**
+     * Opis zadania
+     */
     @FXML
     private TextArea descriptionArea;
+    /**
+     * Przycisk anulowania
+     */
     @FXML
     private Button cancelButton;
+    /**
+     * Przycisk dodawania zadania
+     */
     @FXML
     private Button saveButton;
+    /**
+     * Tekst wyświetlający błąd
+     */
     @FXML
     private Label wrongLabel;
 
+    /**
+     * Publiczna zmienna statyczna
+     */
     public static boolean isRefreshed;
+    /**
+     * Zmienna do dodawania nowego zadania
+     */
+    private final TasksTable task = new TasksTable();
+    /**
+     * Lista z osobami
+     */
+    private ObservableList<String> names;
+    /**
+     * Lista z statusami
+     */
+    private ObservableList<String> statuses;
+
+    /**
+     * Zwraca informację, czy użytkownik został poprawnie dodany
+     *
+     * @return Zwraca true lub false
+     */
     public static boolean refBool() {
         return isRefreshed;
     }
-    private ObservableList<String> names;
-    private ObservableList<String> statuses;
-    private String oldTitle;
-    private String oldDescription;
-    private String oldName;
-    private String oldSurname;
-    private String oldStatus;
-    private String oldPlanned_end;
-    private TasksTable task = new TasksTable();
 
+    /**
+     * Metoda, która wykonuje się na samym początku uruchomienia się klasy. Służy do wczytania odpowiednich ustawień w panelu
+     */
     @FXML
     public void initialize() {
         userList();
@@ -67,6 +107,12 @@ public class EditTaskController {
         timePicker.getEditor().setDisable(true);
     }
 
+    /**
+     * Metoda do zarządzania wszystkimi przyciskami
+     *
+     * @param event Służy do prawidłowego zarządzania okienkami
+     * @throws IOException
+     */
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
 
@@ -79,6 +125,17 @@ public class EditTaskController {
         }
     }
 
+    /**
+     * Ustawianie informacji o zadaniu
+     *
+     * @param id_task Numer zadania z bazy danych
+     * @param title Tytuł
+     * @param description Opis
+     * @param name Oosba przypisana
+     * @param surname Nazwisko
+     * @param status Status
+     * @param planned_end Planowana data zakończenia
+     */
     public void setData(int id_task, String title, String description, String name, String surname, String status, String planned_end){
         titleField.setText(title);
         descriptionArea.setText(description);
@@ -87,14 +144,11 @@ public class EditTaskController {
         timePicker.setValue(LocalDate.parse(planned_end));
 
         TasksTable.setEditIdTask(id_task);
-        oldTitle = title;
-        oldDescription = description;
-        oldName = name;
-        oldSurname = surname;
-        oldStatus = status;
-        oldPlanned_end = planned_end;
     }
 
+    /**
+     * Aktualizacja danych o zadaniu
+     */
     public void updateData(){
         String newTitle = titleField.getText();
         String newDescription = descriptionArea.getText();
@@ -123,12 +177,9 @@ public class EditTaskController {
         }
     }
 
-    //Zamykanie okienka
-    private void closeWindow(Button button) {
-        Stage stage = (Stage) button.getScene().getWindow();
-        stage.close();
-    }
-
+    /**
+     * Dodawanie praocwników z bazy danych do listy
+     */
     public void userList() {
         try {
             DatabaseConnector.connect();
@@ -152,6 +203,9 @@ public class EditTaskController {
         personView.setItems(names);
     }
 
+    /**
+     * Dodawanie statusów z bazy danych do listy
+     */
     public void statusList() {
         try {
             DatabaseConnector.connect();
@@ -165,5 +219,15 @@ public class EditTaskController {
             e.printStackTrace();
         }
         statusView.setItems(statuses);
+    }
+
+    /**
+     * Zamykanie okienka
+     *
+     * @param button Informacja o tym, który przycisk został kliknięty
+     */
+    private void closeWindow(Button button) {
+        Stage stage = (Stage) button.getScene().getWindow();
+        stage.close();
     }
 }

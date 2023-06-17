@@ -12,11 +12,29 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import validate.ValidateEmployee;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Klasa do zarządzania panelem edytowania e-mail'a
+ */
 public class EditEmailInSettingsController {
 
+    /**
+     * @param cancel2Button Przycisk wyłączenia okna
+     * @param cancelButton Przycisk wyłączenia okna
+     * @param continueButton Przycisk sprawdzania tokenu
+     * @param emailGrid Siatka dla zmiany e-mail
+     * @param emailActualField Aktualny e-mail
+     * @param emailNewField Pole tekstowe do wpisania nowego e-mail'a
+     * @param emailRepeatField Pole tekstowe do wisania powtórzonego, nowego e-mail'a
+     * @param saveButton Przycisk do akceptacji zmiany e-mail'a
+     * @param tokenField Pole tekstowe dla tokenu
+     * @param tokenGrid Siatka dla sprawdzania tokenu
+     * @param wrongLabel Tekst, który się wyświetli w przypadku błędu
+     * @param wrongTokenLabel Tekst, który wyświetli się w przupadku błędnego tokenu
+     */
     @FXML
     private Button cancelButton;
     @FXML
@@ -42,12 +60,18 @@ public class EditEmailInSettingsController {
     @FXML
     private Label wrongTokenLabel;
 
+    /**
+     * Metoda, która wykonuje się na samym początku uruchomienia się klasy. Służy do wczytania odpowiednich ustawień w panelu
+     */
     @FXML
     public void initialize() {
         tokenGrid.toFront();
     }
 
-    //To jest do obsługi buttonów
+    /**
+     * Metoda do zarządzania wszystkimi przyciskami
+     * @param event Służy do prawidłowego zarządzania okienkami
+     */
     public void buttonsHandler(ActionEvent event) {
         Object source = event.getSource();
 
@@ -62,6 +86,9 @@ public class EditEmailInSettingsController {
         }
     }
 
+    /**
+     * Sprawdzenie pola z tokenem
+     */
     private void checkIfTokenIsEmpty() {
         String token = tokenField.getText();
 
@@ -72,7 +99,11 @@ public class EditEmailInSettingsController {
         }
     }
 
-    //Sprawdzenie tokenu
+    /**
+     * Sprawdzenie tokenu
+     *
+     * @param token Token użytkownika
+     */
     private void checkToken(String token) {
         try {
             DatabaseConnector.connect();
@@ -94,7 +125,9 @@ public class EditEmailInSettingsController {
         }
     }
 
-    //Zmiana adresu Email
+    /**
+     * Zmiana adresu E-mail
+     */
     private void changeEmail() {
         try {
             String oldEmail = emailActualField.getText();
@@ -114,6 +147,10 @@ public class EditEmailInSettingsController {
         }
     }
 
+    /**
+     * Zamykanie okienka
+     * @param button Informacja o tym, który przycisk został kliknięty
+     */
     private void closeWindow(Button button) {
         Stage stage = (Stage) button.getScene().getWindow();
         stage.close();
