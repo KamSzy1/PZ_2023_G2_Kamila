@@ -5,9 +5,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Klasa do zarządzaniami zapytaniami do bazy dancyh
+ */
 public class QExecutor {
 
-    // To wykorzystujemy do typowych zapytań Select
+    /**
+     * Do wykonywania Selectów
+     *
+     * @param selectQuery Napisane zapytanie
+     * @return Wynik z bazy danych
+     */
+
     public static ResultSet executeSelect(String selectQuery) {
         try {
             Connection connection = DatabaseConnector.connect();
@@ -18,7 +27,11 @@ public class QExecutor {
         }
     }
 
-    //To wykorzystujemy do operacji na tabeli czyli inserty delety
+    /**
+     * Do wykonywania operacji w bazie danych (insert, delete)
+     *
+     * @param query Napisane zapytanie
+     */
     public static void executeQuery(String query) {
         try {
             Connection connection = DatabaseConnector.connect();

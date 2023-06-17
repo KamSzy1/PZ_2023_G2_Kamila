@@ -11,15 +11,34 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.sql.*;
 
+/**
+ * Klasa do generowania pdf
+ */
 public class PdfGenerate {
 
+    /**
+     * @param table Nazwa tabeli
+     */
     private static String table = "";
 
+    /**
+     * Metoda do generowania PDF dla pracownika
+     * @param path Ścieżka
+     * @param pdfData Dane do wygenerowania
+     * @param idUser Numer użytkownika
+     */
     public static void generateForEmployee(String path, String pdfData, int idUser) {
         String query = setQueryForEmployee(pdfData, idUser);
         generatePdfTasks(query, path);
     }
 
+    /**
+     * Ustawienie zapytania dla pracownika
+     *
+     * @param pdfData Dane do wygenerowania
+     * @param idUser Numer użytkownika
+     * @return Zapytanie do bazy danych
+     */
     private static String setQueryForEmployee(String pdfData, int idUser) {
         if (pdfData.equals("Wszystko")) {
             return "SELECT * FROM tasks " +
@@ -34,11 +53,27 @@ public class PdfGenerate {
         }
     }
 
+    /**
+     * Generowanie PDF dla kierownika
+     *
+     * @param path Ścieżka
+     * @param pdfType Typ PDF
+     * @param pdfData Dane do wygenerowania
+     * @param group Numer grupy
+     */
     public static void generateForManager(String path, String pdfType, String pdfData, int group) {
         String query = setQueryForManager(pdfType, pdfData, group);
         generateGoodPdfManager(query, path);
     }
 
+    /**
+     * Ustawienie zapytania dla pracownika
+     *
+     * @param pdfType Typ PDF
+     * @param pdfData Dane do wygenerowania
+     * @param group Numer grupy
+     * @return Zapytanie do bazy danych
+     */
     private static String setQueryForManager(String pdfType, String pdfData, int group) {
         String query = "";
 
@@ -73,11 +108,25 @@ public class PdfGenerate {
         return query;
     }
 
+    /**
+     * Generowanie PDF dla administratora
+     *
+     * @param path Ścieżka
+     * @param pdfType Typ PDF
+     * @param pdfData Dane do wygenerowania
+     */
     public static void generateForAdmin(String path, String pdfType, String pdfData) {
         String query = setQueryForAdmin(pdfType, pdfData);
         generateGoodPdf(query, path);
     }
 
+    /**
+     * Ustawienie zapytania dla administratora
+     *
+     * @param pdfType Typ PDF
+     * @param pdfData Dane do wygenerowania
+     * @return Zapytanie do bazy danych
+     */
     private static String setQueryForAdmin(String pdfType, String pdfData) {
         String query = "";
 
@@ -98,6 +147,12 @@ public class PdfGenerate {
         return query;
     }
 
+    /**
+     * Ustawienie wygenerowania dobrego pdf
+     *
+     * @param query Zapytanie
+     * @param path Ścieżka
+     */
     private static void generateGoodPdf(String query, String path) {
         if (table.equals("tasks")) {
             generatePdfTasks(query, path);
@@ -106,6 +161,12 @@ public class PdfGenerate {
         }
     }
 
+    /**
+     * Ustawienie wygenerowania dobrego pdf
+     *
+     * @param query Zapytanie
+     * @param path Ścieżka
+     */
     private static void generateGoodPdfManager(String query, String path) {
         if (table.equals("tasks")) {
             generatePdfTasks(query, path);
@@ -114,6 +175,12 @@ public class PdfGenerate {
         }
     }
 
+    /**
+     * Generowanie PDF z pracownikami
+     *
+     * @param query Zapytanie
+     * @param path Ścieżka
+     */
     private static void generatePdfEmployee(String query, String path) {
         try {
             Document document = new Document(PageSize.A4);
@@ -161,6 +228,12 @@ public class PdfGenerate {
         }
     }
 
+    /**
+     * Generowanie PDF z zadaniami
+     *
+     * @param query Zapytanie
+     * @param path Ścieżka
+     */
     private static void generatePdfTasks(String query, String path) {
         try {
             // Tworzenie dokumentu PDF

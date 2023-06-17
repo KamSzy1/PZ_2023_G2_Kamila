@@ -41,7 +41,6 @@ import java.util.Objects;
 /**
  * Klasa służąca do zarządzania panelem administratora
  */
-
 public class AdminController {
 
     /**
@@ -103,7 +102,6 @@ public class AdminController {
      *     @param pdfChooseDataComboBox Lista rozwiajana do wyboru statusu lub stabowiska pracownika w panelu raportów
      *     @param mainAnchorPane Główne okno aplikacji
      */
-
     @FXML
     private TextField filterEmployeeField;
     @FXML
@@ -242,6 +240,7 @@ public class AdminController {
      * Metoda do zmieniania paneli w aplikacji
      * @param event Służy do prawidłowego zarządzania okienkami
      */
+    @FXML
     public void buttonsHandlerPane(ActionEvent event) {
         Object source = event.getSource();
 
@@ -275,6 +274,7 @@ public class AdminController {
      * @param event Służy do prawidłowego zarządzania okienkami
      * @throws IOException
      */
+    @FXML
     public void buttonsHandlerStages(ActionEvent event) throws IOException {
         StageChanger stageChanger = new StageChanger();
         Object source = event.getSource();

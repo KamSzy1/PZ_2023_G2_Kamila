@@ -1,7 +1,5 @@
 package database_classes;
 
-import java.time.Instant;
-import java.util.Calendar;
 import java.util.Date;
 
 public class HistoryTaskTable {

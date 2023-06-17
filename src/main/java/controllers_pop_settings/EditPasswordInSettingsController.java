@@ -16,19 +16,32 @@ import validate.ValidateEmployee;
 import java.io.IOException;
 import java.sql.SQLException;
 
+/**
+ * Klasa do zarządzania panelem edytowania hasła
+ */
 public class EditPasswordInSettingsController {
 
+    /**
+     * @param cancel2Button Przycisk wyłączenia okna
+     * @param cancelButton Przycisk wyłączenia okna
+     * @param continueButton Przycisk sprawdzania tokenu
+     * @param passwordGrid Siatka dla zmiany hasła
+     * @param passwordNewField Pole tekstowe do wpisania nowego hasła
+     * @param passwordRepeatField Pole tekstowe do wisania powtórzonego, nowego hasła
+     * @param saveButton Przycisk do akceptacji zmiany hasła
+     * @param tokenField Pole tekstowe dla tokenu
+     * @param tokenGrid Siatka dla sprawdzania tokenu
+     * @param wrongLabel Tekst, który się wyświetli w przypadku błędu
+     * @param wrongTokenLabel Tekst, który wyświetli się w przupadku błędnego tokenu
+     */
     @FXML
     private Button cancel2Button;
-
     @FXML
     private Button cancelButton;
     @FXML
     private Button continueButton;
     @FXML
     private GridPane passwordGrid;
-    @FXML
-    private TextField passwordActualField;
     @FXML
     private TextField passwordNewField;
     @FXML
@@ -44,14 +57,24 @@ public class EditPasswordInSettingsController {
     @FXML
     private Label wrongTokenLabel;
 
-    String token;
+    /**
+     * @param token Zmienna
+     */
+    private String token;
 
+    /**
+     * Metoda, która wykonuje się na samym początku uruchomienia się klasy. Służy do wczytania odpowiednich ustawień w panelu
+     */
     @FXML
     public void initialize() {
         tokenGrid.toFront();
     }
 
-    //To jest do obsługi buttonów
+    /**
+     * Metoda do zarządzania wszystkimi przyciskami
+     * @param event Służy do prawidłowego zarządzania okienkami
+     * @throws IOException
+     */
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
 
@@ -71,6 +94,9 @@ public class EditPasswordInSettingsController {
         }
     }
 
+    /**
+     * Sprawdzenie pola z tokenem
+     */
     private void checkIfTokenIsEmpty() {
         token = tokenField.getText();
 
@@ -82,6 +108,9 @@ public class EditPasswordInSettingsController {
         passwordGrid.toFront();
     }
 
+    /**
+     * Resetowanie hasła
+     */
     private void resetPassword() {
         //Zmiana hasła
         String newPassword = passwordNewField.getText();

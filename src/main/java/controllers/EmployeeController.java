@@ -35,7 +35,6 @@ import java.util.Objects;
 /**
  * Klasa służąca do zarządzania panelem pracownika
  */
-
 public class EmployeeController {
 
     /**
@@ -72,7 +71,6 @@ public class EmployeeController {
      *     @param myTaskTableView Tabela z moimi zadaniami w panelu moje zadania
      *     @param pdfPathField Pole tekstowe do ścieżki w panelu generowania PDF
      */
-
     @FXML
     private Button myTasksButton;
     @FXML
