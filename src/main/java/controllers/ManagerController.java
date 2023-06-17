@@ -455,7 +455,8 @@ public class ManagerController {
             ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks " +
                     "JOIN statuses ON tasks.status_id = statuses.id_status " +
                     "JOIN users ON tasks.user_id=users.id_user " +
-                    "JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task");
+                    "JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task" +
+                    " WHERE groups = " + UsersTable.getGroupNumber());
 
             while (result.next()) {
                 TasksTable task = new TasksTable();

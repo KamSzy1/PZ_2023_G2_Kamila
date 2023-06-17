@@ -75,6 +75,7 @@ public class EditTaskController {
     public void initialize() {
         userList();
         statusList();
+        fieldController();
         timePicker.setDayCellFactory(picker -> new DateCell() {
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
@@ -83,8 +84,22 @@ public class EditTaskController {
                 setDisable(empty || date.isBefore(today));
             }
         });
+    }
 
-        timePicker.getEditor().setDisable(true);
+    public void fieldController() {
+        try {
+            DatabaseConnector.connect();
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM users WHERE id_user="+UsersTable.getIdLoginUser());
+            result.next();
+            if (result.getInt("position_id") == 3) {
+                titleField.setDisable(true);
+                descriptionArea.setDisable(true);
+                personView.setDisable(true);
+                timePicker.setDisable(true);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     /**
@@ -173,7 +188,7 @@ public class EditTaskController {
                 rs = QExecutor.executeSelect("SELECT * FROM users WHERE groups = " + UsersTable.getGroupNumber());
             }
             names = FXCollections.observableArrayList();
-            names.add("Wybierz osobę");
+            names.add("Wybierz osobe");
             while (rs.next()) {
                 names.addAll(rs.getString(2) + " " + rs.getString(3));
             }

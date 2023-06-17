@@ -163,7 +163,7 @@ public class AddTaskController {
                 rs = QExecutor.executeSelect("SELECT * FROM users WHERE groups = " + UsersTable.getGroupNumber());
             }
             names = FXCollections.observableArrayList();
-            names.add("Wybierz osobę");
+            names.add("Wybierz osobe");
             while (rs.next()) {
                 names.addAll(rs.getString(2) + " " + rs.getString(3));
             }
@@ -200,6 +200,7 @@ public class AddTaskController {
         try {
             DatabaseConnector.connect();
             statuses = FXCollections.observableArrayList();
+            statuses.add("Wybierz status");
             ResultSet rs = QExecutor.executeSelect("SELECT * FROM statuses");
             while (rs.next()) {
                 statuses.add(rs.getString("name"));
