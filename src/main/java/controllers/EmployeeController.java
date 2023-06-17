@@ -30,10 +30,48 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Locale;
 import java.util.Objects;
 
+/**
+ * Klasa służąca do zarządzania panelem pracownika
+ */
+
 public class EmployeeController {
+
+    /**
+     * Potrzebne zmienne z Scene Buildera, aby aplikacja działała poprawnie
+     *
+     *     @param myTasksButton Przycisk do przejścia do panelu z moimi zadanami
+     *     @param filterField Pole tekstowe do filtrowania moich zadań
+     *     @param reportButton Przycisk do przejścia do panelu z raportami
+     *     @param settingsButton Przycisk do przejścia do panelu z ustawieniami
+     *     @param logoutButton Przycisk do wylogowania się
+     *     @param mailEditButton Przycisk do edycji maila
+     *     @param passwordEditButton Przycisk do edycji hasła
+     *     @param pdfPathButton Przycisk do ustawienia ścieżki do generowania PDF
+     *     @param pdfGenerateButton Przycisk do generowania PDF
+     *     @param gridMyTasks Siatka w panelu moich zadań
+     *     @param gridReport Siatka w panelu raportów
+     *     @param gridSettings Siatka w panelu ustawień
+     *     @param textLabel Nagłówek w odpowienidch panelach
+     *     @param welcomeLabel Tekst z nazwą użytkownika
+     *     @param nameLabel Tekst z imieniem pracownika
+     *     @param surnameLabel Tekst z nazwiskiem pracownika
+     *     @param addressLabel Tekst z adresem pracownika
+     *     @param zipLabel Tekst z kodem pocztowym
+     *     @param placeLabel Tekst z miejscowością
+     *     @param phoneLabel Tekst z numerem telefonu
+     *     @param wrongPdfLabel Tekst wyświetlający się w przypadku błędu w panelu generowania PDF
+     *     @param pdfChooseDataComboBox Lista rozwiajana do wyboru statusu zadania
+     *     @param mainAnchorPane Główne okno aplikacji
+     *     @param myTaskDescription Kolumna z opisem zadania w panelu moich zadań
+     *     @param myTaskEdit Kolumna z edycją zadania w panelu moich zadań
+     *     @param myTaskPlannedDate Kolumna z planowaną datą zakończenia zadania w panelu moich zadań
+     *     @param myTaskStatus Kolumna z statusem zadania w panelu moich zadań
+     *     @param myTaskTitle Kolumna z tytułem zadania w panelu moich zadań
+     *     @param myTaskTableView Tabela z moimi zadaniami w panelu moje zadania
+     *     @param pdfPathField Pole tekstowe do ścieżki w panelu generowania PDF
+     */
 
     @FXML
     private Button myTasksButton;
@@ -84,8 +122,6 @@ public class EmployeeController {
     @FXML
     private TableColumn<?, ?> myTaskEdit;
     @FXML
-    private TableColumn<?, ?> myTaskID;
-    @FXML
     private TableColumn<?, ?> myTaskPlannedDate;
     @FXML
     private TableColumn<?, ?> myTaskStatus;
@@ -100,8 +136,14 @@ public class EmployeeController {
     @FXML
     private AnchorPane mainAnchorPane;
 
+    /**
+     * @param myTaskTable Lista z zadaniami w panelu moje zadania
+     */
     private ObservableList<TasksTable> myTaskTable;
 
+    /**
+     * Metoda, która wykonuje się na samym początku uruchomienia się klasy. Służy do wczytania odpowiednich ustawień w panelu
+     */
     @FXML
     private void initialize() {
         welcomeLabel.setText("Witaj " + UsersTable.getLoginName() + " " + UsersTable.getLoginSurname() + "!");
@@ -109,8 +151,12 @@ public class EmployeeController {
         myTask();
     }
 
-    //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
-    public void buttonsHandlerPane(ActionEvent event) throws IOException {
+    /**
+     * Metoda do zmieniania paneli w aplikacji
+     * @param event Służy do prawidłowego zarządzania okienkami
+     */
+    @FXML
+    public void buttonsHandlerPane(ActionEvent event) {
         Object source = event.getSource();
 
         if (source == myTasksButton) {
@@ -129,7 +175,12 @@ public class EmployeeController {
         }
     }
 
-    //To jest do obsługi wszystkich buttonów, które zmieniają cały panel (Stage) i PopupWindow
+    /**
+     * Metoda do zarządzania wszystckih przycisków, które zmieniają całe panele oraz otwierają wyskakujące okienka
+     * @param event Służy do prawidłowego zarządzania okienkami
+     * @throws IOException
+     */
+    @FXML
     public void buttonsHandlerStages(ActionEvent event) throws IOException {
         Object source = event.getSource();
         StageChanger stageChanger = new StageChanger();
@@ -146,6 +197,11 @@ public class EmployeeController {
         }
     }
 
+    /**
+     * Metoda do zarządzania tym co znajduje się w panelu raportów
+     * @param event Służy do prawidłowego zarządzania okienkami
+     */
+    @FXML
     public void buttonReports(ActionEvent event) {
         Object source = event.getSource();
         if (source == pdfPathButton) {
@@ -164,6 +220,9 @@ public class EmployeeController {
         }
     }
 
+    /**
+     * Metoda do wczytywania danych o użytkowniku w panelu ustawień
+     */
     private void data() {
         try {
             DatabaseConnector.connect();
@@ -182,18 +241,22 @@ public class EmployeeController {
         }
     }
 
+    /**
+     * Ustawienie ścieżki do generowania PDF
+     */
     private void setPathPdfGenerator() {
         final DirectoryChooser dirChooser = new DirectoryChooser();
         Stage stage = (Stage) mainAnchorPane.getScene().getWindow();
         File file = dirChooser.showDialog(stage);
 
         if (file != null) {
-            System.out.println("Ścieżka" + file.getAbsolutePath());
             pdfPathField.setText(file.getAbsolutePath());
         }
     }
 
-    //Wyświetlanie "Moich Zadań"
+    /**
+     * Metoda do wyświetlania danych w panelu moje zadania oraz do filtrowania ich
+     */
     private void myTask() {
         try {
             DatabaseConnector.connect();
@@ -203,7 +266,6 @@ public class EmployeeController {
                     "JOIN statuses ON tasks.status_id = statuses.id_status " +
                     "JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task " +
                     "WHERE user_id = " + UsersTable.getIdLoginUser());
-            System.out.println(UsersTable.getIdLoginUser());
             while (result.next()) {
 
                 Button editButton = new Button("Edycja");
@@ -239,11 +301,11 @@ public class EmployeeController {
                 }
                 String lowerCaseFilter = newValue.toLowerCase();
 
-                if (task.getTitle().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                if (task.getTitle().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                } else if (task.getDescription().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                } else if (task.getDescription().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                } else if (task.getNameStatus().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                } else if (task.getNameStatus().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 } else {
                     return false;
@@ -255,6 +317,11 @@ public class EmployeeController {
         myTaskTableView.setItems(sortedData);
     }
 
+    /**
+     * Otwieranie nowych okienek
+     * @param button Przycisk, który wywołuje nowe okienko
+     * @param fxml Wygląd, który ma się wyświetlić w okienku
+     */
     private void openWindow(Button button, String fxml) {
         try {
             Stage stage = new Stage();
@@ -270,6 +337,10 @@ public class EmployeeController {
         }
     }
 
+    /**
+     * Przygotowanie wyskakującego okienka z edycją zadań
+     * @param idTask Numer zadania, które chcemy edytować
+     */
     private void preparePopUpWindowEditTask(String idTask) {
         try {
             Stage stage = new Stage();
@@ -278,7 +349,6 @@ public class EmployeeController {
             EditTaskController editTaskController = loader.getController();
 
             DatabaseConnector.connect();
-            //SELECT t.title, t.description, u.name, u.surname, s.name, tk.planned_end FROM tasks AS t JOIN statuses AS s ON t.status_id = s.id_status JOIN users AS u ON t.user_id=u.id_user JOIN tasks_history AS tk ON tk.tasks_id=t.id_task WHERE t.id_task = 8
             ResultSet result = QExecutor.executeSelect("SELECT t.id_task, t.title, t.description, u.name, u.surname, s.name AS status, tk.planned_end FROM tasks AS t " +
                     "JOIN statuses AS s ON t.status_id = s.id_status " +
                     "JOIN users AS u ON t.user_id=u.id_user " +
@@ -306,6 +376,9 @@ public class EmployeeController {
         }
     }
 
+    /**
+     * Wybranie typu generowanego PDF, jaki nas interesuje
+     */
     private void pdfChooseDataToGenerate() {
         ObservableList<String> pdfData = FXCollections.observableArrayList();
 

@@ -4,6 +4,7 @@ import database.DatabaseConnector;
 import database.QExecutor;
 import database_classes.HistoryTaskTable;
 import database_classes.TasksTable;
+import database_classes.UsersTable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -112,8 +113,17 @@ public class AddTaskController {
     public void userList() {
         try {
             DatabaseConnector.connect();
+            ResultSet rs;
+            ResultSet checkPosition = QExecutor.executeSelect("SELECT position_id FROM users WHERE id_user = " + UsersTable.getIdLoginUser());
+            checkPosition.next();
+            if (checkPosition.getInt("position_id") == 1){
+                rs = QExecutor.executeSelect("SELECT * FROM users");
+            }
+            else {
+                rs = QExecutor.executeSelect("SELECT * FROM users WHERE groups = " + UsersTable.getGroupNumber());
+            }
             names = FXCollections.observableArrayList();
-            ResultSet rs = QExecutor.executeSelect("SELECT * FROM users");
+            names.add("Wybierz osobę");
             while (rs.next()) {
                 names.addAll(rs.getString(2) + " " + rs.getString(3));
             }
@@ -127,7 +137,7 @@ public class AddTaskController {
         try {
             DatabaseConnector.connect();
             statuses = FXCollections.observableArrayList();
-            ResultSet rs = QExecutor.executeSelect("Select * from statuses");
+            ResultSet rs = QExecutor.executeSelect("SELECT * FROM statuses");
             while (rs.next()) {
                 statuses.add(rs.getString("name"));
             }
@@ -137,7 +147,7 @@ public class AddTaskController {
         statusView.setItems(statuses);
     }
 
-    private void tryGetData() throws Exception{ //Do tego trzeba dodać walidację, czy data jest poprawna + dodać wybiranie stanowiska praocwnika
+    private void tryGetData() throws Exception {
         String title = titleField.getText();
         String description = descriptionArea.getText();
 

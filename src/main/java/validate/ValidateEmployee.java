@@ -139,16 +139,6 @@ public class ValidateEmployee {
         if (!matcher_number.matches()) {
             throw new Exception("Błędny numer telefonu");
         }
-
-//        DatabaseConnector.connect();
-//        ResultSet rs = QExecutor.executeSelect("SELECT phone_num FROM users WHERE phone_num = " + phoneNumber);
-//        rs.next();
-//        String number = String.valueOf(rs.getInt("phone_num"));
-//
-//        if (number.equals(phoneNumber)) {
-//            throw new Exception("Podany numer telefonu już istnieje");
-//        }
-
     }
 
     //Sprawdzenie czy kod pocztowy jest taki jak powinien

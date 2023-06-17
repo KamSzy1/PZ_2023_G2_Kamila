@@ -9,10 +9,20 @@ import javafx.scene.image.Image;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Klasa do zarządzania panelami
+ */
+
 public class StageChanger extends Application {
 
+    /**
+     * @param stage zmienna służąca do ustawiania wielkości okienek oraz zmieniania ich
+     */
     private static javafx.stage.Stage stage;
 
+    /**
+     * Metoda uruchamiająca pierwsze okienko w aplikacji
+     */
     @Override
     public void start(javafx.stage.Stage primaryStage) {
         try {
@@ -30,13 +40,20 @@ public class StageChanger extends Application {
         }
     }
 
-    //Zmiana wielkości panelu
+    /**
+     * Klasa do zmieniania wielkości okienka
+     * @param width  nowa szerokość okienka
+     * @param height nowa wysokość okienka
+     */
     public void changeSize(int width, int height) {
         stage.setWidth(width);
         stage.setHeight(height);
     }
 
-    //Zmiana panelu
+    /**
+     * Klasa do zmieniania okienka
+     * @param fxml nazwa nowego fxml, ścieżka zaczyna się od resources
+     */
     public void changeScene(String fxml) throws IOException {
         Parent pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxml)));
         stage.getScene().setRoot(pane);

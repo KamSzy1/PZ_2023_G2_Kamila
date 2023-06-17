@@ -7,8 +7,6 @@ import controllers_pop_task.AddTaskController;
 import controllers_pop_task.EditTaskController;
 import database.DatabaseConnector;
 import database.QExecutor;
-import database_classes.HistoryTaskTable;
-import database_classes.LoginTable;
 import database_classes.TasksTable;
 import database_classes.UsersTable;
 import javafx.animation.KeyFrame;
@@ -40,14 +38,76 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
+/**
+ * Klasa służąca do zarządzania panelem administratora
+ */
+
 public class AdminController {
+
+    /**
+     * Potrzebne zmienne z Scene Buildera, aby aplikacja działała poprawnie
+     *
+     *     @param filterEmployeeField Pole tekstowe do filtrowania pracowników
+     *     @param filterMyTasksField Pole tekstowe do filtrowania moich zadań
+     *     @param filterTasksField Pole tekstowe do filtrowania zadań
+     *     @param myTasksButton Przycisk do przejścia do panelu z moimi zadanami
+     *     @param tasksButton Przycisk do przejścia do panelu z zadaniami
+     *     @param employeeButton Przycisk do przejścia do panelu z pracownikami
+     *     @param raportButton Przycisk do przejścia do panelu z raportami
+     *     @param settingsButton Przycisk do przejścia do panelu z ustawieniami
+     *     @param logoutButton Przycisk do wylogowania się
+     *     @param addEmployeeButton Przycisk do dodania pracownika
+     *     @param addTaskButton Przycisk do dodania zadania
+     *     @param pdfPathButton Przycisk do ustawienia ścieżki do generowania PDF
+     *     @param pdfGenerateButton Przycisk do generowania PDF
+     *     @param mailEditButton Przycisk do edycji maila
+     *     @param passwordEditButton Przycisk do edycji hasła
+     *     @param gridTasks Siatka w panelu zadań
+     *     @param gridEmployee Siatka w panelu pracowników
+     *     @param gridReport Siatka w panelu raportów
+     *     @param gridSettings Siatka w panelu ustawień
+     *     @param gridMyTasks Siatka w panelu moich zadań
+     *     @param textLabel Nagłówek w odpowienidch panelach
+     *     @param welcomeLabel Tekst z nazwą użytkownika
+     *     @param nameLabel Tekst z imieniem pracownika
+     *     @param surnameLabel Tekst z nazwiskiem pracownika
+     *     @param addressLabel Tekst z adresem pracownika
+     *     @param zipLabel Tekst z kodem pocztowym
+     *     @param placeLabel Tekst z miejscowością
+     *     @param phoneLabel Tekst z numerem telefonu
+     *     @param wrongPdfLabel Tekst wyświetlający się w przypadku błędu w panelu generowania PDF
+     *     @param employeeAddress Kolumna z adresami pracowników w panelu pracownicy
+     *     @param employeeTableView Tabela z pracownikami w panelu pracowników
+     *     @param employeeGroup Kolumna z numerem grupy pracowników w panelu pracownicy
+     *     @param employeeMail Kolumna z adresami mailowymi pracowników w panelu pracownicy
+     *     @param employeeName Kolumna z imionami pracowników w panelu pracownicy
+     *     @param employeePhone Kolumna z numerami telefonu pracowników w panelu pracownicy
+     *     @param employeePosition Kolumna z stanowiskami pracowników w panelu pracownicy
+     *     @param employeeSurname Kolumna z nazwiskami pracowników w panelu pracownicy
+     *     @param employeeEdit  Kolumna z edycją pracowników w panelu pracownicy
+     *     @param myTaskDescription Kolumna z opisem zadania w panelu moich zadań
+     *     @param myTaskEdit Kolumna z edycją zadania w panelu moich zadań
+     *     @param myTaskPlannedDate Kolumna z planowaną datą zakończenia zadania w panelu moich zadań
+     *     @param myTaskStatus Kolumna z statusem zadania w panelu moich zadań
+     *     @param myTaskTitle Kolumna z tytułem zadania w panelu moich zadań
+     *     @param myTaskTableView Tabela z moimi zadaniami w panelu moje zadania
+     *     @param taskDescription Kolumna z opisem zadania w panelu zadań
+     *     @param taskEdit Kolumna z edycją zadania w panelu  zadań
+     *     @param taskEmployee Kolumna z przypisanym pracownikiem do zadania w panelu  zadań
+     *     @param taskPlannedDate Kolumna z planowaną datą zakończenia zadania w panelu  zadań
+     *     @param taskStatus Kolumna z statusem zadania w panelu  zadań
+     *     @param taskTitle Kolumna z tytułem zadania w panelu zadań
+     *     @param taskTableView Tabela z zadaniami w panelu zadania
+     *     @param pdfPathField Pole tekstowe do ścieżki w panelu generowania PDF
+     *     @param pdfChooseReportComboBox Lista rozwijana do wyboru typu generowanego PDF
+     *     @param pdfChooseDataComboBox Lista rozwiajana do wyboru statusu lub stabowiska pracownika w panelu raportów
+     *     @param mainAnchorPane Główne okno aplikacji
+     */
 
     @FXML
     private TextField filterEmployeeField;
-
     @FXML
     private TextField filterMyTasksField;
-
     @FXML
     private TextField filterTasksField;
     @FXML
@@ -155,21 +215,33 @@ public class AdminController {
     @FXML
     private AnchorPane mainAnchorPane;
 
+    /**
+     * Zmienne potrzebne do prawidłowego działania aplikacji
+     *
+     * @param time Linia czasowa do odświeżania tabel
+     * @param myTaskTable Lista z moimi zadaniami
+     * @param taskTable Lista z zadaniami
+     * @param userTable Lista z pracownikami
+     */
     private Timeline time;
     private ObservableList<TasksTable> myTaskTable;
     private ObservableList<TasksTable> taskTable;
     private ObservableList<UsersTable> userTable;
 
+    /**
+     * Metoda, która wykonuje się na samym początku uruchomienia się klasy. Służy do wczytania odpowiednich ustawień w panelu
+     */
     @FXML
     public void initialize() {
         welcomeLabel.setText("Witaj " + UsersTable.getLoginName() + " " + UsersTable.getLoginSurname() + "!");
         gridMyTasks.toFront();
         myTask();
-        task();
-        employee();
     }
 
-    //To jest do obsługi wszystkich buttonów, które zmieniają tylko grid
+    /**
+     * Metoda do zmieniania paneli w aplikacji
+     * @param event Służy do prawidłowego zarządzania okienkami
+     */
     public void buttonsHandlerPane(ActionEvent event) {
         Object source = event.getSource();
 
@@ -198,7 +270,11 @@ public class AdminController {
         }
     }
 
-    //To jest do obsługi wszystkich buttonów, które zmieniają cały panel (Stage) i PopupWindow
+    /**
+     * Metoda do zarządzania wszystkimi przyciskami, które zmieniają całe panele oraz otwierają wyskakujące okienka
+     * @param event Służy do prawidłowego zarządzania okienkami
+     * @throws IOException
+     */
     public void buttonsHandlerStages(ActionEvent event) throws IOException {
         StageChanger stageChanger = new StageChanger();
         Object source = event.getSource();
@@ -246,7 +322,11 @@ public class AdminController {
         }
     }
 
-
+    /**
+     * Metoda do zarządzania tym co znajduje się w panelu raportów
+     * @param event Służy do prawidłowego zarządzania okienkami
+     */
+    @FXML
     public void buttonReports(ActionEvent event) {
         Object source = event.getSource();
         if (source == pdfPathButton) {
@@ -265,6 +345,9 @@ public class AdminController {
         }
     }
 
+    /**
+     * Metoda do wczytywania danych o użytkowniku w panelu ustawień
+     */
     private void data() {
         try {
             DatabaseConnector.connect();
@@ -282,7 +365,9 @@ public class AdminController {
         }
     }
 
-    //Wyświetlanie moich zadań
+    /**
+     * Metoda do wyświetlania danych w panelu moje zadania oraz do filtrowania ich
+     */
     private void myTask() {
         try {
             DatabaseConnector.connect();
@@ -292,7 +377,6 @@ public class AdminController {
                     "JOIN statuses ON tasks.status_id = statuses.id_status " +
                     "JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task " +
                     "WHERE user_id = " + UsersTable.getIdLoginUser());
-            System.out.println(UsersTable.getIdLoginUser());
             while (result.next()) {
                 TasksTable myTask = new TasksTable();
                 Button editButton = new Button("Edycja");
@@ -300,7 +384,6 @@ public class AdminController {
                 myTask.setEditIdTask(idTask);
                 editButton.setOnAction(event -> {
                     preparePopUpWindowEditTask(String.valueOf(idTask));
-                    System.out.println(myTask.getEditIdTask());
                 });
                 myTask.setIdTask(result.getInt("id_task"));
                 myTask.setTitle(result.getString("title"));
@@ -345,7 +428,9 @@ public class AdminController {
         myTaskTableView.setItems(sortedData);
     }
 
-    //Wyświetlanie zadań
+    /**
+     * Metoda do wyświetlania danych w panelu zadania oraz do filtrowania ich
+     */
     private void task() {
         try {
             DatabaseConnector.connect();
@@ -410,7 +495,9 @@ public class AdminController {
         taskTableView.setItems(sortedData);
     }
 
-    //Wyświetlanie pracowników
+    /**
+     * Metoda do wyświetlania danych w panelu pracownicy oraz do filtrowania ich
+     */
     private void employee() {
         try {
             DatabaseConnector.connect();
@@ -459,13 +546,13 @@ public class AdminController {
                     return true;
                 }
                 String lowerCaseFilter = newValue.toLowerCase();
-                if (user.getName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                if (user.getName().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                } else if (user.getSurname().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                } else if (user.getSurname().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                } else if (user.getAddress().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                } else if (user.getAddress().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                } else if (user.getNamePosition().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                } else if (user.getNamePosition().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 } else if (String.valueOf(user.getPhoneNumber()).contains(lowerCaseFilter)) {
                     return true;
@@ -481,16 +568,25 @@ public class AdminController {
         employeeTableView.setItems(sortedData);
     }
 
+    /**
+     * Odświeżanie tabeli użytkowników
+     */
     private void refreshUser() {
         userTable.clear();
         employee();
     }
 
+    /**
+     * Odświeżanie tabeli zadań
+     */
     private void refreshTask() {
         taskTable.clear();
         task();
     }
 
+    /**
+     * Odświeżanie edycji zadań
+     */
     private void refreshEditTask() {
         myTaskTable.clear();
         myTask();
@@ -498,6 +594,10 @@ public class AdminController {
         task();
     }
 
+    /**
+     * Przygotowanie wyskakującego okienka z edycją zadań
+     * @param idTask Numer zadania, które chcemy edytować
+     */
     private void preparePopUpWindowEditTask(String idTask) {
         try {
             Stage stage = new Stage();
@@ -546,6 +646,10 @@ public class AdminController {
         }
     }
 
+    /**
+     * Przygotowanie wyskakującego okienka z edycją pracownika
+     * @param token Token na podstawie którego wybieramy, jakiego pracownika chcemy edytować
+     */
     private void preparePopUpWindowEditEmployee(String token) {
         try {
             Stage stage = new Stage();
@@ -596,6 +700,11 @@ public class AdminController {
         }
     }
 
+    /**
+     * Otwieranie nowych okienek
+     * @param button Przycisk, który wywołuje nowe okienko
+     * @param fxml Wygląd, który ma się wyświetlić w okienku
+     */
     private void openWindow(Button button, String fxml) {
         try {
             Stage stage = new Stage();
@@ -611,22 +720,30 @@ public class AdminController {
         }
     }
 
+    /**
+     * Odświeżanie pracowników
+     */
     private void refreshEmployee(){
         userTable.clear();
         employee();
     }
 
+    /**
+     * Ustawienie ścieżki do generowania PDF
+     */
     private void setPathPdfGenerator() {
         final DirectoryChooser dirChooser = new DirectoryChooser();
         Stage stage = (Stage) mainAnchorPane.getScene().getWindow();
         File file = dirChooser.showDialog(stage);
 
         if (file != null) {
-            System.out.println("Ścieżka" + file.getAbsolutePath());
             pdfPathField.setText(file.getAbsolutePath());
         }
     }
 
+    /**
+     * Wybór raportu do wygenerowania
+     */
     private void pdfChooseReportToGenerate() {
         ObservableList<String> pdfReport = FXCollections.observableArrayList();
 
@@ -636,6 +753,9 @@ public class AdminController {
         pdfChooseReportComboBox.setOnAction(e -> pdfChooseDataToGenerate());
     }
 
+    /**
+     * Wybranie typu generowanego PDF, jaki nas interesuje
+     */
     private void pdfChooseDataToGenerate() {
         ObservableList<String> pdfData = FXCollections.observableArrayList();
 

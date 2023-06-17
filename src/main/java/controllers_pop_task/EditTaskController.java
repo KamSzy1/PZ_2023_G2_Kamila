@@ -3,6 +3,7 @@ package controllers_pop_task;
 import database.DatabaseConnector;
 import database.QExecutor;
 import database_classes.TasksTable;
+import database_classes.UsersTable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -10,7 +11,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import validate.ValidateTask;
+
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -39,13 +43,13 @@ public class EditTaskController {
     }
     private ObservableList<String> names;
     private ObservableList<String> statuses;
-    String oldTitle;
-    String oldDescription;
-    String oldName;
-    String oldSurname;
-    String oldStatus;
-    String oldPlanned_end;
-    TasksTable task = new TasksTable();
+    private String oldTitle;
+    private String oldDescription;
+    private String oldName;
+    private String oldSurname;
+    private String oldStatus;
+    private String oldPlanned_end;
+    private TasksTable task = new TasksTable();
 
     @FXML
     public void initialize() {
@@ -128,9 +132,17 @@ public class EditTaskController {
     public void userList() {
         try {
             DatabaseConnector.connect();
+            ResultSet rs;
+            ResultSet checkPosition = QExecutor.executeSelect("SELECT position_id FROM users WHERE id_user = " + UsersTable.getIdLoginUser());
+            checkPosition.next();
+            if (checkPosition.getInt("position_id") == 1){
+                rs = QExecutor.executeSelect("SELECT * FROM users");
+            }
+            else {
+                rs = QExecutor.executeSelect("SELECT * FROM users WHERE groups = " + UsersTable.getGroupNumber());
+            }
             names = FXCollections.observableArrayList();
             names.add("Wybierz osobę");
-            ResultSet rs = QExecutor.executeSelect("SELECT * FROM users");
             while (rs.next()) {
                 names.addAll(rs.getString(2) + " " + rs.getString(3));
             }
