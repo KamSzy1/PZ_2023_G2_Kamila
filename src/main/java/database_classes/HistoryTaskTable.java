@@ -2,12 +2,30 @@ package database_classes;
 
 import java.util.Date;
 
+/**
+ * Klasa reprezentująca tabelę "HistoryTask" z bazy danych
+ */
 public class HistoryTaskTable {
 
+    /**
+     * ID
+     */
     private int idTaskHistory;
+    /**
+     * Data początkowa
+     */
     private Date startDate;
+    /**
+     * Data zakończenia
+     */
     private Date endDate;
+    /**
+     * ID zadania
+     */
     private int tasksId;
+    /**
+     * Planowana data zakończenia
+     */
     private Date plannedEnd;
 
     public int getIdTaskHistory() {

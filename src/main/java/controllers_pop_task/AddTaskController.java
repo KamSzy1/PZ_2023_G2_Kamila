@@ -3,6 +3,7 @@ package controllers_pop_task;
 import database.DatabaseConnector;
 import database.QExecutor;
 import database_classes.HistoryTaskTable;
+import database_classes.StatusesTable;
 import database_classes.TasksTable;
 import database_classes.UsersTable;
 import javafx.collections.FXCollections;
@@ -26,51 +27,81 @@ import java.time.format.DateTimeFormatter;
 public class AddTaskController {
 
     /**
-     * @param timePicker Wybór daty
-     * @param titleField Pole tekstowe tytułu
-     * @param personView Lista rozwijana z osobą
-     * @param statusView Lista rozwijana z statusem zadania
-     * @param descriptionArea Opis zadania
-     * @param cancelButton Przycisk anulowania
-     * @param addButton Przycisk dodawania zadania
-     * @param wrongLabel Tekst wyświetlający błąd
+     * Wybór daty
      */
     @FXML
     private DatePicker timePicker;
+    /**
+     * Pole tekstowe tytułu
+     */
     @FXML
     private TextField titleField;
+    /**
+     * Lista rozwijana z osobą
+     */
     @FXML
-    private ComboBox<String> personView;
+    private ComboBox<UsersTable> personView;
+    /**
+     * Lista rozwijana z statusem zadania
+     */
     @FXML
-    private ComboBox<String> statusView;
+    private ComboBox<StatusesTable> statusView;
+    /**
+     * Opis zadania
+     */
     @FXML
     private TextArea descriptionArea;
+    /**
+     * Przycisk anulowania
+     */
     @FXML
     private Button cancelButton;
+    /**
+     * Przycisk dodawania zadania
+     */
     @FXML
     private Button addButton;
+    /**
+     * Tekst wyświetlający błąd
+     */
     @FXML
     private Label wrongLabel;
 
     /**
-     * @param isRefreshed Publiczna zmienna statyczna
-     * @param tasksTable Zmienna do dodawania nowego zadania
-     * @param HistoryTaskTable Zmienna do doawania czasu zadania
-     * @param currentDate Obecna data
-     * @param formatter Format daty
-     * @param formattedDate Sformatowana data
-     * @param names Lista z osobami
-     * @param statuses Lista z statusami
-     * @param date Data
+     * Publiczna zmienna statyczna
      */
     public static boolean isRefreshed;
+    /**
+     *  Zmienna do dodawania nowego zadania
+     */
     private final TasksTable tasksTable = new TasksTable();
+    /**
+     * Zmienna do doawania czasu zadania
+     */
     private final HistoryTaskTable historyTaskTable = new HistoryTaskTable();
+    /**
+     * Obecna data
+     */
     private final LocalDate currentDate = LocalDate.now();
+    /**
+     * Format daty
+     */
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    /**
+     * Sformatowana data
+     */
     private final String formattedDate = currentDate.format(formatter);
-    private ObservableList<String> names;
-    private ObservableList<String> statuses;
+    /**
+     * Lista z osobami
+     */
+    private ObservableList<UsersTable> names;
+    /**
+     * Lista z statusami
+     */
+    private ObservableList<StatusesTable> statuses;
+    /**
+     * Data
+     */
     private LocalDate date;
 
     /**
@@ -103,7 +134,7 @@ public class AddTaskController {
      * Metoda do zarządzania wszystkimi przyciskami
      *
      * @param event Służy do prawidłowego zarządzania okienkami
-     * @throws IOException
+     * @throws IOException Wyrzucany wyjątek
      */
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
@@ -112,7 +143,6 @@ public class AddTaskController {
             closeWindow(cancelButton);
         } else if (source == addButton) {
             addTask();
-            isRefreshed = true;
         }
     }
 
@@ -120,22 +150,21 @@ public class AddTaskController {
      * Dodawanie zadania do bazy danych
      */
     public void addTask() {
-        // Dodawanie nowych zadań
         try {
             tryGetData();
             DatabaseConnector.connect();
-            QExecutor.executeQuery("insert into tasks (title, description, status_id, user_id) values ('"
+            QExecutor.executeQuery("INSERT INTO tasks (title, description, status_id, user_id) VALUES ('"
                     + tasksTable.getTitle() + "','"
                     + tasksTable.getDescription() + "','"
                     + tasksTable.getStatusId() + "','"
                     + tasksTable.getUserId() + "')");
 
-            QExecutor.executeQuery("insert into tasks_history (planned_end, start_date, tasks_id) values ('"
+            QExecutor.executeQuery("INSERT INTO tasks_history (planned_end, start_date, tasks_id) VALUES ('"
                     + historyTaskTable.getPlannedEnd() + "','"
                     + historyTaskTable.getStartDate() + "',"
                     + "(SELECT MAX(id_task) FROM tasks))");
             closeWindow(addButton);
-
+            isRefreshed = true;
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
@@ -156,16 +185,18 @@ public class AddTaskController {
             ResultSet rs;
             ResultSet checkPosition = QExecutor.executeSelect("SELECT position_id FROM users WHERE id_user = " + UsersTable.getIdLoginUser());
             checkPosition.next();
-            if (checkPosition.getInt("position_id") == 1){
+            if (checkPosition.getInt("position_id") == 1) {
                 rs = QExecutor.executeSelect("SELECT * FROM users");
-            }
-            else {
+            } else {
                 rs = QExecutor.executeSelect("SELECT * FROM users WHERE groups = " + UsersTable.getGroupNumber());
             }
             names = FXCollections.observableArrayList();
-            names.add("Wybierz osobe");
             while (rs.next()) {
-                names.addAll(rs.getString(2) + " " + rs.getString(3));
+                UsersTable usersTable = new UsersTable();
+                usersTable.setIdUser(rs.getInt("id_user"));
+                usersTable.setName(rs.getString("name"));
+                usersTable.setSurname(rs.getString("surname"));
+                names.add(usersTable);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -189,8 +220,16 @@ public class AddTaskController {
         tasksTable.setDescription(description);
         historyTaskTable.setPlannedEnd(Date.valueOf(date));
         historyTaskTable.setStartDate(Date.valueOf(formattedDate));
-        tasksTable.setStatusId(statusView.getSelectionModel().getSelectedIndex()+1);
-        tasksTable.setUserId(personView.getSelectionModel().getSelectedIndex()+1);
+
+        tasksTable.setStatusId(statuses.stream()
+                .filter(status -> status.getIdStatus() == statusView.getSelectionModel().getSelectedItem().getIdStatus())
+                .findFirst()
+                .get().getIdStatus());
+
+        tasksTable.setUserId(names.stream()
+                .filter(user -> user.getIdUser() == personView.getSelectionModel().getSelectedItem().getIdUser())
+                .findFirst()
+                .get().getIdUser());
     }
 
     /**
@@ -200,10 +239,12 @@ public class AddTaskController {
         try {
             DatabaseConnector.connect();
             statuses = FXCollections.observableArrayList();
-            statuses.add("Wybierz status");
-            ResultSet rs = QExecutor.executeSelect("SELECT * FROM statuses");
+            ResultSet rs = QExecutor.executeSelect("Select * from statuses");
             while (rs.next()) {
-                statuses.add(rs.getString("name"));
+                StatusesTable statusesTable = new StatusesTable();
+                statusesTable.setIdStatus(rs.getInt("id_status"));
+                statusesTable.setName(rs.getString("name"));
+                statuses.add(statusesTable);
             }
         } catch (SQLException e) {
             e.printStackTrace();

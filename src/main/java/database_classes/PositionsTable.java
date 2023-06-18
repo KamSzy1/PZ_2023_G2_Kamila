@@ -1,8 +1,21 @@
 package database_classes;
 
+/**
+ * Klasa reprezentująca tabelę "Positions" z bazy danych
+ */
 public class PositionsTable {
+
+    /**
+     * ID
+     */
     private int idPosition;
+    /**
+     * Nazwa stanowiska
+     */
     private String positionName;
+    /**
+     * Opis stanowiska
+     */
     private String description;
 
     public int getIdPosition() {
@@ -27,5 +40,10 @@ public class PositionsTable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return positionName;
     }
 }

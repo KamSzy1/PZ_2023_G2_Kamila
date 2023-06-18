@@ -2,6 +2,7 @@ package controllers_pop_employee;
 
 import database.DatabaseConnector;
 import database.QExecutor;
+import database_classes.PositionsTable;
 import database_classes.UsersTable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,60 +26,84 @@ import java.sql.SQLException;
 public class AddEmployeeController {
 
     /**
-     * @param addButton Przycisk do dodawania zdań
-     * @param addressField Pole tekstowe dla adresu
-     * @param cancelButton Przycisk do zamykania okna
-     * @param generateButton Przycisk do generowania tokenu
-     * @param copyButton Przycisk do kopiowania tokenu
-     * @param nameField Pole tekstowe dla imienia
-     * @param numberField Pole tekstowe dla numeru telefonu
-     * @param placeField Pole tekstowe dla miejscowości
-     * @param positionView Lista rozwijana do wyboru stanowiska pracownika
-     * @param surnameField Pole tekstowe dla nazwiska
-     * @param tokenField Pole tekstowe dla tokenu
-     * @param groupField Pole tekstowe dla numeru grupy
-     * @param zipCodeField Pole tekstowe dla kodu pocztowego
-     * @param wrongLabel Tekst wyświetlający błąd
+     * Przycisk do dodawania zdań
      */
     @FXML
     private Button addButton;
+    /**
+     * Pole tekstowe dla adresu
+     */
     @FXML
     private TextField addressField;
+    /**
+     * Przycisk do zamykania okna
+     */
     @FXML
     private Button cancelButton;
+    /**
+     * Przycisk do generowania tokenu
+     */
     @FXML
     private Button generateButton;
+    /**
+     * Przycisk do kopiowania tokenu
+     */
     @FXML
     private Button copyButton;
+    /**
+     * Pole tekstowe dla imienia
+     */
     @FXML
     private TextField nameField;
+    /**
+     * Pole tekstowe dla numeru telefonu
+     */
     @FXML
     private TextField numberField;
+    /**
+     * Pole tekstowe dla miejscowości
+     */
     @FXML
     private TextField placeField;
+    /**
+     * Lista rozwijana do wyboru stanowiska pracownika
+     */
     @FXML
-    private ComboBox<String> positionView;
+    private ComboBox<PositionsTable> positionView;
+    /**
+     * Pole tekstowe dla nazwiska
+     */
     @FXML
     private TextField surnameField;
+    /**
+     * Pole tekstowe dla tokenu
+     */
     @FXML
     private TextField tokenField;
+    /**
+     * Pole tekstowe dla numeru grupy
+     */
     @FXML
     private TextField groupField;
+    /**
+     * Pole tekstowe dla kodu pocztowego
+     */
     @FXML
     private TextField zipCodeField;
+    /**
+     * Tekst wyświetlający błąd
+     */
     @FXML
     private Label wrongLabel;
 
     /**
-     * Zmienne potrzebne do działania aplikacji
-     *
-     * @param isRefreshed Publiczna zmienna statyczna
-     * @param addEmployee Zmienna do dodawania nowego pracownika
-     * @param positions Lista do przechowywania stanowisk pracowników
+     * Publiczna zmienna statyczna
      */
     public static boolean isRefreshed;
-    private final UsersTable addEmployee = new UsersTable();
-    private ObservableList<String> positions;
+    /**
+     * Lista do przechowywania stanowisk pracowników
+     */
+    private ObservableList<PositionsTable> positions;
 
     /**
      * Zwraca informację, czy użytkownik został poprawnie dodany
@@ -99,8 +124,9 @@ public class AddEmployeeController {
 
     /**
      * Metoda do zarządzania wszystkimi przyciskami
+     *
      * @param event Służy do prawidłowego zarządzania okienkami
-     * @throws IOException
+     * @throws IOException Wyrzucany wyjątek
      */
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
@@ -120,26 +146,27 @@ public class AddEmployeeController {
             closeWindow(cancelButton);
         } else if (source == addButton) {
             addPerson();
-            isRefreshed = true;
         }
     }
-
 
     /**
      * Metoda do dodawania pracownika
      */
     private void addPerson() {
-        String name = nameField.getText();
-        String surname = surnameField.getText();
-        String address = addressField.getText();
-        String zipCode = zipCodeField.getText();
-        String place = placeField.getText();
-        String number = numberField.getText();
-        String token = tokenField.getText();
-        String group = groupField.getText();
-        int position = positionView.getSelectionModel().getSelectedIndex() + 1;
-
         try {
+            String name = nameField.getText();
+            String surname = surnameField.getText();
+            String address = addressField.getText();
+            String zipCode = zipCodeField.getText();
+            String place = placeField.getText();
+            String number = numberField.getText();
+            String token = tokenField.getText();
+            String group = groupField.getText();
+            PositionsTable position = positions.stream()
+                    .filter(pos -> pos.getIdPosition() == positionView.getSelectionModel().getSelectedItem().getIdPosition())
+                    .findFirst()
+                    .get();
+
             ValidateEmployee.goodName(name);
             ValidateEmployee.goodSurname(surname);
             ValidateEmployee.goodAddress(address);
@@ -148,32 +175,21 @@ public class AddEmployeeController {
             ValidateEmployee.goodPhoneNumber(number);
             ValidateEmployee.goodToken(token);
             ValidateEmployee.goodGroup(group);
-            ValidateEmployee.goodPosition(position);
-
-            addEmployee.setName(name);
-            addEmployee.setSurname(surname);
-            addEmployee.setAddress(address);
-            addEmployee.setZip(zipCode);
-            addEmployee.setPlace(place);
-            addEmployee.setPhoneNumber(Integer.parseInt(number));
-            addEmployee.setPositionId(position);
-            addEmployee.setToken(token);
-            addEmployee.setGroups(Integer.parseInt(group));
 
             //Utworzenie połączenia z bazą danych
             DatabaseConnector.connect();
 
             //Utwórz zapytanie SQL do wstawienia nowego rekordu
             QExecutor.executeQuery("INSERT INTO users (name, surname, address, zip, place, phone_num, position_id, token, groups) VALUES ('"
-                    + addEmployee.getName() + "','"
-                    + addEmployee.getSurname() + "','"
-                    + addEmployee.getAddress() + "','"
-                    + addEmployee.getZip() + "','"
-                    + addEmployee.getPlace() + "','"
-                    + addEmployee.getPhoneNumber() + "','"
-                    + addEmployee.getPositionId() + "','"
-                    + addEmployee.getToken() + "','"
-                    + addEmployee.getGroups() + "')");
+                    + name + "','"
+                    + surname + "','"
+                    + address + "','"
+                    + zipCode + "','"
+                    + place + "','"
+                    + Integer.parseInt(number) + "','"
+                    + position.getIdPosition() + "','"
+                    + token + "','"
+                    + Integer.parseInt(group) + "')");
 
             ResultSet resultSet = QExecutor.executeSelect("SELECT id_user FROM users WHERE token = '" + token + "'");
             resultSet.next();
@@ -181,8 +197,11 @@ public class AddEmployeeController {
             QExecutor.executeQuery("INSERT INTO login (user_id) VALUES (" +
                     Integer.parseInt(resultSet.getString("id_user")) + ")");
             closeWindow(addButton);
+            isRefreshed = true;
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (NullPointerException e) {
+            wrongLabel.setText("Wybierz stanowisko z listy");
         } catch (Exception e) {
             wrongLabel.setText(e.getMessage());
         }
@@ -197,7 +216,10 @@ public class AddEmployeeController {
             positions = FXCollections.observableArrayList();
             ResultSet rs = QExecutor.executeSelect("SELECT * FROM positions");
             while (rs.next()) {
-                positions.add(rs.getString(2));
+                PositionsTable positionsTable = new PositionsTable();
+                positionsTable.setIdPosition(rs.getInt("id_position"));
+                positionsTable.setPositionName(rs.getString("position_name"));
+                positions.add(positionsTable);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -207,6 +229,7 @@ public class AddEmployeeController {
 
     /**
      * Zamykanie okienka
+     *
      * @param button Informacja o tym, który przycisk został kliknięty
      */
     private void closeWindow(Button button) {

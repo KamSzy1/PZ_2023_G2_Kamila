@@ -2,32 +2,96 @@ package database_classes;
 
 import javafx.scene.control.Button;
 
+/**
+ * Klasa reprezentująca tabelę "Users" z bazy danych
+ */
 public class UsersTable {
 
+    /**
+     * Statyczne ID użytkownika
+     */
     private static int idLoginUser;
+    /**
+     * Statyczny numer ID do edycji
+     */
     private static int idEditUser;
+    /**
+     * Statyczny numer grupy
+     */
     private static int groupNumber;
+    /**
+     * Statyczne imię
+     */
     private static String loginName;
+    /**
+     * Statyczne nazwisko
+     */
     private static String loginSurname;
+    /**
+     * ID
+     */
     private int idUser;
+    /**
+     * Imię
+     */
     private String name;
+    /**
+     * Nazwisko
+     */
     private String surname;
+    /**
+     * Adres
+     */
     private String address;
+    /**
+     * Kod pocztowy
+     */
     private String zip;
+    /**
+     * Miejscowość
+     */
     private String place;
+    /**
+     * Numer telefonu
+     */
     private int phoneNumber;
+    /**
+     * Email
+     */
     private String email;
+    /**
+     * Hasło
+     */
     private String password;
+    /**
+     * ID Stanowiska
+     */
     private int positionId;
+    /**
+     * Login
+     */
     private int login;
+    /**
+     * Grupa
+     */
     private int groups;
+    /**
+     * Nazwa stanowiska
+     */
     private String namePosition;
+    /**
+     * Token
+     */
     private String token;
+    /**
+     * Przycisk do edycji pracownika
+     */
     private Button editEmployeeButton;
 
-    public UsersTable() {}
+    public UsersTable() {
+    }
 
-    public UsersTable(int idUser, String name, String surname, String address, String zip, String place, int phoneNumber, int positionId, String token, int groups){
+    public UsersTable(int idUser, String name, String surname, String address, String zip, String place, int phoneNumber, int positionId, String token, int groups) {
         this.idUser = idUser;
         this.name = name;
         this.surname = surname;
@@ -199,6 +263,11 @@ public class UsersTable {
 
     public static void setGroupNumber(int groupNumber) {
         UsersTable.groupNumber = groupNumber;
+    }
+
+    @Override
+    public String toString() {
+        return name + " " + surname;
     }
 }
 

@@ -2,11 +2,13 @@ package controllers_pop_employee;
 
 import database.DatabaseConnector;
 import database.QExecutor;
+import database_classes.PositionsTable;
 import database_classes.UsersTable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
@@ -25,58 +27,84 @@ import java.sql.SQLException;
 public class EditEmployeeController {
 
     /**
-     * @param addButton Przycisk do dodawania zdań
-     * @param addressField Pole tekstowe dla adresu
-     * @param cancelButton Przycisk do zamykania okna
-     * @param generateButton Przycisk do generowania tokenu
-     * @param copyButton Przycisk do kopiowania tokenu
-     * @param nameField Pole tekstowe dla imienia
-     * @param numberField Pole tekstowe dla numeru telefonu
-     * @param placeField Pole tekstowe dla miejscowości
-     * @param positionView Lista rozwijana do wyboru stanowiska pracownika
-     * @param surnameField Pole tekstowe dla nazwiska
-     * @param tokenField Pole tekstowe dla tokenu
-     * @param groupField Pole tekstowe dla numeru grupy
-     * @param zipCodeField Pole tekstowe dla kodu pocztowego
-     * @param wrongLabel Tekst wyświetlający błąd
+     * Pole tekstowe dla adresu
      */
     @FXML
     private TextField addressField;
+    /**
+     * Przycisk do zamykania okna
+     */
     @FXML
     private Button cancelButton;
+    /**
+     * Przycisk do kopiowania tokenu
+     */
     @FXML
     private Button copyButton;
+    /**
+     * Przycisk do generowania tokenu
+     */
     @FXML
     private Button generateButton;
+    /**
+     * Lista rozwijana do wyboru stanowiska pracownika
+     */
     @FXML
-    private ComboBox<String> positionView;
+    private ComboBox<PositionsTable> positionView;
+    /**
+     * Pole tekstowe dla numeru grupy
+     */
     @FXML
     private TextField groupField;
+    /**
+     * Pole tekstowe dla imienia
+     */
     @FXML
     private TextField nameField;
+    /**
+     * Pole tekstowe dla numeru telefonu
+     */
     @FXML
     private TextField numberField;
+    /**
+     * Pole tekstowe dla miejscowości
+     */
     @FXML
     private TextField placeField;
+    /**
+     * Przycisk do dodawania zdań
+     */
     @FXML
     private Button saveButton;
+    /**
+     * Pole tekstowe dla nazwiska
+     */
     @FXML
     private TextField surnameField;
+    /**
+     * Pole tekstowe dla tokenu
+     */
     @FXML
     private TextField tokenField;
+    /**
+     * Tekst wyświetlający błąd
+     */
     @FXML
     private Label wrongLabel;
+    /**
+     * Pole tekstowe dla kodu pocztowego
+     */
     @FXML
     private TextField zipCodeField;
 
     /**
-     * Zmienne potrzebne do działania aplikacji
-     *
-     * @param isRefreshed Publiczna zmienna statyczna
-     * @param positions Lista do przechowywania stanowisk pracowników
+     * Publiczna zmienna statyczna
      */
     public static boolean isRefreshed;
-    private ObservableList<String> positions;
+    /**
+     * Lista do przechowywania stanowisk pracowników
+     */
+    private ObservableList<PositionsTable> positions;
 
     /**
      * Zwraca informację, czy użytkownik został poprawnie dodany
@@ -97,8 +125,9 @@ public class EditEmployeeController {
 
     /**
      * Metoda do zarządzania wszystkimi przyciskami
+     *
      * @param event Służy do prawidłowego zarządzania okienkami
-     * @throws IOException
+     * @throws IOException Wyrzucany wyjątek
      */
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();
@@ -120,30 +149,35 @@ public class EditEmployeeController {
             closeWindow(cancelButton);
         } else if (source == saveButton) {
             updateData();
-            isRefreshed = true;
         }
     }
 
     /**
      * Metoda do ustawiania informacji o użytkowniku
-     * @param id_user Numer pracownika w bazie danych
-     * @param name Imię pracownika
-     * @param surname Nazwisko pracownika
-     * @param phoneNumber Numer telefonu pracownika
-     * @param place Miejscowość pracownika
-     * @param address Adres pracownika
-     * @param group Numer grupy pracownika
-     * @param position Stawnowisko pracownika
-     * @param token Token pracownika
-     * @param zipCode Kod pocztowy pracownika
+     *
+     * @param id_user      Numer pracownika w bazie danych
+     * @param name         Imię pracownika
+     * @param surname      Nazwisko pracownika
+     * @param phoneNumber  Numer telefonu pracownika
+     * @param place        Miejscowość pracownika
+     * @param address      Adres pracownika
+     * @param group        Numer grupy pracownika
+     * @param positionName Stawnowisko pracownika
+     * @param token        Token pracownika
+     * @param zipCode      Kod pocztowy pracownika
      */
-    public void setData(int id_user, String name, String surname, String phoneNumber, String place, String address, String group, String position, String token, String zipCode) {
+    public void setData(int id_user, String name, String surname, String phoneNumber, String place, String address, String group, int idPosition, String positionName, String token, String zipCode) {
         nameField.setText(name);
         surnameField.setText(surname);
         numberField.setText(phoneNumber);
         placeField.setText(place);
         addressField.setText(address);
-        positionView.setValue(position);
+
+        PositionsTable positionsTable = new PositionsTable();
+        positionsTable.setIdPosition(idPosition);
+        positionsTable.setPositionName(positionName);
+        positionView.setValue(positionsTable);
+
         groupField.setText(group);
         tokenField.setText(token);
         zipCodeField.setText(zipCode);
@@ -154,17 +188,20 @@ public class EditEmployeeController {
      * Metoda akrualizująca informacje o użytkowniku
      */
     public void updateData() {
-        String newName = nameField.getText();
-        String newSurname = surnameField.getText();
-        String newPhoneNumber = numberField.getText();
-        String newPlace = placeField.getText();
-        String newAddress = addressField.getText();
-        int newPosition = positionView.getSelectionModel().getSelectedIndex();
-        String newGroup = groupField.getText();
-        String newToken = tokenField.getText();
-        String newZip = zipCodeField.getText();
-
         try {
+            String newName = nameField.getText();
+            String newSurname = surnameField.getText();
+            String newPhoneNumber = numberField.getText();
+            String newPlace = placeField.getText();
+            String newAddress = addressField.getText();
+            PositionsTable newPosition = positions.stream()
+                    .filter(pos -> pos.getIdPosition() == positionView.getSelectionModel().getSelectedItem().getIdPosition())
+                    .findFirst()
+                    .get();
+            String newGroup = groupField.getText();
+            String newToken = tokenField.getText();
+            String newZip = zipCodeField.getText();
+
             ValidateEmployee.goodName(newName);
             ValidateEmployee.goodSurname(newSurname);
             ValidateEmployee.goodAddress(newAddress);
@@ -173,7 +210,6 @@ public class EditEmployeeController {
             ValidateEmployee.goodPhoneNumber(newPhoneNumber);
             ValidateEmployee.goodToken(newToken);
             ValidateEmployee.goodGroup(newGroup);
-            ValidateEmployee.goodPosition(newPosition);
 
             DatabaseConnector.connect();
             QExecutor.executeQuery("UPDATE users SET " +
@@ -182,7 +218,7 @@ public class EditEmployeeController {
                     " phone_num = '" + newPhoneNumber + "' ," +
                     " place = '" + newPlace + "' ," +
                     " address = '" + newAddress + "' ," +
-                    " position_id = " + newPosition + " ," +
+                    " position_id = " + newPosition.getIdPosition() + " ," +
                     " token = '" + newToken + "' ," +
                     " zip = '" + newZip + "' ," +
                     " groups = " + newGroup + " WHERE " +
@@ -190,9 +226,13 @@ public class EditEmployeeController {
             );
 
             closeWindow(saveButton);
+            isRefreshed = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            wrongLabel.setText("Wybierz stanowisko z listy");
         } catch (Exception e) {
             wrongLabel.setText(e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -203,10 +243,12 @@ public class EditEmployeeController {
         try {
             DatabaseConnector.connect();
             positions = FXCollections.observableArrayList();
-            positions.add("Wybierz stanowisko");
             ResultSet rs = QExecutor.executeSelect("SELECT * FROM positions");
             while (rs.next()) {
-                positions.addAll(rs.getString(2));
+                PositionsTable positionsTable = new PositionsTable();
+                positionsTable.setIdPosition(rs.getInt("id_position"));
+                positionsTable.setPositionName(rs.getString("position_name"));
+                positions.add(positionsTable);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -216,6 +258,7 @@ public class EditEmployeeController {
 
     /**
      * Zamykanie okienka
+     *
      * @param button Informacja o tym, który przycisk został kliknięty
      */
     private void closeWindow(Button button) {

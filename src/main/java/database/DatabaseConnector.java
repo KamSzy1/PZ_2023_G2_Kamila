@@ -9,11 +9,15 @@ public class DatabaseConnector {
 
     /**
      * @param url URL do bazy danych
-     * @param user Nazwa użytkownika w bazie
-     * @param pass Hasło do bazy danych
      */
     private final static String url = "jdbc:mysql://localhost:3306/firma";
+    /**
+     * @param user Nazwa użytkownika w bazie
+     */
     private final static String user = "root";
+    /**
+     * @param pass Hasło do bazy danych
+     */
     private final static String pass = "";
 
     /**

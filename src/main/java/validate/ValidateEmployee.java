@@ -11,21 +11,31 @@ public class ValidateEmployee {
 
     /**
      * @param REGEX_ZIP_CODE Regex do kodu pocztowego
-     * @param REGEX_NUMBER Regex do numeru telefonu
-     * @param REGEX_ADDRESS Regex do adresu
-     * @param REGEX_PLACE Regex do miejscowości
-     * @param REGEX_NAME Regex do imienia
-     * @param NUMBER Regex do numeru
      */
     private final static String REGEX_ZIP_CODE = "^[0-9]{2}(?:-[0-9]{3})?$"; //98-145
+    /**
+     * @param REGEX_NUMBER Regex do numeru telefonu
+     */
     private final static String REGEX_NUMBER = "^[0-9]{9}$"; //123 123 123
+    /**
+     * @param REGEX_ADDRESS Regex do adresu
+     */
     private final static String REGEX_ADDRESS = "^\\S.*$"; //ul. Strażacka 9/10
+    /**
+     * @param REGEX_PLACE Regex do miejscowości
+     */
     private final static String REGEX_PLACE = "^[\\p{L}\\p{M}]+([ -][\\p{L}\\p{M}]+)?$"; //Rzeszów // Nowa Sarzyna // Bielsko-Biała
     // Zapasowy regex, jakby coś się zepsuło
     // ^(?!\d)[\p{L}\p{M}]+(?:[-\s][\p{L}\p{M}]+)*$
+    /**
+     * @param REGEX_NAME Regex do imienia
+     */
     private final static String REGEX_NAME = "^[\\p{L}]+$"; //Nie pozwala na spację przed imieniem i nazwiskiem
     //Zapasowy regex
     //[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+
+    /**
+     * @param NUMBER Regex do numeru
+     */
     private final static String NUMBER = "-?\\d+(\\.\\d+)?"; //0-9
 
     /**
@@ -236,15 +246,4 @@ public class ValidateEmployee {
         }
     }
 
-    /**
-     * Sprawdzenie poprawności stanowiska
-     *
-     * @param position Stanowisko
-     * @throws Exception
-     */
-    public static void goodPosition(int position) throws Exception {
-        if (position <= 0 || position > 3) {
-            throw new Exception("Wybierz poprawne stanowisko z listy");
-        }
-    }
 }

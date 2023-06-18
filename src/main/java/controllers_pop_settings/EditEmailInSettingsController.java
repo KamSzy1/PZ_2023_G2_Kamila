@@ -22,41 +22,63 @@ import java.sql.SQLException;
 public class EditEmailInSettingsController {
 
     /**
-     * @param cancel2Button Przycisk wyłączenia okna
-     * @param cancelButton Przycisk wyłączenia okna
-     * @param continueButton Przycisk sprawdzania tokenu
-     * @param emailGrid Siatka dla zmiany e-mail
-     * @param emailActualField Aktualny e-mail
-     * @param emailNewField Pole tekstowe do wpisania nowego e-mail'a
-     * @param emailRepeatField Pole tekstowe do wisania powtórzonego, nowego e-mail'a
-     * @param saveButton Przycisk do akceptacji zmiany e-mail'a
-     * @param tokenField Pole tekstowe dla tokenu
-     * @param tokenGrid Siatka dla sprawdzania tokenu
-     * @param wrongLabel Tekst, który się wyświetli w przypadku błędu
-     * @param wrongTokenLabel Tekst, który wyświetli się w przupadku błędnego tokenu
+     * Przycisk wyłączenia okna
      */
     @FXML
     private Button cancelButton;
+    /**
+     * Przycisk wyłączenia okna
+     */
     @FXML
     private Button cancel2Button;
+    /**
+     * Przycisk sprawdzania tokenu
+     */
     @FXML
     private Button continueButton;
+    /**
+     * Przycisk do akceptacji zmiany e-mail'a
+     */
     @FXML
     private Button saveButton;
+    /**
+     * Siatka dla zmiany e-mail
+     */
     @FXML
     private GridPane emailGrid;
+    /**
+     * Siatka dla sprawdzania tokenu
+     */
     @FXML
     private GridPane tokenGrid;
+    /**
+     * Aktualny e-mail
+     */
     @FXML
     private TextField emailActualField;
+    /**
+     * Pole tekstowe do wpisania nowego e-mail'a
+     */
     @FXML
     private TextField emailNewField;
+    /**
+     * Pole tekstowe do wisania powtórzonego, nowego e-mail'a
+     */
     @FXML
     private TextField emailRepeatField;
+    /**
+     * Pole tekstowe dla tokenu
+     */
     @FXML
     private TextField tokenField;
+    /**
+     * Tekst, który się wyświetli w przypadku błędu
+     */
     @FXML
     private Label wrongLabel;
+    /**
+     * Tekst, który wyświetli się w przupadku błędnego tokenu
+     */
     @FXML
     private Label wrongTokenLabel;
 
@@ -70,6 +92,7 @@ public class EditEmailInSettingsController {
 
     /**
      * Metoda do zarządzania wszystkimi przyciskami
+     *
      * @param event Służy do prawidłowego zarządzania okienkami
      */
     public void buttonsHandler(ActionEvent event) {
@@ -149,6 +172,7 @@ public class EditEmailInSettingsController {
 
     /**
      * Zamykanie okienka
+     *
      * @param button Informacja o tym, który przycisk został kliknięty
      */
     private void closeWindow(Button button) {

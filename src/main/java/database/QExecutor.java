@@ -16,7 +16,6 @@ public class QExecutor {
      * @param selectQuery Napisane zapytanie
      * @return Wynik z bazy danych
      */
-
     public static ResultSet executeSelect(String selectQuery) {
         try {
             Connection connection = DatabaseConnector.connect();

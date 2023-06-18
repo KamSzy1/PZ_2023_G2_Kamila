@@ -9,7 +9,7 @@ public class ValidateTask {
      * Sprawdzenie tytułu
      *
      * @param title Tytuł
-     * @throws Exception
+     * @throws Exception Wyrzucany wyjątek
      */
     public static void checkTitle(String title) throws Exception {
         if (title.isEmpty()) {
@@ -24,7 +24,7 @@ public class ValidateTask {
      * Sprawdzenie opisu
      *
      * @param description Opis
-     * @throws Exception
+     * @throws Exception Wyrzucany wyjątek
      */
     public static void checkDescription(String description) throws Exception {
         if (description.isEmpty()) {

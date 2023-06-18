@@ -6,7 +6,6 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import database.DatabaseConnector;
 import database.QExecutor;
-import database_classes.UsersTable;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -18,12 +17,13 @@ import java.sql.*;
 public class PdfGenerate {
 
     /**
-     * @param table Nazwa tabeli
+     * Nazwa tabeli
      */
     private static String table = "";
 
     /**
      * Metoda do generowania PDF dla pracownika
+     *
      * @param path Ścieżka
      * @param pdfData Dane do wygenerowania
      * @param idUser Numer użytkownika
@@ -84,14 +84,14 @@ public class PdfGenerate {
                         "INNER JOIN statuses ON statuses.id_status = tasks.status_id " +
                         "INNER JOIN users ON users.id_user = tasks.user_id " +
                         "WHERE statuses.name = '" + pdfData + "' " +
-                        "AND users.groups = " + UsersTable.getGroupNumber();
+                        "AND users.groups = " + group;
                 table = "tasks";
             }
             case "Pracownicy" -> {
                 query = "SELECT name, surname FROM users " +
                         "INNER JOIN positions ON positions.id_position = users.position_id " +
                         "WHERE positions.position_name = '" + pdfData + "' " +
-                        "AND users.groups = " + UsersTable.getGroupNumber();
+                        "AND users.groups = " + group;
                 table = "users";
             }
         }

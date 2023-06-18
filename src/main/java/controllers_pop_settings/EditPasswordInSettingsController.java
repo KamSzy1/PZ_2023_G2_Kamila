@@ -22,38 +22,58 @@ import java.sql.SQLException;
 public class EditPasswordInSettingsController {
 
     /**
-     * @param cancel2Button Przycisk wyłączenia okna
-     * @param cancelButton Przycisk wyłączenia okna
-     * @param continueButton Przycisk sprawdzania tokenu
-     * @param passwordGrid Siatka dla zmiany hasła
-     * @param passwordNewField Pole tekstowe do wpisania nowego hasła
-     * @param passwordRepeatField Pole tekstowe do wisania powtórzonego, nowego hasła
-     * @param saveButton Przycisk do akceptacji zmiany hasła
-     * @param tokenField Pole tekstowe dla tokenu
-     * @param tokenGrid Siatka dla sprawdzania tokenu
-     * @param wrongLabel Tekst, który się wyświetli w przypadku błędu
-     * @param wrongTokenLabel Tekst, który wyświetli się w przupadku błędnego tokenu
+     * Przycisk wyłączenia okna
      */
     @FXML
     private Button cancel2Button;
+    /**
+     * Przycisk wyłączenia okna
+     */
     @FXML
     private Button cancelButton;
+    /**
+     * Przycisk sprawdzania tokenu
+     */
     @FXML
     private Button continueButton;
+    /**
+     * Siatka dla zmiany hasła
+     */
     @FXML
     private GridPane passwordGrid;
+    /**
+     * Pole tekstowe do wpisania nowego hasła
+     */
     @FXML
     private TextField passwordNewField;
+    /**
+     * Pole tekstowe do wisania powtórzonego, nowego hasła
+     */
     @FXML
     private TextField passwordRepeatField;
+    /**
+     * Przycisk do akceptacji zmiany hasła
+     */
     @FXML
     private Button saveButton;
+    /**
+     * Pole tekstowe dla tokenu
+     */
     @FXML
     private TextField tokenField;
+    /**
+     * Siatka dla sprawdzania tokenu
+     */
     @FXML
     private GridPane tokenGrid;
+    /**
+     * Tekst, który się wyświetli w przypadku błędu
+     */
     @FXML
     private Label wrongLabel;
+    /**
+     * Tekst, który wyświetli się w przupadku błędnego tokenu
+     */
     @FXML
     private Label wrongTokenLabel;
 
@@ -73,7 +93,8 @@ public class EditPasswordInSettingsController {
     /**
      * Metoda do zarządzania wszystkimi przyciskami
      * @param event Służy do prawidłowego zarządzania okienkami
-     * @throws IOException
+     *
+     * @throws IOException Wyrzucany wyjątek
      */
     public void buttonsHandler(ActionEvent event) throws IOException {
         Object source = event.getSource();

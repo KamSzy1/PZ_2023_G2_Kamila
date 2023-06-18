@@ -12,11 +12,10 @@ import java.util.Objects;
 /**
  * Klasa do zarządzania panelami
  */
-
 public class StageChanger extends Application {
 
     /**
-     * @param stage zmienna służąca do ustawiania wielkości okienek oraz zmieniania ich
+     * Zmienna służąca do ustawiania wielkości okienek oraz zmieniania ich
      */
     private static javafx.stage.Stage stage;
 
@@ -42,6 +41,7 @@ public class StageChanger extends Application {
 
     /**
      * Klasa do zmieniania wielkości okienka
+     *
      * @param width  nowa szerokość okienka
      * @param height nowa wysokość okienka
      */
@@ -52,6 +52,7 @@ public class StageChanger extends Application {
 
     /**
      * Klasa do zmieniania okienka
+     *
      * @param fxml nazwa nowego fxml, ścieżka zaczyna się od resources
      */
     public void changeScene(String fxml) throws IOException {

@@ -24,97 +24,155 @@ import java.sql.SQLException;
 public class MainController {
 
     /**
-     * @param backButton Przycisk powrotu
-     * @param resetSetNewPasswordButton Przycisk do resetowania hasła
-     * @param resetPasswordButton Przycisk do przejścia do panelu resetowania hasła
-     * @param gridLogin Siatka w panelu logowania
-     * @param gridToken Siatka w panelu sprawdzania tokenu
-     * @param gridRegistration Siatka w panelu rejestracji
-     * @param gridResetPassword Siatka w panelu resetowania hasła
-     * @param emailField Pole tekstowe dla e-mail'a w panelu logowania
-     * @param regEmailField Pole tekstowe dla e-mail'a w panelu rejestacji
-     * @param passwordField Pole tekstowe dla hasła w panelu logowania
-     * @param regPasswordField Pole tekstowe dla hasła w panelu rejestracji
-     * @param regRepeatPasswordField Pole tekstowe dla powtórzonego hasła w panelu rejestracji
-     * @param tokenField Pole tekstowe dla tokenu
-     * @param resetPasswordField Pole tekstowe dla hasła w panelu resetu hasła
-     * @param resetRepeatPasswordField Pole tekstowe dla powtórzonego hasła w panelu resetu hasła
-     * @param loginButton Przycisk do logowania
-     * @param tokenButton Przycisk do sprawdzania tokenu
-     * @param registrationButton Przucisk do rejestracji
-     * @param regChangeButton Przycisk do przejścia do panelu rejestracji
-     * @param wrongLogin Teskt wyświetlający się w przypadku błędu podczas logowania
-     * @param wrongRegistration Tekst wyświetlający się w przypadku błędy podczas rejestracji
-     * @param wrongResetLabel Tekst wyświetlający się w przypadku błędu podczas resetu hasła
-     * @param wrongTokenLabel Tekst wyświeltający się w przypadku błędu podczas sprawania tokenu
-     * @param logRegLabel Nagłówek wyświetlający się w panelu
-     * @param resetWelcomeLabel Przywitanie użytkownika w panelu resetu hasła
-     * @param regWelcomeLabel Przywitanie użytkownika w panelu rejestracji
+     * Przycisk powrotu
      */
     @FXML
     private Button backButton;
+    /**
+     * Przycisk do resetowania hasła
+     */
     @FXML
     private Button resetSetNewPasswordButton;
+    /**
+     * Przycisk do przejścia do panelu resetowania hasła
+     */
     @FXML
     private Button resetPasswordButton;
+    /**
+     * Siatka w panelu logowania
+     */
     @FXML
     private GridPane gridLogin;
+    /**
+     * Siatka w panelu sprawdzania tokenu
+     */
     @FXML
     private GridPane gridToken;
+    /**
+     * Siatka w panelu rejestracji
+     */
     @FXML
     private GridPane gridRegistration;
+    /**
+     * Siatka w panelu resetowania hasła
+     */
     @FXML
     private GridPane gridResetPassword;
+    /**
+     * Pole tekstowe dla e-mail'a w panelu logowania
+     */
     @FXML
     private TextField emailField;
+    /**
+     * Pole tekstowe dla e-mail'a w panelu rejestacji
+     */
     @FXML
     private TextField regEmailField;
+    /**
+     * Pole tekstowe dla hasła w panelu logowania
+     */
     @FXML
     private PasswordField passwordField;
+    /**
+     * Pole tekstowe dla hasła w panelu rejestracji
+     */
     @FXML
     private PasswordField regPasswordField;
+    /**
+     * Pole tekstowe dla powtórzonego hasła w panelu rejestracji
+     */
     @FXML
     private PasswordField regRepeatPasswordField;
+    /**
+     * Pole tekstowe dla tokenu
+     */
     @FXML
     private TextField tokenField;
+    /**
+     * Pole tekstowe dla hasła w panelu resetu hasła
+     */
     @FXML
     private TextField resetPasswordField;
+    /**
+     * Pole tekstowe dla powtórzonego hasła w panelu resetu hasła
+     */
     @FXML
     private TextField resetRepeatPasswordField;
+    /**
+     * Przycisk do logowania
+     */
     @FXML
     private Button loginButton;
+    /**
+     * Przycisk do sprawdzania tokenu
+     */
     @FXML
     private Button tokenButton;
+    /**
+     * Przucisk do rejestracji
+     */
     @FXML
     private Button registrationButton;
+    /**
+     * Przycisk do przejścia do panelu rejestracji
+     */
     @FXML
     private Button regChangeButton;
+    /**
+     * Teskt wyświetlający się w przypadku błędu podczas logowania
+     */
     @FXML
     private Label wrongLogin;
+    /**
+     * Tekst wyświetlający się w przypadku błędy podczas rejestracji
+     */
     @FXML
     private Label wrongRegistration;
+    /**
+     * Tekst wyświetlający się w przypadku błędu podczas resetu hasła
+     */
     @FXML
     private Label wrongResetLabel;
+    /**
+     * Tekst wyświeltający się w przypadku błędu podczas sprawania tokenu
+     */
     @FXML
     private Label wrongTokenLabel;
+    /**
+     * Nagłówek wyświetlający się w panelu
+     */
     @FXML
     private Label logRegLabel;
+    /**
+     * Przywitanie użytkownika w panelu resetu hasła
+     */
     @FXML
     private Label resetWelcomeLabel;
+    /**
+     * Przywitanie użytkownika w panelu rejestracji
+     */
     @FXML
     private Label regWelcomeLabel;
 
     /**
-     * @param USER_CHOICE Statyczna metoda dla wyboru użytkownika
-     * @param token Zmienna z nazwą tokenu
-     * @param stageChanger Zmienna do zmiany okienka
-     * @param password Zmienna z hasłem użytkownika
-     * @param email Zmienna z emailem użytkownika
+     * Statyczna metoda dla wyboru użytkownika
      */
     private static int USER_CHOICE;
+    /**
+     * Zmienna z nazwą tokenu
+     */
     private String token;
+    /**
+     * Zmienna do zmiany okienka
+     */
     private final StageChanger stageChanger = new StageChanger();
+    /**
+     * Zmienna z hasłem użytkownika
+     */
     private String password;
+    /**
+     * Zmienna z emailem użytkownika
+     */
     private String email;
 
     /**
@@ -128,8 +186,9 @@ public class MainController {
 
     /**
      * Metoda do zarządzania wszystkimi przyciskami
+     *
      * @param event Służy do prawidłowego zarządzania okienkami
-     * @throws IOException
+     * @throws IOException Wyrzucany wyjątek
      */
     @FXML
     public void buttonsHandler(ActionEvent event) throws IOException {
@@ -177,7 +236,6 @@ public class MainController {
         }
     }
 
-
     /**
      * Metoda próbująca zalogowac użytkownika
      */
@@ -195,6 +253,7 @@ public class MainController {
 
     /**
      * Metoda do logowania użytkownika
+     *
      * @param email Email użytkownika
      * @param password Hasło użytkownika
      */
@@ -246,8 +305,9 @@ public class MainController {
 
     /**
      * Metoda do pozyskania informacji o użytkowniku na podstawie tokenu
+     *
      * @param token Token użytkownika
-     * @throws SQLException
+     * @throws SQLException Wyrzucany wyjątek
      */
     private void getUserFromToken(String token) throws SQLException {
         ResultSet result = QExecutor.executeSelect("SELECT u.name, u.surname, u.token, l.email FROM login AS l " +
@@ -294,6 +354,7 @@ public class MainController {
 
     /**
      * Rejestracja użytkownika
+     *
      * @param mail Email użytkownika
      * @param password Hasło użytkownika
      * @param token Token użytkownika
@@ -312,6 +373,7 @@ public class MainController {
 
     /**
      * Metoda do zmiany hasła
+     *
      * @param password Hasło
      * @param repeatPassword Powtórzone hasło
      * @param token Token
