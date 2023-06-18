@@ -10,43 +10,43 @@ import java.sql.Date;
 public class TasksTable {
 
     /**
-     * @param editIdTask Numer do przycisku edycji
+     * Numer do przycisku edycji
      */
     private static int editIdTask;
     /**
-     * @param idTask ID
+     * ID
      */
     private int idTask;
     /**
-     * @param title Tytuł
+     * Tytuł
      */
     private String title;
     /**
-     * @param description Opis
+     * Opis
      */
     private String description;
     /**
-     * @param statusId ID statusu
+     * ID statusu
      */
     private int statusId;
     /**
-     * @param userId ID użytkownika
+     * ID użytkownika
      */
     private int userId;
     /**
-     * @param nameStatus Nazwa stanowiska
+     * Nazwa stanowiska
      */
     private String nameStatus;
     /**
-     * @param data Data
+     * Data
      */
     private Date data;
     /**
-     * @param nameUser Imię użytkownika
+     * Imię użytkownika
      */
     private String nameUser;
     /**
-     * @param editTaskButton Przycisk edycji
+     * Przycisk edycji
      */
     private Button editTaskButton;
 

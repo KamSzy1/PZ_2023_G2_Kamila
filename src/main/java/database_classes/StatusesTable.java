@@ -6,11 +6,11 @@ package database_classes;
 public class StatusesTable {
 
     /**
-     * @param idStatus ID
+     * ID
      */
     private int idStatus;
     /**
-     * @param name Nazwa
+     * Nazwa
      */
     private String name;
 
@@ -30,4 +30,8 @@ public class StatusesTable {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }

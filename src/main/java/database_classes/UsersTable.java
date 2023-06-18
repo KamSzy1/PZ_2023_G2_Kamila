@@ -8,89 +8,90 @@ import javafx.scene.control.Button;
 public class UsersTable {
 
     /**
-     * @param idLoginUser Statyczne ID
+     * Statyczne ID użytkownika
      */
     private static int idLoginUser;
     /**
-     * @param idEditUser Statyczny numer ID do edycji
+     * Statyczny numer ID do edycji
      */
     private static int idEditUser;
     /**
-     * @param groupNumber Statyczny numer grupy
+     * Statyczny numer grupy
      */
     private static int groupNumber;
     /**
-     * @param loginName Statyczne imię
+     * Statyczne imię
      */
     private static String loginName;
     /**
-     * @param loginSurname Statyczne nazwisko
+     * Statyczne nazwisko
      */
     private static String loginSurname;
     /**
-     * @param idUser ID
+     * ID
      */
     private int idUser;
     /**
-     * @param name Imię
+     * Imię
      */
     private String name;
     /**
-     * @param surname Nazwisko
+     * Nazwisko
      */
     private String surname;
     /**
-     * @param address Adres
+     * Adres
      */
     private String address;
     /**
-     * @param zip Kod pocztowy
+     * Kod pocztowy
      */
     private String zip;
     /**
-     * @param place Miejscowość
+     * Miejscowość
      */
     private String place;
     /**
-     * @param phoneNumberNumer telefonu
+     * Numer telefonu
      */
     private int phoneNumber;
     /**
-     * @param email Email
+     * Email
      */
     private String email;
     /**
-     * @param password Hasło
+     * Hasło
      */
     private String password;
     /**
-     * @param positionId ID Stanowiska
+     * ID Stanowiska
      */
     private int positionId;
     /**
-     * @param login Login
+     * Login
      */
     private int login;
     /**
-     * @param groups Grupa
+     * Grupa
      */
     private int groups;
     /**
-     * @param namePosition Nazwa stanowiska
+     * Nazwa stanowiska
      */
     private String namePosition;
     /**
-     * @param token Token
+     * Token
      */
     private String token;
     /**
-     * @param editEmployeeButton Przycisk do edycji pracownika
+     * Przycisk do edycji pracownika
      */
     private Button editEmployeeButton;
 
-    public UsersTable() {}
+    public UsersTable() {
+    }
 
-    public UsersTable(int idUser, String name, String surname, String address, String zip, String place, int phoneNumber, int positionId, String token, int groups){
+    public UsersTable(int idUser, String name, String surname, String address, String zip, String place, int phoneNumber, int positionId, String token, int groups) {
         this.idUser = idUser;
         this.name = name;
         this.surname = surname;
@@ -262,6 +263,11 @@ public class UsersTable {
 
     public static void setGroupNumber(int groupNumber) {
         UsersTable.groupNumber = groupNumber;
+    }
+
+    @Override
+    public String toString() {
+        return name + " " + surname;
     }
 }
 

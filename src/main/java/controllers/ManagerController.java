@@ -40,188 +40,291 @@ import java.util.Objects;
 /**
  * Klasa służąca do zarządzania panelem kierownika
  */
-
 public class ManagerController {
 
     /**
-     * Potrzebne zmienne z Scene Buildera, aby aplikacja działała poprawnie
-     *
-     *     @param filterEmployeeField Pole tekstowe do filtrowania pracowników
-     *     @param filterMyTasksField Pole tekstowe do filtrowania moich zadań
-     *     @param filterTasksField Pole tekstowe do filtrowania zadań
-     *     @param myTasksButton Przycisk do przejścia do panelu z moimi zadanami
-     *     @param tasksButton Przycisk do przejścia do panelu z zadaniami
-     *     @param employeeButton Przycisk do przejścia do panelu z pracownikami
-     *     @param raportButton Przycisk do przejścia do panelu z raportami
-     *     @param settingsButton Przycisk do przejścia do panelu z ustawieniami
-     *     @param logoutButton Przycisk do wylogowania się
-     *     @param addEmployeeButton Przycisk do dodania pracownika
-     *     @param addTaskButton Przycisk do dodania zadania
-     *     @param pdfPathButton Przycisk do ustawienia ścieżki do generowania PDF
-     *     @param pdfGenerateButton Przycisk do generowania PDF
-     *     @param mailEditButton Przycisk do edycji maila
-     *     @param passwordEditButton Przycisk do edycji hasła
-     *     @param gridTasks Siatka w panelu zadań
-     *     @param gridEmployee Siatka w panelu pracowników
-     *     @param gridReport Siatka w panelu raportów
-     *     @param gridSettings Siatka w panelu ustawień
-     *     @param gridMyTasks Siatka w panelu moich zadań
-     *     @param textLabel Nagłówek w odpowienidch panelach
-     *     @param welcomeLabel Tekst z nazwą użytkownika
-     *     @param nameLabel Tekst z imieniem pracownika
-     *     @param surnameLabel Tekst z nazwiskiem pracownika
-     *     @param addressLabel Tekst z adresem pracownika
-     *     @param zipLabel Tekst z kodem pocztowym
-     *     @param placeLabel Tekst z miejscowością
-     *     @param phoneLabel Tekst z numerem telefonu
-     *     @param wrongPdfLabel Tekst wyświetlający się w przypadku błędu w panelu generowania PDF
-     *     @param employeeAddress Kolumna z adresami pracowników w panelu pracownicy
-     *     @param employeeTableView Tabela z pracownikami w panelu pracowników
-     *     @param employeeGroup Kolumna z numerem grupy pracowników w panelu pracownicy
-     *     @param employeeMail Kolumna z adresami mailowymi pracowników w panelu pracownicy
-     *     @param employeeName Kolumna z imionami pracowników w panelu pracownicy
-     *     @param employeePhone Kolumna z numerami telefonu pracowników w panelu pracownicy
-     *     @param employeePosition Kolumna z stanowiskami pracowników w panelu pracownicy
-     *     @param employeeSurname Kolumna z nazwiskami pracowników w panelu pracownicy
-     *     @param myTaskDescription Kolumna z opisem zadania w panelu moich zadań
-     *     @param myTaskEdit Kolumna z edycją zadania w panelu moich zadań
-     *     @param myTaskPlannedDate Kolumna z planowaną datą zakończenia zadania w panelu moich zadań
-     *     @param myTaskStatus Kolumna z statusem zadania w panelu moich zadań
-     *     @param myTaskTitle Kolumna z tytułem zadania w panelu moich zadań
-     *     @param myTaskTableView Tabela z moimi zadaniami w panelu moje zadania
-     *     @param taskDescription Kolumna z opisem zadania w panelu zadań
-     *     @param taskEdit Kolumna z edycją zadania w panelu  zadań
-     *     @param taskEmployee Kolumna z przypisanym pracownikiem do zadania w panelu  zadań
-     *     @param taskPlannedDate Kolumna z planowaną datą zakończenia zadania w panelu  zadań
-     *     @param taskStatus Kolumna z statusem zadania w panelu  zadań
-     *     @param taskTitle Kolumna z tytułem zadania w panelu zadań
-     *     @param taskTableView Tabela z zadaniami w panelu zadania
-     *     @param pdfPathField Pole tekstowe do ścieżki w panelu generowania PDF
-     *     @param pdfChooseReportComboBox Lista rozwijana do wyboru typu generowanego PDF
-     *     @param pdfChooseDataComboBox Lista rozwiajana do wyboru statusu lub stabowiska pracownika w panelu raportów
-     *     @param mainAnchorPane Główne okno aplikacji
+     * Pole tekstowe do filtrowania pracowników
      */
-
     @FXML
     private TextField filterEmployeeField;
+    /**
+     * Pole tekstowe do filtrowania moich zadań
+     */
     @FXML
     private TextField filterMyTasksField;
+    /**
+     * Pole tekstowe do filtrowania zadań
+     */
     @FXML
     private TextField filterTasksField;
+    /**
+     * Przycisk do przejścia do panelu z moimi zadanami
+     */
     @FXML
     private Button myTasksButton;
+    /**
+     * Przycisk do przejścia do panelu z zadaniami
+     */
     @FXML
     private Button tasksButton;
+    /**
+     *  Przycisk do przejścia do panelu z pracownikami
+     */
     @FXML
     private Button employeeButton;
+    /**
+     * Przycisk do przejścia do panelu z raportami
+     */
     @FXML
     private Button raportButton;
+    /**
+     * Przycisk do przejścia do panelu z ustawieniami
+     */
     @FXML
     private Button settingsButton;
+    /**
+     * Przycisk do wylogowania się
+     */
     @FXML
     private Button logoutButton;
+    /**
+     * Przycisk do dodania zadania
+     */
     @FXML
     private Button addTaskButton;
+    /**
+     * Przycisk do edycji maila
+     */
     @FXML
     private Button mailEditButton;
+    /**
+     * Przycisk do ustawienia ścieżki do generowania PDF
+     */
     @FXML
     private Button pdfPathButton;
+    /**
+     * Przycisk do generowania PDF
+     */
     @FXML
     private Button pdfGenerateButton;
+    /**
+     * Przycisk do edycji hasła
+     */
     @FXML
     private Button passwordEditButton;
+    /**
+     * Siatka w panelu zadań
+     */
     @FXML
     private GridPane gridTasks;
+    /**
+     * Kolumna z adresami pracowników w panelu pracownicy
+     */
     @FXML
     private TableColumn<?, ?> employeeAddress;
+    /**
+     * Kolumna z numerem grupy pracowników w panelu pracownicy
+     */
     @FXML
     private TableColumn<?, ?> employeeGroup;
+    /**
+     * Kolumna z adresami mailowymi pracowników w panelu pracownicy
+     */
     @FXML
     private TableColumn<?, ?> employeeMail;
+    /**
+     * Kolumna z imionami pracowników w panelu pracownicy
+     */
     @FXML
     private TableColumn<?, ?> employeeName;
+    /**
+     * Kolumna z numerami telefonu pracowników w panelu pracownicy
+     */
     @FXML
     private TableColumn<?, ?> employeePhone;
+    /**
+     * Kolumna z stanowiskami pracowników w panelu pracownicy
+     */
     @FXML
     private TableColumn<?, ?> employeePosition;
+    /**
+     * Kolumna z nazwiskami pracowników w panelu pracownicy
+     */
     @FXML
     private TableColumn<?, ?> employeeSurname;
+    /**
+     * Tabela z pracownikami w panelu pracowników
+     */
     @FXML
     private TableView<UsersTable> employeeTableView;
+    /**
+     * Siatka w panelu pracowników
+     */
     @FXML
     private GridPane gridEmployee;
+    /**
+     * Siatka w panelu raportów
+     */
     @FXML
     private GridPane gridReport;
+    /**
+     * Siatka w panelu ustawień
+     */
     @FXML
     private GridPane gridSettings;
+    /**
+     * Siatka w panelu moich zadań
+     */
     @FXML
     private GridPane gridMyTasks;
+    /**
+     * Nagłówek w odpowienidch panelach
+     */
     @FXML
     private Label textLabel;
+    /**
+     * Tekst z nazwą użytkownika
+     */
     @FXML
     private Label welcomeLabel;
+    /**
+     * Tekst z imieniem pracownika
+     */
     @FXML
     private Label nameLabel;
+    /**
+     * Tekst z nazwiskiem pracownika
+     */
     @FXML
     private Label surnameLabel;
+    /**
+     * Tekst z adresem pracownika
+     */
     @FXML
     private Label addressLabel;
+    /**
+     * Tekst z kodem pocztowym
+     */
     @FXML
     private Label zipLabel;
+    /**
+     * Tekst z miejscowością
+     */
     @FXML
     private Label placeLabel;
+    /**
+     * Tekst z numerem telefonu
+     */
     @FXML
     private Label phoneLabel;
     @FXML
     private Label groupLabel;
+    /**
+     * Tekst wyświetlający się w przypadku błędu w panelu generowania PDF
+     */
     @FXML
     private Label wrongPdfLabel;
+    /**
+     * Kolumna z opisem zadania w panelu moich zadań
+     */
     @FXML
     private TableColumn<?, ?> myTaskDescription;
+    /**
+     * Kolumna z edycją zadania w panelu moich zadań
+     */
     @FXML
     private TableColumn<?, ?> myTaskEdit;
+    /**
+     * Kolumna z planowaną datą zakończenia zadania w panelu moich zadań
+     */
     @FXML
     private TableColumn<?, ?> myTaskPlannedDate;
+    /**
+     * Kolumna z statusem zadania w panelu moich zadań
+     */
     @FXML
     private TableColumn<?, ?> myTaskStatus;
+    /**
+     * Kolumna z tytułem zadania w panelu moich zadań
+     */
     @FXML
     private TableColumn<?, ?> myTaskTitle;
+    /**
+     * Tabela z moimi zadaniami w panelu moje zadania
+     */
     @FXML
     private TableView<TasksTable> myTaskTableView;
+    /**
+     * Tabela z zadaniami w panelu zadania
+     */
     @FXML
     private TableView<TasksTable> taskTableView;
+    /**
+     * Kolumna z opisem zadania w panelu zadań
+     */
     @FXML
     private TableColumn<TasksTable, String> taskDescription;
+    /**
+     * Kolumna z edycją zadania w panelu  zadań
+     */
     @FXML
     private TableColumn<TasksTable, ?> taskEdit;
+    /**
+     * Kolumna z przypisanym pracownikiem do zadania w panelu  zadań
+     */
     @FXML
     private TableColumn<TasksTable, Integer> taskEmployee;
+    /**
+     * Kolumna z planowaną datą zakończenia zadania w panelu  zadań
+     */
     @FXML
     private TableColumn<TasksTable, ?> taskPlannedDate;
+    /**
+     * Kolumna z statusem zadania w panelu  zadań
+     */
     @FXML
     private TableColumn<TasksTable, Integer> taskStatus;
+    /**
+     * Kolumna z tytułem zadania w panelu zadań
+     */
     @FXML
     private TableColumn<TasksTable, String> taskTitle;
+    /**
+     * Pole tekstowe do ścieżki w panelu generowania PDF
+     */
     @FXML
     private TextField pdfPathField;
+    /**
+     * Główne okno aplikacji
+     */
     @FXML
     private AnchorPane mainAnchorPane;
+    /**
+     * Lista rozwijana do wyboru typu generowanego PDF
+     */
     @FXML
     private ComboBox pdfChooseReportComboBox;
+    /**
+     * Lista rozwiajana do wyboru statusu lub stabowiska pracownika w panelu raportów
+     */
     @FXML
     private ComboBox pdfChooseDataComboBox;
 
     /**
-     * Zmienne potrzebne do prawidłowego działania aplikacji
-     *
-     * @param time Linia czasowa do odświeżania tabel
-     * @param myTaskTable Lista z moimi zadaniami
-     * @param taskTable Lista z zadaniami
-     * @param userTable Lista z pracownikami
+     * Linia czasowa do odświeżania tabel
      */
     private Timeline time;
+    /**
+     * Lista z moimi zadaniami
+     */
     private ObservableList<TasksTable> myTaskTable;
+    /**
+     * Lista z zadaniami
+     */
     private ObservableList<TasksTable> taskTable;
+    /**
+     * Lista z pracownikami
+     */
     private ObservableList<UsersTable> userTable;
 
     /**
@@ -236,6 +339,7 @@ public class ManagerController {
 
     /**
      * Metoda do zmieniania paneli w aplikacji
+     *
      * @param event Służy do prawidłowego zarządzania okienkami
      */
     @FXML
@@ -269,8 +373,9 @@ public class ManagerController {
 
     /**
      * Metoda do zarządzania wszystckih przycisków, które zmieniają całe panele oraz otwierają wyskakujące okienka
+     *
      * @param event Służy do prawidłowego zarządzania okienkami
-     * @throws IOException
+     * @throws IOException Wyrzucany wyjątek
      */
     @FXML
     public void buttonsHandlerStages(ActionEvent event) throws IOException {
@@ -307,6 +412,7 @@ public class ManagerController {
 
     /**
      * Metoda do zarządzania tym co znajduje się w panelu raportów
+     *
      * @param event Służy do prawidłowego zarządzania okienkami
      */
     @FXML
@@ -455,8 +561,8 @@ public class ManagerController {
             ResultSet result = QExecutor.executeSelect("SELECT * FROM tasks " +
                     "JOIN statuses ON tasks.status_id = statuses.id_status " +
                     "JOIN users ON tasks.user_id=users.id_user " +
-                    "JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task");
-
+                    "JOIN tasks_history ON tasks_history.tasks_id=tasks.id_task " +
+                    "WHERE groups = " + UsersTable.getGroupNumber());
             while (result.next()) {
                 TasksTable task = new TasksTable();
                 Button editButton = new Button("Edycja");
@@ -522,7 +628,6 @@ public class ManagerController {
                     "JOIN positions ON users.position_id = positions.id_position " +
                     "JOIN login ON users.id_user = login.user_id " +
                     "WHERE groups = " + UsersTable.getGroupNumber());
-
             while (result.next()) {
                 UsersTable user = new UsersTable();
                 user.setName(result.getString("name"));
@@ -577,8 +682,9 @@ public class ManagerController {
 
     /**
      * Otwieranie nowych okienek
+     *
      * @param button Przycisk, który wywołuje nowe okienko
-     * @param fxml Wygląd, który ma się wyświetlić w okienku
+     * @param fxml   Wygląd, który ma się wyświetlić w okienku
      */
     private void openWindow(Button button, String fxml) {
         try {
@@ -597,6 +703,7 @@ public class ManagerController {
 
     /**
      * Przygotowanie wyskakującego okienka z edycją zadań
+     *
      * @param idTask Numer zadania, które chcemy edytować
      */
     private void preparePopUpWindowEditTask(String idTask) {
@@ -608,7 +715,7 @@ public class ManagerController {
 
             DatabaseConnector.connect();
             ResultSet result = QExecutor.executeSelect(
-                    "SELECT t.id_task, t.title, t.description, u.name, u.surname, s.name AS status, tk.planned_end FROM tasks AS t " +
+                    "SELECT t.id_task, t.title, t.description, u.id_user, u.name, u.surname, s.id_status, s.name AS status, tk.planned_end FROM tasks AS t " +
                             "JOIN statuses AS s ON t.status_id = s.id_status " +
                             "JOIN users AS u ON t.user_id=u.id_user " +
                             "JOIN tasks_history AS tk ON tk.tasks_id=t.id_task " +
@@ -619,8 +726,10 @@ public class ManagerController {
                     result.getInt("id_task"),
                     result.getString("title"),
                     result.getString("description"),
+                    result.getInt("id_user"),
                     result.getString("name"),
                     result.getString("surname"),
+                    result.getInt("id_status"),
                     result.getString("status"),
                     result.getString("planned_end"));
 

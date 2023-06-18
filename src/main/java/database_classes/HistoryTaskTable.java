@@ -8,23 +8,23 @@ import java.util.Date;
 public class HistoryTaskTable {
 
     /**
-     * @param idTaskHistory ID
+     * ID
      */
     private int idTaskHistory;
     /**
-     * @param startDate Data początkowa
+     * Data początkowa
      */
     private Date startDate;
     /**
-     * @param endDate Data zakończenia
+     * Data zakończenia
      */
     private Date endDate;
     /**
-     * @param tasksId ID zadania
+     * ID zadania
      */
     private int tasksId;
     /**
-     * @param plannedEnd Planowana data zakończenia
+     * Planowana data zakończenia
      */
     private Date plannedEnd;
 

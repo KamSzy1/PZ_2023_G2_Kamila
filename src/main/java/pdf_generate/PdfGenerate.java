@@ -17,12 +17,13 @@ import java.sql.*;
 public class PdfGenerate {
 
     /**
-     * @param table Nazwa tabeli
+     * Nazwa tabeli
      */
     private static String table = "";
 
     /**
      * Metoda do generowania PDF dla pracownika
+     *
      * @param path Ścieżka
      * @param pdfData Dane do wygenerowania
      * @param idUser Numer użytkownika

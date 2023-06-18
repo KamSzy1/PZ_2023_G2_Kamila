@@ -6,15 +6,15 @@ package database_classes;
 public class LoginTable {
 
     /**
-     * @param idLogin ID
+     * ID
      */
     private int idLogin;
     /**
-     * @param email E-mail
+     * E-mail
      */
     private String email;
     /**
-     * @param password Hasło
+     * Hasło
      */
     private String password;
 

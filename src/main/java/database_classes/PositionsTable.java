@@ -6,15 +6,15 @@ package database_classes;
 public class PositionsTable {
 
     /**
-     * @param idPosition ID
+     * ID
      */
     private int idPosition;
     /**
-     * @param positionName Nazwa stanowiska
+     * Nazwa stanowiska
      */
     private String positionName;
     /**
-     * @param description Opis stanowiska
+     * Opis stanowiska
      */
     private String description;
 
@@ -40,5 +40,10 @@ public class PositionsTable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return positionName;
     }
 }

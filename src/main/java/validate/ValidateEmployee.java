@@ -246,15 +246,4 @@ public class ValidateEmployee {
         }
     }
 
-    /**
-     * Sprawdzenie poprawności stanowiska
-     *
-     * @param position Stanowisko
-     * @throws Exception
-     */
-    public static void goodPosition(int position) throws Exception {
-        if (position <= 0 || position > 3) {
-            throw new Exception("Wybierz poprawne stanowisko z listy");
-        }
-    }
 }

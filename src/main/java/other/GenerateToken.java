@@ -9,6 +9,7 @@ public class GenerateToken {
 
     /**
      * Metoda do generowania tokenu
+     *
      * @return Wygenerowany token
      */
     public String generateToken() {
