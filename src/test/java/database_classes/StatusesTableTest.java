@@ -39,4 +39,11 @@ public class StatusesTableTest {
         String actualName = statusesTable.getName();
         assertEquals(name, actualName);
     }
+
+    @Test
+    void toStringTest(){
+        StatusesTable statusesTable = new StatusesTable();
+        statusesTable.setName("Zrealizowano");
+        assertEquals(statusesTable.toString(), "Zrealizowano");
+    }
 }
