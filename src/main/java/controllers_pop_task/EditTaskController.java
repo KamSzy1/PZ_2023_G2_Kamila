@@ -103,6 +103,7 @@ public class EditTaskController {
     public void initialize() {
         userList();
         statusList();
+        fieldController();
         timePicker.setDayCellFactory(picker -> new DateCell() {
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
@@ -111,8 +112,6 @@ public class EditTaskController {
                 setDisable(empty || date.isBefore(today));
             }
         });
-
-        timePicker.getEditor().setDisable(true);
     }
 
     /**
@@ -204,6 +203,25 @@ public class EditTaskController {
             wrongLabel.setText("Uzupełnij wszystkie pola");
         } catch (Exception e) {
             wrongLabel.setText(e.getMessage());
+        }
+    }
+
+    /**
+     * Kontrola przycisków edycji zadania zależna od stanowiska użytkownika
+     */
+    public void fieldController() {
+        try {
+            DatabaseConnector.connect();
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM users WHERE id_user="+UsersTable.getIdLoginUser());
+            result.next();
+            if (result.getInt("position_id") == 3) {
+                titleField.setDisable(true);
+                descriptionArea.setDisable(true);
+                personView.setDisable(true);
+                timePicker.setDisable(true);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 

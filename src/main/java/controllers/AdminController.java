@@ -565,7 +565,7 @@ public class AdminController {
                 task.setDescription(result.getString("description"));
                 task.setData(result.getDate("tasks_history.planned_end"));
                 task.setNameStatus(result.getString("name"));
-                task.setNameUser(result.getString("users.name"));
+                task.setNameUser(result.getString("users.name") + " " + result.getString("users.surname"));
                 task.setEditTaskButton(editButton);
                 taskTable.add(task);
             }

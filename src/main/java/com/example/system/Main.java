@@ -3,7 +3,7 @@ package com.example.system;
 import javafx.application.Application;
 
 /**
-* Klasa uruchamiająca aplikację
+ * Klasa uruchamiająca aplikację
  */
 public class Main {
     /**

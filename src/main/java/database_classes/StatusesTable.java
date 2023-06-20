@@ -14,22 +14,47 @@ public class StatusesTable {
      */
     private String name;
 
+    /**
+     * Metoda zwracająca numer ID statusu
+     *
+     * @return ID statusu
+     */
     public int getIdStatus() {
         return idStatus;
     }
 
+    /**
+     * Metoda zwracająca nazwę statusu
+     *
+     * @return nazwa statusu
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Metoda ustawiająca numer ID statusu
+     *
+     * @param idStatus ustawiony ID statusu
+     */
     public void setIdStatus(int idStatus) {
         this.idStatus = idStatus;
     }
 
+    /**
+     * Metoda ustawiająca nazwę ID statusu
+     *
+     * @param name ustawiona nazwa statusu
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Metoda zwracająca obiekt jako ciąg znaków
+     *
+     * @return ciąg znaków
+     */
     @Override
     public String toString() {
         return name;
