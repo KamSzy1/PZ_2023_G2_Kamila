@@ -315,7 +315,6 @@ public class AdminController {
      */
     @FXML
     private AnchorPane mainAnchorPane;
-
     /**
      * Linia czasowa do odświeżania tabel
      */
@@ -584,7 +583,6 @@ public class AdminController {
         taskEdit.setCellValueFactory(new PropertyValueFactory<>("editTaskButton"));
 
         taskTableView.setItems(taskTable);
-        // Filtrowanie danych
         FilteredList<TasksTable> filteredData = new FilteredList<>(taskTable, b -> true);
         filterTasksField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(tasks -> {
@@ -723,7 +721,6 @@ public class AdminController {
             EditTaskController editTaskController = loader.getController();
 
             DatabaseConnector.connect();
-            //SELECT t.title, t.description, u.name, u.surname, s.name, tk.planned_end FROM tasks AS t JOIN statuses AS s ON t.status_id = s.id_status JOIN users AS u ON t.user_id=u.id_user JOIN tasks_history AS tk ON tk.tasks_id=t.id_task WHERE t.id_task = 8
             ResultSet result = QExecutor.executeSelect("SELECT t.id_task, t.title, t.description, u.id_user, u.name, u.surname, s.id_status, s.name AS status, tk.planned_end FROM tasks AS t " +
                     "JOIN statuses AS s ON t.status_id = s.id_status " +
                     "JOIN users AS u ON t.user_id=u.id_user " +
