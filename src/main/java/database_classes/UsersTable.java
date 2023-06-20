@@ -97,16 +97,16 @@ public class UsersTable {
     /**
      * Konstruktor klasy
      *
-     * @param idUser ID użytkownika
-     * @param name imie
-     * @param surname nazwisko
-     * @param address adres
-     * @param zip kod pocztowy
-     * @param place miejsce zamieszkania
+     * @param idUser      ID użytkownika
+     * @param name        imie
+     * @param surname     nazwisko
+     * @param address     adres
+     * @param zip         kod pocztowy
+     * @param place       miejsce zamieszkania
      * @param phoneNumber numer telefonu
-     * @param positionId ID stanowiska
-     * @param token token
-     * @param groups grupa
+     * @param positionId  ID stanowiska
+     * @param token       token
+     * @param groups      grupa
      */
     public UsersTable(int idUser, String name, String surname, String address, String zip, String place, int phoneNumber, int positionId, String token, int groups) {
         this.idUser = idUser;
@@ -368,7 +368,7 @@ public class UsersTable {
     /**
      * Metoda ustawiająca numer telefonu
      *
-     * @param phoneNumber
+     * @param phoneNumber Numer telefonu
      */
     public void setPhoneNumber(int phoneNumber) {
         this.phoneNumber = phoneNumber;

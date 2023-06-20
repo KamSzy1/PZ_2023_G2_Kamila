@@ -11,9 +11,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import other.ButtonManager;
 import validate.ValidateTask;
+
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -72,7 +72,7 @@ public class AddTaskController {
      */
     public static boolean isRefreshed;
     /**
-     *  Zmienna do dodawania nowego zadania
+     * Zmienna do dodawania nowego zadania
      */
     private final TasksTable tasksTable = new TasksTable();
     /**
@@ -173,7 +173,7 @@ public class AddTaskController {
             e.printStackTrace();
         } catch (NullPointerException e) {
             wrongLabel.setText("Wybierz datę zakończenia");
-        } catch(Exception e){
+        } catch (Exception e) {
             wrongLabel.setText(e.getMessage());
         }
     }

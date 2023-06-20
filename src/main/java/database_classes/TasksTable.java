@@ -53,16 +53,17 @@ public class TasksTable {
     /**
      * Konstruktor pusty
      */
-    public TasksTable() {}
+    public TasksTable() {
+    }
 
     /**
      * Konstruktor klasy
      *
-     * @param idTask ID zadania
-     * @param title tytuł
+     * @param idTask      ID zadania
+     * @param title       tytuł
      * @param description opis
-     * @param statusId ID statusu zadania
-     * @param userId ID użytkownika
+     * @param statusId    ID statusu zadania
+     * @param userId      ID użytkownika
      */
     public TasksTable(int idTask, String title, String description, int statusId, int userId) {
         this.idTask = idTask;
@@ -145,6 +146,11 @@ public class TasksTable {
         return nameUser;
     }
 
+    /**
+     * Metoda zwracająca przycisk
+     *
+     * @return Przycisk
+     */
     public Button getEditTaskButton() {
         return editTaskButton;
     }

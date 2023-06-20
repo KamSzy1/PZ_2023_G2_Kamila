@@ -54,6 +54,7 @@ public class StageChanger extends Application {
      * Klasa do zmieniania okienka
      *
      * @param fxml nazwa nowego fxml, ścieżka zaczyna się od resources
+     * @throws IOException Wyrzucany wyjątek
      */
     public void changeScene(String fxml) throws IOException {
         Parent pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxml)));

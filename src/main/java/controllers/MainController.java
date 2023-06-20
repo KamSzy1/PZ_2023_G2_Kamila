@@ -254,7 +254,7 @@ public class MainController {
     /**
      * Metoda do logowania użytkownika
      *
-     * @param email Email użytkownika
+     * @param email    Email użytkownika
      * @param password Hasło użytkownika
      */
     public void login(String email, String password) {
@@ -355,9 +355,9 @@ public class MainController {
     /**
      * Rejestracja użytkownika
      *
-     * @param mail Email użytkownika
+     * @param mail     Email użytkownika
      * @param password Hasło użytkownika
-     * @param token Token użytkownika
+     * @param token    Token użytkownika
      * @throws SQLException
      */
     private void registration(String mail, String password, String token) throws SQLException {
@@ -374,9 +374,9 @@ public class MainController {
     /**
      * Metoda do zmiany hasła
      *
-     * @param password Hasło
+     * @param password       Hasło
      * @param repeatPassword Powtórzone hasło
-     * @param token Token
+     * @param token          Token
      */
     public void changePassword(String password, String repeatPassword, String token) {
         try {

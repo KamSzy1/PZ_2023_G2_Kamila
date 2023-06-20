@@ -33,7 +33,7 @@ public class ButtonManager {
      * Otwieranie nowych okienek
      *
      * @param button Przycisk, który wywołuje nowe okienko
-     * @param fxml Wygląd, który ma się wyświetlić w okienku
+     * @param fxml   Wygląd, który ma się wyświetlić w okienku
      */
     public void openWindow(Button button, String fxml) {
         try {

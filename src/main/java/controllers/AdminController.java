@@ -19,20 +19,17 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import other.ButtonManager;
 import pdf_generate.PdfGenerate;
-import java.io.File;
+
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -783,7 +780,7 @@ public class AdminController {
             DatabaseConnector.connect();
             ResultSet result = QExecutor.executeSelect("SELECT u.id_user, u.name, u.surname, u.address, u.place, u.zip, u.phone_num, p.id_position, p.position_name, u.token, u.groups FROM users AS u " +
                     "JOIN positions AS p ON u.position_id = p.id_position " +
-                    "WHERE u.token = '" + token +"'");
+                    "WHERE u.token = '" + token + "'");
             result.next();
 
             editEmployeeController.setData(
@@ -827,7 +824,7 @@ public class AdminController {
     /**
      * Odświeżanie pracowników
      */
-    private void refreshEmployee(){
+    private void refreshEmployee() {
         userTable.clear();
         employee();
     }

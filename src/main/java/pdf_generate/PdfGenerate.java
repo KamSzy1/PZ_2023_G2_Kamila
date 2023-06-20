@@ -25,9 +25,9 @@ public class PdfGenerate {
     /**
      * Metoda do generowania PDF dla pracownika
      *
-     * @param path Ścieżka
+     * @param path    Ścieżka
      * @param pdfData Dane do wygenerowania
-     * @param idUser Numer użytkownika
+     * @param idUser  Numer użytkownika
      */
     public static void generateForEmployee(String path, String pdfData, int idUser) {
         String query = setQueryForEmployee(pdfData, idUser);
@@ -38,7 +38,7 @@ public class PdfGenerate {
      * Ustawienie zapytania dla pracownika
      *
      * @param pdfData Dane do wygenerowania
-     * @param idUser Numer użytkownika
+     * @param idUser  Numer użytkownika
      * @return Zapytanie do bazy danych
      */
     public static String setQueryForEmployee(String pdfData, int idUser) {
@@ -58,10 +58,10 @@ public class PdfGenerate {
     /**
      * Generowanie PDF dla kierownika
      *
-     * @param path Ścieżka
+     * @param path    Ścieżka
      * @param pdfType Typ PDF
      * @param pdfData Dane do wygenerowania
-     * @param group Numer grupy
+     * @param group   Numer grupy
      */
     public static void generateForManager(String path, String pdfType, String pdfData, int group) {
         String query = setQueryForManager(pdfType, pdfData, group);
@@ -73,7 +73,7 @@ public class PdfGenerate {
      *
      * @param pdfType Typ PDF
      * @param pdfData Dane do wygenerowania
-     * @param group Numer grupy
+     * @param group   Numer grupy
      * @return Zapytanie do bazy danych
      */
     public static String setQueryForManager(String pdfType, String pdfData, int group) {
@@ -113,7 +113,7 @@ public class PdfGenerate {
     /**
      * Generowanie PDF dla administratora
      *
-     * @param path Ścieżka
+     * @param path    Ścieżka
      * @param pdfType Typ PDF
      * @param pdfData Dane do wygenerowania
      */
@@ -153,7 +153,7 @@ public class PdfGenerate {
      * Ustawienie wygenerowania dobrego pdf
      *
      * @param query Zapytanie
-     * @param path Ścieżka
+     * @param path  Ścieżka
      */
     private static void generateGoodPdf(String query, String path) {
         if (table.equals("tasks")) {
@@ -167,7 +167,7 @@ public class PdfGenerate {
      * Ustawienie wygenerowania dobrego pdf
      *
      * @param query Zapytanie
-     * @param path Ścieżka
+     * @param path  Ścieżka
      */
     private static void generateGoodPdfManager(String query, String path) {
         if (table.equals("tasks")) {
@@ -181,7 +181,7 @@ public class PdfGenerate {
      * Generowanie PDF z pracownikami
      *
      * @param query Zapytanie
-     * @param path Ścieżka
+     * @param path  Ścieżka
      */
     private static void generatePdfEmployee(String query, String path) {
         try {
@@ -234,7 +234,7 @@ public class PdfGenerate {
      * Generowanie PDF z zadaniami
      *
      * @param query Zapytanie
-     * @param path Ścieżka
+     * @param path  Ścieżka
      */
     private static void generatePdfTasks(String query, String path) {
         try {
