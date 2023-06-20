@@ -1,6 +1,7 @@
 package validate;
 
 import org.apache.commons.validator.routines.EmailValidator;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -63,6 +64,7 @@ public class ValidateEmployee {
 
     /**
      * Sprawdzenie czy nazwisko jest takie jak powinno -> tzn. żeby ktoś Kowalski2019 nie wpisał
+     *
      * @param surname Nazwisko
      * @throws Exception
      */
@@ -152,7 +154,7 @@ public class ValidateEmployee {
     /**
      * Sprawdzenie czy emaile są takie same
      *
-     * @param email Email
+     * @param email       Email
      * @param repeatEmail Powtórzony email
      * @throws Exception
      */
@@ -165,7 +167,7 @@ public class ValidateEmployee {
     /**
      * Sprawdzenie czy 2 hasła są takie same
      *
-     * @param password Hasło
+     * @param password       Hasło
      * @param repeatPassword Powtórzone hasło
      * @throws Exception
      */

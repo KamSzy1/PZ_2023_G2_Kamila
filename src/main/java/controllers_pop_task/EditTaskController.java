@@ -10,12 +10,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import other.ButtonManager;
 import validate.ValidateTask;
 
 import java.io.IOException;
-import java.io.ObjectInputFilter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -210,7 +208,7 @@ public class EditTaskController {
     public void fieldController() {
         try {
             DatabaseConnector.connect();
-            ResultSet result = QExecutor.executeSelect("SELECT * FROM users WHERE id_user="+UsersTable.getIdLoginUser());
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM users WHERE id_user=" + UsersTable.getIdLoginUser());
             result.next();
             if (result.getInt("position_id") == 3) {
                 titleField.setDisable(true);

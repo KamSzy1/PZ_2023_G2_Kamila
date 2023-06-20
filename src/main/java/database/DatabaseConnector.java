@@ -26,7 +26,7 @@ public class DatabaseConnector {
      * @return Połączenie z bazą danych
      * @throws SQLException
      */
-    public static Connection connect() throws SQLException{
+    public static Connection connect() throws SQLException {
         return DriverManager.getConnection(url, user, pass);
     }
 }

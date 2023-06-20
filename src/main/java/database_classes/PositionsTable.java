@@ -73,9 +73,9 @@ public class PositionsTable {
     }
 
     /**
-     * Metoda zwracająca obiekt jako ciąg znaków
+     * Metoda toString
      *
-     * @return ciąg znaków
+     * @return toString
      */
     @Override
     public String toString() {

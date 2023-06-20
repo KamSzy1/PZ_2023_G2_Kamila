@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 import other.ButtonManager;
 import other.PasswordHash;
 import validate.ValidateEmployee;
@@ -97,8 +96,8 @@ public class EditPasswordInSettingsController {
 
     /**
      * Metoda do zarządzania wszystkimi przyciskami
-     * @param event Służy do prawidłowego zarządzania okienkami
      *
+     * @param event Służy do prawidłowego zarządzania okienkami
      * @throws IOException Wyrzucany wyjątek
      */
     public void buttonsHandler(ActionEvent event) throws IOException {
@@ -145,7 +144,7 @@ public class EditPasswordInSettingsController {
             QExecutor.executeQuery("UPDATE login " +
                     "INNER JOIN users ON users.id_user = login.user_id " +
                     "SET password = '" + hashedPassword + "' " +
-                    "WHERE users.token = '" + token +"' " +
+                    "WHERE users.token = '" + token + "' " +
                     "AND users.id_user = " + UsersTable.getIdLoginUser());
         } catch (SQLException e) {
             e.printStackTrace();

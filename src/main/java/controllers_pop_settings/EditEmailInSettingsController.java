@@ -9,11 +9,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 import other.ButtonManager;
 import validate.ValidateEmployee;
 
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
