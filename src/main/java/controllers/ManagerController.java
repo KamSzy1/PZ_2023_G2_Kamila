@@ -29,6 +29,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import other.ButtonManager;
 import pdf_generate.PdfGenerate;
 
 import java.io.File;
@@ -326,6 +327,10 @@ public class ManagerController {
      * Lista z pracownikami
      */
     private ObservableList<UsersTable> userTable;
+    /**
+     * Zarządzanie przyciskami
+     */
+    ButtonManager buttonManager = new ButtonManager();
 
     /**
      * Metoda, która wykonuje się na samym początku uruchomienia się klasy. Służy do wczytania odpowiednich ustawień w panelu
@@ -335,6 +340,7 @@ public class ManagerController {
         welcomeLabel.setText("Witaj " + UsersTable.getLoginName() + " " + UsersTable.getLoginSurname() + "!");
         gridMyTasks.toFront();
         myTask();
+        task();
     }
 
     /**
@@ -386,8 +392,6 @@ public class ManagerController {
             stageChanger.changeSize(915, 630);
             stageChanger.changeScene("/main.fxml");
         } else if (source == addTaskButton) {
-            String fxmlPath = "/pop_task/addTask.fxml";
-            openWindow(addTaskButton, fxmlPath);
             time = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
@@ -401,12 +405,14 @@ public class ManagerController {
             time.setCycleCount(Timeline.INDEFINITE);
             time.play();
 
+            String fxmlPath = "/pop_task/addTask.fxml";
+            buttonManager.openWindow(addTaskButton, fxmlPath);
         } else if (source == mailEditButton) {
             String fxmlPath = "/pop_settings/editEmailInSettings.fxml";
-            openWindow(mailEditButton, fxmlPath);
+            buttonManager.openWindow(mailEditButton, fxmlPath);
         } else if (source == passwordEditButton) {
             String fxmlPath = "/pop_settings/editPasswordInSettings.fxml";
-            openWindow(passwordEditButton, fxmlPath);
+            buttonManager.openWindow(passwordEditButton, fxmlPath);
         }
     }
 
@@ -419,7 +425,7 @@ public class ManagerController {
     public void buttonReports(ActionEvent event) {
         Object source = event.getSource();
         if (source == pdfPathButton) {
-            setPathPdfGenerator();
+            pdfPathField.setText(buttonManager.setPathPdfGenerator(mainAnchorPane));
         } else if (source == pdfGenerateButton) {
             if (!pdfPathField.getText().isEmpty()) {
                 PdfGenerate.generateForManager(
@@ -451,19 +457,6 @@ public class ManagerController {
         myTask();
         taskTable.clear();
         task();
-    }
-
-    /**
-     * Ustawienie ścieżki do generowania PDF
-     */
-    private void setPathPdfGenerator() {
-        final DirectoryChooser dirChooser = new DirectoryChooser();
-        Stage stage = (Stage) mainAnchorPane.getScene().getWindow();
-        File file = dirChooser.showDialog(stage);
-
-        if (file != null) {
-            pdfPathField.setText(file.getAbsolutePath());
-        }
     }
 
     /**
@@ -639,8 +632,8 @@ public class ManagerController {
                 user.setGroups(result.getInt("groups"));
                 userTable.add(user);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         employeeName.setCellValueFactory(new PropertyValueFactory<>("name"));
         employeeSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
@@ -678,27 +671,6 @@ public class ManagerController {
         SortedList<UsersTable> sortedData = new SortedList<>(filteredEmpData);
         sortedData.comparatorProperty().bind(employeeTableView.comparatorProperty());
         employeeTableView.setItems(sortedData);
-    }
-
-    /**
-     * Otwieranie nowych okienek
-     *
-     * @param button Przycisk, który wywołuje nowe okienko
-     * @param fxml   Wygląd, który ma się wyświetlić w okienku
-     */
-    private void openWindow(Button button, String fxml) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxml)));
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(button.getScene().getWindow());
-            stage.setResizable(false);
-            stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/ICON.png"))));
-            stage.showAndWait();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**

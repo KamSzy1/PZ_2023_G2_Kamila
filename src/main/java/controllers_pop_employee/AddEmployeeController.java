@@ -105,7 +105,6 @@ public class AddEmployeeController {
      * Lista do przechowywania stanowisk pracowników
      */
     private ObservableList<PositionsTable> positions;
-
     /**
      * Zarządzanie przyciskami
      */

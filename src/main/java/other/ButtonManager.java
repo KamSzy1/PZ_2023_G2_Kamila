@@ -5,9 +5,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -45,5 +48,19 @@ public class ButtonManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Ustawienie ścieżki do generowania PDF
+     */
+    public String setPathPdfGenerator(AnchorPane mainAnchorPane) {
+        final DirectoryChooser dirChooser = new DirectoryChooser();
+        Stage stage = (Stage) mainAnchorPane.getScene().getWindow();
+        File file = dirChooser.showDialog(stage);
+
+        if (file != null) {
+            return file.getAbsolutePath();
+        }
+        return "";
     }
 }
