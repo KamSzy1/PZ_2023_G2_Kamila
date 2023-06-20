@@ -1,15 +1,14 @@
-package controllers_pop_employee;
+package controllers_pop_task;
 
-import controllers_pop_task.AddTaskController;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class AddEmployeeControllerTest {
+public class AddTaskControllerTest {
 
     @Test
     public void refBoolTest() {
         boolean notTrue = false;
         assertEquals(AddTaskController.refBool(), notTrue);
     }
+
 }

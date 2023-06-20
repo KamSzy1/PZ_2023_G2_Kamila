@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import other.ButtonManager;
 import validate.ValidateEmployee;
 
 import java.io.IOException;
@@ -83,6 +84,11 @@ public class EditEmailInSettingsController {
     private Label wrongTokenLabel;
 
     /**
+     * Zarządzanie przyciskami
+     */
+    private ButtonManager buttonManager = new ButtonManager();
+
+    /**
      * Metoda, która wykonuje się na samym początku uruchomienia się klasy. Służy do wczytania odpowiednich ustawień w panelu
      */
     @FXML
@@ -103,9 +109,9 @@ public class EditEmailInSettingsController {
         } else if (source == saveButton) {
             changeEmail();
         } else if (source == cancelButton) {
-            closeWindow(cancelButton);
+            buttonManager.closeWindow(cancelButton);
         } else if (source == cancel2Button) {
-            closeWindow(cancel2Button);
+            buttonManager.closeWindow(cancel2Button);
         }
     }
 
@@ -169,15 +175,4 @@ public class EditEmailInSettingsController {
             wrongLabel.setText(e.getMessage());
         }
     }
-
-    /**
-     * Zamykanie okienka
-     *
-     * @param button Informacja o tym, który przycisk został kliknięty
-     */
-    private void closeWindow(Button button) {
-        Stage stage = (Stage) button.getScene().getWindow();
-        stage.close();
-    }
-
 }

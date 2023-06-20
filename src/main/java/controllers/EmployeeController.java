@@ -24,6 +24,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import other.ButtonManager;
 import pdf_generate.PdfGenerate;
 
 import java.io.File;
@@ -197,6 +198,10 @@ public class EmployeeController {
      * Lista z zadaniami w panelu moje zadania
      */
     private ObservableList<TasksTable> myTaskTable;
+    /**
+     * Zarządzanie przyciskami
+     */
+    private ButtonManager buttonManager = new ButtonManager();
 
     /**
      * Metoda, która wykonuje się na samym początku uruchomienia się klasy. Służy do wczytania odpowiednich ustawień w panelu
@@ -249,10 +254,10 @@ public class EmployeeController {
             stageChanger.changeScene("/main.fxml");
         } else if (source == mailEditButton) {
             String fxmlPath = "/pop_settings/editEmailInSettings.fxml";
-            openWindow(mailEditButton, fxmlPath);
+            buttonManager.openWindow(mailEditButton, fxmlPath);
         } else if (source == passwordEditButton) {
             String fxmlPath = "/pop_settings/editPasswordInSettings.fxml";
-            openWindow(passwordEditButton, fxmlPath);
+            buttonManager.openWindow(passwordEditButton, fxmlPath);
         }
     }
 
@@ -264,8 +269,9 @@ public class EmployeeController {
     @FXML
     public void buttonReports(ActionEvent event) {
         Object source = event.getSource();
+
         if (source == pdfPathButton) {
-            setPathPdfGenerator();
+            pdfPathField.setText(buttonManager.setPathPdfGenerator(mainAnchorPane));
         } else if (source == pdfGenerateButton) {
             if (!pdfPathField.getText().isEmpty()) {
                 PdfGenerate.generateForEmployee(
@@ -302,19 +308,6 @@ public class EmployeeController {
     }
 
     /**
-     * Ustawienie ścieżki do generowania PDF
-     */
-    private void setPathPdfGenerator() {
-        final DirectoryChooser dirChooser = new DirectoryChooser();
-        Stage stage = (Stage) mainAnchorPane.getScene().getWindow();
-        File file = dirChooser.showDialog(stage);
-
-        if (file != null) {
-            pdfPathField.setText(file.getAbsolutePath());
-        }
-    }
-
-    /**
      * Metoda do wyświetlania danych w panelu moje zadania oraz do filtrowania ich
      */
     private void myTask() {
@@ -334,6 +327,7 @@ public class EmployeeController {
                     preparePopUpWindowEditTask(idTask);
                 });
                 TasksTable task = new TasksTable();
+                HistoryTaskTable htask = new HistoryTaskTable();
                 task.setTitle(result.getString("title"));
                 task.setData(result.getDate("planned_end"));
                 task.setDescription(result.getString("description"));
@@ -374,27 +368,6 @@ public class EmployeeController {
         SortedList<TasksTable> sortedData = new SortedList<>(filteredTaskData);
         sortedData.comparatorProperty().bind(myTaskTableView.comparatorProperty());
         myTaskTableView.setItems(sortedData);
-    }
-
-    /**
-     * Otwieranie nowych okienek
-     *
-     * @param button Przycisk, który wywołuje nowe okienko
-     * @param fxml Wygląd, który ma się wyświetlić w okienku
-     */
-    private void openWindow(Button button, String fxml) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxml)));
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(button.getScene().getWindow());
-            stage.setResizable(false);
-            stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/ICON.png"))));
-            stage.showAndWait();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**

@@ -12,8 +12,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import other.ButtonManager;
 import validate.ValidateTask;
-
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -103,6 +103,10 @@ public class AddTaskController {
      * Data
      */
     private LocalDate date;
+    /**
+     * Zarządzanie przyciskami
+     */
+    private ButtonManager buttonManager = new ButtonManager();
 
     /**
      * Zwraca informację, czy użytkownik został poprawnie dodany
@@ -140,7 +144,7 @@ public class AddTaskController {
         Object source = event.getSource();
 
         if (source == cancelButton) {
-            closeWindow(cancelButton);
+            buttonManager.closeWindow(cancelButton);
         } else if (source == addButton) {
             addTask();
         }
@@ -163,7 +167,7 @@ public class AddTaskController {
                     + historyTaskTable.getPlannedEnd() + "','"
                     + historyTaskTable.getStartDate() + "',"
                     + "(SELECT MAX(id_task) FROM tasks))");
-            closeWindow(addButton);
+            buttonManager.closeWindow(addButton);
             isRefreshed = true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -206,7 +210,8 @@ public class AddTaskController {
 
     /**
      * Ustawieanie danych i ich walidacja
-     * @throws Exception
+     *
+     * @throws Exception Wyrzucany wyjątek
      */
     private void tryGetData() throws Exception {
         String title = titleField.getText();
@@ -252,13 +257,4 @@ public class AddTaskController {
         statusView.setItems(statuses);
     }
 
-    /**
-     * Zamykanie okienka
-     *
-     * @param button Informacja o tym, który przycisk został kliknięty
-     */
-    private void closeWindow(Button button) {
-        Stage stage = (Stage) button.getScene().getWindow();
-        stage.close();
-    }
 }

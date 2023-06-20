@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import other.ButtonManager;
 import other.PasswordHash;
 import validate.ValidateEmployee;
 
@@ -81,6 +82,10 @@ public class EditPasswordInSettingsController {
      * @param token Zmienna
      */
     private String token;
+    /**
+     * Zarządzanie przyciskami
+     */
+    private ButtonManager buttonManager = new ButtonManager();
 
     /**
      * Metoda, która wykonuje się na samym początku uruchomienia się klasy. Służy do wczytania odpowiednich ustawień w panelu
@@ -105,13 +110,9 @@ public class EditPasswordInSettingsController {
         } else if (source == saveButton) {
             resetPassword();
         } else if (source == cancel2Button) {
-            //Zamykanie okienka
-            Stage stage = (Stage) cancel2Button.getScene().getWindow();
-            stage.close();
+            buttonManager.closeWindow(cancelButton);
         } else if (source == cancelButton) {
-            //Zamykanie okienka
-            Stage stage = (Stage) cancelButton.getScene().getWindow();
-            stage.close();
+            buttonManager.closeWindow(cancelButton);
         }
     }
 
@@ -133,7 +134,6 @@ public class EditPasswordInSettingsController {
      * Resetowanie hasła
      */
     private void resetPassword() {
-        //Zmiana hasła
         String newPassword = passwordNewField.getText();
         String repeatNewPassword = passwordRepeatField.getText();
 

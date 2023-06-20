@@ -14,6 +14,7 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import other.ButtonManager;
 import other.GenerateToken;
 import validate.ValidateEmployee;
 
@@ -105,6 +106,10 @@ public class EditEmployeeController {
      * Lista do przechowywania stanowisk pracowników
      */
     private ObservableList<PositionsTable> positions;
+    /**
+     * Zarządzanie przyciskami
+     */
+    private ButtonManager buttonManager = new ButtonManager();
 
     /**
      * Zwraca informację, czy użytkownik został poprawnie dodany
@@ -146,7 +151,7 @@ public class EditEmployeeController {
             clipboard.setContent(content);
 
         } else if (source == cancelButton) {
-            closeWindow(cancelButton);
+            buttonManager.closeWindow(cancelButton);
         } else if (source == saveButton) {
             updateData();
         }
@@ -225,7 +230,7 @@ public class EditEmployeeController {
                     " id_user = " + UsersTable.getIdEditUser()
             );
 
-            closeWindow(saveButton);
+            buttonManager.closeWindow(saveButton);
             isRefreshed = true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -254,15 +259,5 @@ public class EditEmployeeController {
             e.printStackTrace();
         }
         positionView.setItems(positions);
-    }
-
-    /**
-     * Zamykanie okienka
-     *
-     * @param button Informacja o tym, który przycisk został kliknięty
-     */
-    private void closeWindow(Button button) {
-        Stage stage = (Stage) button.getScene().getWindow();
-        stage.close();
     }
 }
