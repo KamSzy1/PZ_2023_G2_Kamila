@@ -46,10 +46,6 @@ public class HistoryTaskTable {
         return startDate;
     }
 
-    public Date getEndDate() {
-        return endDate;
-    }
-
     /**
      * Metoda zwracająca numer zadania
      *
@@ -84,10 +80,6 @@ public class HistoryTaskTable {
      */
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
     }
 
     /**

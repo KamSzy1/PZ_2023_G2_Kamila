@@ -1,10 +1,8 @@
 package database_classes;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;;
-import java.sql.Date;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PostionsTableTest {
+public class PositionsTableTest {
 
     PositionsTable positionsTable = new PositionsTable();
 
@@ -54,6 +52,13 @@ public class PostionsTableTest {
         positionsTable.setPositionName(expectedPositionName);
         String actualPositionName = positionsTable.getPositionName();
         assertEquals(expectedPositionName, actualPositionName);
+    }
+
+    @Test
+    void toStringTest(){
+        PositionsTable postionsTable = new PositionsTable();
+        postionsTable.setPositionName("Zrealizowano");
+        assertEquals(postionsTable.toString(), "Zrealizowano");
     }
 }
 

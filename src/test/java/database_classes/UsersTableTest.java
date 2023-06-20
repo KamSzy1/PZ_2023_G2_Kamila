@@ -59,4 +59,13 @@ public class UsersTableTest {
         assertEquals(token, actualToken);
         assertEquals(groups, actualGroups);
     }
+
+    @Test
+    public void toStringTest() {
+        UsersTable usersTable = new UsersTable();
+        usersTable.setName("Kasia");
+        usersTable.setSurname("Ramen");
+
+        assertEquals(usersTable.toString(), "Kasia Ramen");
+    }
 }
