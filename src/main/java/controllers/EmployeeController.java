@@ -211,6 +211,7 @@ public class EmployeeController {
         welcomeLabel.setText("Witaj " + UsersTable.getLoginName() + " " + UsersTable.getLoginSurname() + "!");
         gridMyTasks.toFront();
         myTask();
+        pdfChooseDataToGenerate();
     }
 
     /**
@@ -229,7 +230,6 @@ public class EmployeeController {
             gridReport.toFront();
             textLabel.setText("Generowanie raportów");
             wrongPdfLabel.setText("");
-            pdfChooseDataToGenerate();
         } else if (source == settingsButton) {
             pdfPathField.clear();
             gridSettings.toFront();

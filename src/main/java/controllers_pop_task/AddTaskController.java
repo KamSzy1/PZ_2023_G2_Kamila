@@ -173,8 +173,6 @@ public class AddTaskController {
             e.printStackTrace();
         } catch (NullPointerException e) {
             wrongLabel.setText("Wybierz datę zakończenia");
-        } catch (RuntimeException e){
-            wrongLabel.setText("Uzupełnij wszystkie pola");
         } catch(Exception e){
             wrongLabel.setText(e.getMessage());
         }

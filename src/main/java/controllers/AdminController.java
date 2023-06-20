@@ -349,6 +349,7 @@ public class AdminController {
         gridMyTasks.toFront();
         myTask();
         task();
+        pdfChooseReportToGenerate();
     }
 
     /**
@@ -377,7 +378,6 @@ public class AdminController {
             gridReport.toFront();
             textLabel.setText("Generowanie raportów");
             wrongPdfLabel.setText("");
-            pdfChooseReportToGenerate();
         } else if (source == settingsButton) {
             gridSettings.toFront();
             textLabel.setText("Ustawienia");
