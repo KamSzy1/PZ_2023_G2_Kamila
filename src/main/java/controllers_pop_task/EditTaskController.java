@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import other.ButtonManager;
 import validate.ValidateTask;
 
 import java.io.IOException;
@@ -81,6 +82,10 @@ public class EditTaskController {
      * Lista z statusami
      */
     private ObservableList<StatusesTable> statuses;
+    /**
+     * Zarządzanie przyciskami
+     */
+    private ButtonManager buttonManager = new ButtonManager();
 
     /**
      * Zwraca informację, czy użytkownik został poprawnie dodany
@@ -120,7 +125,7 @@ public class EditTaskController {
         Object source = event.getSource();
 
         if (source == cancelButton) {
-            closeWindow(cancelButton);
+            buttonManager.closeWindow(cancelButton);
         } else if (source == saveButton) {
             updateData();
         }
@@ -189,7 +194,7 @@ public class EditTaskController {
                     " id_task = " + TasksTable.getEditIdTask()
             );
             QExecutor.executeQuery("UPDATE tasks_history SET planned_end= '" + data + "' WHERE tasks_id=" + TasksTable.getEditIdTask());
-            closeWindow(saveButton);
+            buttonManager.closeWindow(saveButton);
             isRefreshed = true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -248,15 +253,5 @@ public class EditTaskController {
             e.printStackTrace();
         }
         statusView.setItems(statuses);
-    }
-
-    /**
-     * Zamykanie okienka
-     *
-     * @param button Informacja o tym, który przycisk został kliknięty
-     */
-    private void closeWindow(Button button) {
-        Stage stage = (Stage) button.getScene().getWindow();
-        stage.close();
     }
 }

@@ -40,7 +40,7 @@ public class PdfGenerate {
      * @param idUser Numer użytkownika
      * @return Zapytanie do bazy danych
      */
-    private static String setQueryForEmployee(String pdfData, int idUser) {
+    public static String setQueryForEmployee(String pdfData, int idUser) {
         if (pdfData.equals("Wszystko")) {
             return "SELECT * FROM tasks " +
                     "INNER JOIN users ON users.id_user = tasks.user_id " +
@@ -75,7 +75,7 @@ public class PdfGenerate {
      * @param group Numer grupy
      * @return Zapytanie do bazy danych
      */
-    private static String setQueryForManager(String pdfType, String pdfData, int group) {
+    public static String setQueryForManager(String pdfType, String pdfData, int group) {
         String query = "";
 
         switch (pdfType) {
@@ -128,7 +128,7 @@ public class PdfGenerate {
      * @param pdfData Dane do wygenerowania
      * @return Zapytanie do bazy danych
      */
-    private static String setQueryForAdmin(String pdfType, String pdfData) {
+    public static String setQueryForAdmin(String pdfType, String pdfData) {
         String query = "";
 
         switch (pdfType) {

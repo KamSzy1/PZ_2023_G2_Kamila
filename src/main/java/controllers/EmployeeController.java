@@ -264,6 +264,7 @@ public class EmployeeController {
     @FXML
     public void buttonReports(ActionEvent event) {
         Object source = event.getSource();
+
         if (source == pdfPathButton) {
             setPathPdfGenerator();
         } else if (source == pdfGenerateButton) {
@@ -334,6 +335,7 @@ public class EmployeeController {
                     preparePopUpWindowEditTask(idTask);
                 });
                 TasksTable task = new TasksTable();
+                HistoryTaskTable htask = new HistoryTaskTable();
                 task.setTitle(result.getString("title"));
                 task.setData(result.getDate("planned_end"));
                 task.setDescription(result.getString("description"));

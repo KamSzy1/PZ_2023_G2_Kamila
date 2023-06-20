@@ -257,7 +257,7 @@ public class MainController {
      * @param email Email użytkownika
      * @param password Hasło użytkownika
      */
-    private void login(String email, String password) {
+    public void login(String email, String password) {
         try {
             DatabaseConnector.connect();
             String hashedPassword = PasswordHash.hashedPassword(password);
@@ -309,7 +309,7 @@ public class MainController {
      * @param token Token użytkownika
      * @throws SQLException Wyrzucany wyjątek
      */
-    private void getUserFromToken(String token) throws SQLException {
+    public void getUserFromToken(String token) throws SQLException {
         ResultSet result = QExecutor.executeSelect("SELECT u.name, u.surname, u.token, l.email FROM login AS l " +
                 "INNER JOIN users AS u ON u.id_user = l.user_id " +
                 "WHERE token = '" + token + "'");
@@ -378,7 +378,7 @@ public class MainController {
      * @param repeatPassword Powtórzone hasło
      * @param token Token
      */
-    private void changePassword(String password, String repeatPassword, String token) {
+    public void changePassword(String password, String repeatPassword, String token) {
         try {
 
             ValidateEmployee.samePassword(password, repeatPassword);

@@ -13,6 +13,7 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
+import other.ButtonManager;
 import other.GenerateToken;
 import validate.ValidateEmployee;
 
@@ -106,6 +107,11 @@ public class AddEmployeeController {
     private ObservableList<PositionsTable> positions;
 
     /**
+     * Zarządzanie przyciskami
+     */
+    private ButtonManager buttonManager = new ButtonManager();
+
+    /**
      * Zwraca informację, czy użytkownik został poprawnie dodany
      *
      * @return Zwraca true lub false
@@ -143,7 +149,7 @@ public class AddEmployeeController {
             content.putString(tokenField.getText());
             clipboard.setContent(content);
         } else if (source == cancelButton) {
-            closeWindow(cancelButton);
+            buttonManager.closeWindow(cancelButton);
         } else if (source == addButton) {
             addPerson();
         }
@@ -196,8 +202,8 @@ public class AddEmployeeController {
 
             QExecutor.executeQuery("INSERT INTO login (user_id) VALUES (" +
                     Integer.parseInt(resultSet.getString("id_user")) + ")");
-            closeWindow(addButton);
             isRefreshed = true;
+            buttonManager.closeWindow(addButton);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
@@ -225,15 +231,5 @@ public class AddEmployeeController {
             e.printStackTrace();
         }
         positionView.setItems(positions);
-    }
-
-    /**
-     * Zamykanie okienka
-     *
-     * @param button Informacja o tym, który przycisk został kliknięty
-     */
-    private void closeWindow(Button button) {
-        Stage stage = (Stage) button.getScene().getWindow();
-        stage.close();
     }
 }
