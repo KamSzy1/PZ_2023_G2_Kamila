@@ -7,11 +7,14 @@ import database.QExecutor;
 import database_classes.HistoryTaskTable;
 import database_classes.TasksTable;
 import database_classes.UsersTable;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -21,6 +24,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import other.ButtonManager;
 import pdf_generate.PdfGenerate;
 
@@ -199,7 +203,22 @@ public class EmployeeController {
      * Zarządzanie przyciskami
      */
     private ButtonManager buttonManager = new ButtonManager();
-
+    /**
+     * Linia czasowa do odświeżania tabel
+     */
+    private Timeline time;
+    /**
+     * Publiczna zmienna statyczna
+     */
+    public static boolean isRefreshed;
+    /**
+     * Zwraca informację, czy użytkownik został poprawnie dodany
+     *
+     * @return Zwraca true lub false
+     */
+    public static boolean refBool() {
+        return isRefreshed;
+    }
     /**
      * Metoda, która wykonuje się na samym początku uruchomienia się klasy. Służy do wczytania odpowiednich ustawień w panelu
      */
@@ -397,6 +416,18 @@ public class EmployeeController {
                     result.getInt("id_status"),
                     result.getString("status"),
                     result.getString("planned_end"));
+            time = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    if (EditTaskController.refBool()) {
+                        refreshEditTask();
+                        time.stop();
+                        EditTaskController.isRefreshed = false;
+                    }
+                }
+            }));
+            time.setCycleCount(Timeline.INDEFINITE);
+            time.play();
 
             Scene scene = new Scene(anchorPane);
             stage.setScene(scene);
@@ -407,6 +438,14 @@ public class EmployeeController {
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Odświeżanie edycji zadań
+     */
+    private void refreshEditTask() {
+        myTaskTable.clear();
+        myTask();
     }
 
     /**
@@ -425,7 +464,6 @@ public class EmployeeController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         pdfChooseStatusComboBox.setItems(pdfData);
         pdfChooseStatusComboBox.setPromptText("Wybierz rodzaj");
     }

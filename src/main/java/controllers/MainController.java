@@ -365,10 +365,9 @@ public class MainController {
 
         DatabaseConnector.connect();
         QExecutor.executeQuery("UPDATE login " +
-                "INNER JOIN user ON users.id_user = login.user_id" +
-                "SET email = " + mail + ", password = " + hashedPassword + " " +
+                "INNER JOIN users ON users.id_user = login.user_id " +
+                "SET email = '" + mail + "', password = '" + hashedPassword + "' " +
                 "WHERE users.token = '" + token + "'");
-
     }
 
     /**
@@ -380,21 +379,17 @@ public class MainController {
      */
     public void changePassword(String password, String repeatPassword, String token) {
         try {
-
             ValidateEmployee.samePassword(password, repeatPassword);
             String hashedPassword = PasswordHash.hashedPassword(password);
-            DatabaseConnector.connect();
             QExecutor.executeQuery("UPDATE login " +
                     "INNER JOIN users ON users.id_user = login.user_id " +
                     "SET password = '" + hashedPassword + "' " +
                     "WHERE users.token = '" + token + "'");
-        } catch
-        (SQLException throwables) {
+            gridLogin.toFront();
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (Exception e) {
             wrongResetLabel.setText(e.getMessage());
         }
-
     }
-
 }

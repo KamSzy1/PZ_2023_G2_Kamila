@@ -110,6 +110,7 @@ public class EditTaskController {
                 setDisable(empty || date.isBefore(today));
             }
         });
+        timePicker.getEditor().setDisable(true);
     }
 
     /**
@@ -191,8 +192,8 @@ public class EditTaskController {
                     " id_task = " + TasksTable.getEditIdTask()
             );
             QExecutor.executeQuery("UPDATE tasks_history SET planned_end= '" + data + "' WHERE tasks_id=" + TasksTable.getEditIdTask());
-            buttonManager.closeWindow(saveButton);
             isRefreshed = true;
+            buttonManager.closeWindow(saveButton);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {

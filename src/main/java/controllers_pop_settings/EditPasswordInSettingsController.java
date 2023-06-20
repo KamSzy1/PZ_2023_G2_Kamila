@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import other.ButtonManager;
@@ -45,12 +46,12 @@ public class EditPasswordInSettingsController {
      * Pole tekstowe do wpisania nowego hasła
      */
     @FXML
-    private TextField passwordNewField;
+    private PasswordField passwordNewField;
     /**
      * Pole tekstowe do wisania powtórzonego, nowego hasła
      */
     @FXML
-    private TextField passwordRepeatField;
+    private PasswordField passwordRepeatField;
     /**
      * Przycisk do akceptacji zmiany hasła
      */
@@ -146,6 +147,7 @@ public class EditPasswordInSettingsController {
                     "SET password = '" + hashedPassword + "' " +
                     "WHERE users.token = '" + token + "' " +
                     "AND users.id_user = " + UsersTable.getIdLoginUser());
+            buttonManager.closeWindow(saveButton);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {

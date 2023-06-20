@@ -167,6 +167,7 @@ public class EditEmailInSettingsController {
             DatabaseConnector.connect();
             QExecutor.executeQuery("UPDATE login SET email='" + newEmail +
                     "' WHERE email = '" + oldEmail + "'");
+            buttonManager.closeWindow(saveButton);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
