@@ -59,6 +59,6 @@ Stworzenie systemu dla firmy informatycznej.
 * JUnit 5 - framework, który został użyty do wykonania odpowiednich testów w  aplikacji.
  
 ### Potrzebne nazwy użytkowników do uzyskania innych funkcjonalności aplikacji:
-* Konto administratora: Login: email1, hasło: haslo1
-* Konto kierownika: Login: email3, hasło: haslo3
-* Konto pracownika: Login: email2, hasło: haslo2
+* Konto administratora: Login: email1@wp.pl, hasło: haslo1
+* Konto kierownika: Login: email3@wp.pl, hasło: haslo3
+* Konto pracownika: Login: email2@wp.pl, hasło: haslo2
