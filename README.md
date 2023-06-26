@@ -53,10 +53,12 @@ Stworzenie systemu dla firmy informatycznej.
 - Apache w Xamppie uruchomiony jest na portach 80 oraz 443.
 
 ### Wykorzystane technologie:
-* Język Java 18 - język, w którym została napisana aplikacja. 
-* Baza danych MySQL - bazę danych uruchamiana przy pomocy oprogramowania Xampp. 
-* JavaFX - biblioteka za pomocą której został stworzony interfejs aplikacji.
-* JUnit 5 - framework, który został użyty do wykonania odpowiednich testów w  aplikacji.
+* Java 18
+* Baza danych MySQL
+* JavaFX 
+* JUnit 5
+* fontawesome
+* iText
  
 ### Potrzebne nazwy użytkowników do uzyskania innych funkcjonalności aplikacji:
 * Konto administratora: Login: email1@wp.pl, hasło: haslo1
