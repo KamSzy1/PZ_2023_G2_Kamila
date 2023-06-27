@@ -15,6 +15,7 @@ import other.PasswordHash;
 import validate.ValidateEmployee;
 
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -120,24 +121,35 @@ public class EditPasswordInSettingsController {
      * Sprawdzenie pola z tokenem
      */
     private void checkIfTokenIsEmpty() {
-        token = tokenField.getText();
-
         try {
-            ValidateEmployee.goodToken(token);
-        } catch (Exception e) {
-            wrongTokenLabel.setText(e.getMessage());
+            token = tokenField.getText();
+            DatabaseConnector.connect();
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM login " +
+                    "INNER JOIN users on users.id_user = login.user_id " +
+                    "WHERE users.token ='" + token + "' " +
+                    "AND users.id_user = " + UsersTable.getIdLoginUser());
+            result.next();
+
+            if (result.getString("password").isEmpty()) {
+                wrongTokenLabel.setText("Błędny token");
+            } else {
+                passwordGrid.toFront();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            wrongTokenLabel.setText("Błędny token");
         }
-        passwordGrid.toFront();
     }
 
     /**
      * Resetowanie hasła
      */
     private void resetPassword() {
-        String newPassword = passwordNewField.getText();
-        String repeatNewPassword = passwordRepeatField.getText();
-
         try {
+            String newPassword = passwordNewField.getText();
+            String repeatNewPassword = passwordRepeatField.getText();
+
             ValidateEmployee.samePassword(newPassword, repeatNewPassword);
             String hashedPassword = PasswordHash.hashedPassword(newPassword);
 

@@ -134,7 +134,7 @@ public class EditEmailInSettingsController {
     private void checkToken(String token) {
         try {
             DatabaseConnector.connect();
-            ResultSet result = QExecutor.executeSelect("SELECT login.email FROM login " +
+            ResultSet result = QExecutor.executeSelect("SELECT * FROM login " +
                     "INNER JOIN users on users.id_user = login.user_id " +
                     "WHERE users.token ='" + token + "' " +
                     "AND users.id_user = " + UsersTable.getIdLoginUser());
@@ -165,8 +165,8 @@ public class EditEmailInSettingsController {
             ValidateEmployee.sameEmail(newEmail, newRepeatEmail);
 
             DatabaseConnector.connect();
-            QExecutor.executeQuery("UPDATE login SET email='" + newEmail +
-                    "' WHERE email = '" + oldEmail + "'");
+            QExecutor.executeQuery("UPDATE login SET email = '" + newEmail + "' " +
+                    "WHERE email = '" + oldEmail + "'");
             buttonManager.closeWindow(saveButton);
         } catch (SQLException e) {
             e.printStackTrace();

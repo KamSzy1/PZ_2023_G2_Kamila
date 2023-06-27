@@ -5,6 +5,8 @@ module com.example.system {
     requires java.sql;
     requires de.jensd.fx.glyphs.fontawesome;
     requires itextpdf;
+    requires mysql.connector.java;
+    requires org.mybatis;
 
     opens com.example.system to javafx.fxml;
     exports com.example.system;
